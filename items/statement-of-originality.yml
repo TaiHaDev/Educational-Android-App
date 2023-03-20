@@ -1,0 +1,43 @@
+# for information & examples on how to fill this out correctly, see
+# https://cs.anu.edu.au/courses/comp1720/resources/faq/#statement-of-originality
+# this document has been modified for the purpose of the COMP2100/6442 group assignment.
+
+declaration: >-
+  I declare that everything I have submitted in this assignment is entirely our
+  own work, with the following exceptions:
+
+
+# add as many "name+comment" entries as necessary
+# (or remove it altogether if you haven't collaborated with anyone outside your group)
+collaboration:
+  - name:
+    comment: >-
+
+
+# add as many "url+licence+comment" entries as necessary
+# (or remove it altogether if you haven't used any external code)
+code:
+  - comment:
+    url:
+    licence:
+
+
+# add as many "url+licence+comment" entries as necessary
+# (or remove it altogether if you haven't used any external assets)
+assets:
+  # NOTE: "Bliss" is just here as an example, you SHOULD REMOVE IT
+  - comment: "_Bliss_ by Charles O'Rear"
+    url: https://en.wikipedia.org/wiki/Bliss_(image)
+    licence: fair use
+
+# for each member, write your name and uid here
+# remove any empty "name+uid" entries
+members:
+  - name:
+    uid:
+  - name:
+    uid:
+  - name:
+    uid:
+  - name:
+    uid:
