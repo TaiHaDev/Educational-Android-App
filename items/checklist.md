@@ -9,12 +9,13 @@ The following markdown document is a checklist of items you **should** complete 
 
 ## Documents (all non-android files) located in a folder named `items`
 - [ ] A conflict resolution protocol is documented and well-defined.
-- [ ] All Team Meeting Minutes (with links in the report). There must be at least 4 meetings among the team. See the [meeting template](./meeting1.md) for guidance on how to structure these if you have never done this before.
+- [ ] All Team Meeting Minutes (at least 4, with links in the report). 
 - [ ] Create a video titled  `features.(mp4|mov|wmv)` that demonstrates each implemented feature (basic + general), in the same order as listed in the report.
 - [ ] A working standalone **APK**, i.e., an APK that can be loaded and execute correctly on an AVD.
 - [ ] Have a markdown report document titled 'report.md'.
 - [ ] **Statement of Originality**: All members have read and signed the [statement of originality](./statement-of-originality.yml). Failure to do so will result in zero marks.
 - [ ] All external code, assets or help received outside the group is documented in the [statement of originality](./statement-of-originality.yml) and relevant parts in the code.
+- [ ] **Pledge of Academic Integrity**: All members have read and signed the [Pledge of Academic Integrity](./integrity.md). 
 
 ## Report Checklist
 We advise you to use the provided template when writing your report (it will help you cover everything necessary).
