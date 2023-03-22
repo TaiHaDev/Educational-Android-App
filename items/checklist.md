@@ -15,7 +15,6 @@ The following markdown document is a checklist of items you **should** complete 
 - [ ] Have a markdown report document titled 'report.md'.
 - [ ] **Statement of Originality**: All members have read and signed the [statement of originality](./statement-of-originality.yml). Failure to do so will result in zero marks.
 - [ ] All external code, assets or help received outside the group is documented in the [statement of originality](./statement-of-originality.yml) and relevant parts in the code.
-- [ ] **Pledge of Academic Integrity**: All members have read and signed the [Pledge of Academic Integrity](./integrity.md). 
 
 ## Report Checklist
 We advise you to use the provided template when writing your report (it will help you cover everything necessary).
