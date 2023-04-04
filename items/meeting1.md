@@ -10,30 +10,31 @@ This following is a very simple team meeting template. You should expand it base
 Stand up Procedure: face-to-face meeting
 
 ## Agenda Items
-| Number | Item |
-| :--- | ---: |
-| [number] | [item name] |
-| [number] | [item name] |
-| [number] | [item name] |
-| [number] | [item name] |
+| Number   |                  Item |
+|:---------|----------------------:|
+| 1        |          Create group |
+| 2        | Begin task allocation |
+| 3        |         Set up Trello |
+| [number] |           [item name] |
 
 ## Meeting Minutes
-- ...
+- 120min
 - ...
 
 ## TODO Items
-| Task | Assignee |
-| :--- | ---: |
-| [task] | [assignee] |
-| [task] | [assignee] |
-| [task] | [assignee] |
-| [task] | [assignee] |
+| Task           |            Assignee |
+|:---------------|--------------------:|
+| UI design      |          Astrid Liu |
+| UML design     | Phuoc Ha, Jinhao Lu |
+| Report writing |          Mengze Yin |
+| [task]         |          [assignee] |
 
 ## Scribe Rotation
 The following dictates who will be scribe in this and the next meeting.
-| Name |
-| :---: |
-| [Member name] |
+
+|     Name      |
+|:-------------:|
+|  Mengze Yin   |
 | [Member name] |
 | [Member name] |
 | [Member name] |
