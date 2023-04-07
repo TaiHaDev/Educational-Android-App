@@ -28,7 +28,8 @@ public class LoginPage extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(userName.getText().toString().equals("admin")&&password.getText().toString().equals("admin")){
+                if(userName.getText().toString().equals("comp2100@anu.au")&&password.getText().toString().equals("comp2100")||
+                        userName.getText().toString().equals("comp6442@anu.au")&&password.getText().toString().equals("comp6442")){
 //                    correct
                     Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(LoginPage.this, HomePage.class);
