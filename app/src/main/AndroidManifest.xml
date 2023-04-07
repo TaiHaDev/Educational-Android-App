@@ -17,6 +17,14 @@
         <activity
             android:name=".LoginPage"
             android:exported="true" />
+
+        <activity
+            android:name=".playVideo"
+            android:exported="true" />
+        <activity
+            android:name=".playVideoMain"
+            android:exported="true"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
