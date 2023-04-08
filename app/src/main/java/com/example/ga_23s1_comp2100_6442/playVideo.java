@@ -54,7 +54,7 @@ public class playVideo extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println("cannot find");
+                Toast.makeText(playVideo.this,"Video not found!",Toast.LENGTH_LONG).show();
                 // Handle any errors
             }
         });
