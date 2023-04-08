@@ -24,32 +24,37 @@ public class playVideo extends AppCompatActivity {
     private TextView durationTimer;
     private ProgressBar currentProgress;
 
-    private Uri videoUri;
-    private String vn;//video name
+    private String videoName;//video name for searching
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_video);
         mainVideoView = (VideoView) findViewById(R.id.videoView);
 
-        Bundle bundle = getIntent().getExtras();//create bundle to get videoName;
-        System.out.println(bundle.getString("vn"));
-        if (bundle.getString("vn")!=null){
-            vn=bundle.getString("vn");
+        //create bundle to get videoName from last activity(HomePage)
+        Bundle bundle = getIntent().getExtras();
+        //check if videoName is passed by bundle
+        if (bundle.getString("vn") != null) {
+            videoName = bundle.getString("vn");
         }
+        //create firebase object
         FirebaseStorage storage = FirebaseStorage.getInstance();
+        // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
-        StorageReference pathReference = storageRef.child(vn+".mp4");
+        // Create a reference to "videoName.mp4"
+        StorageReference pathReference = storageRef.child(videoName + ".mp4");
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                // Got the download URL for 'videoName.mp4' and set to videoView
                 mainVideoView.setVideoURI(uri);
-                // Got the download URL for 'users/me/profile.png'
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println("-----------------------------------------------------cannot find");
+                System.out.println("cannot find");
                 // Handle any errors
             }
         });

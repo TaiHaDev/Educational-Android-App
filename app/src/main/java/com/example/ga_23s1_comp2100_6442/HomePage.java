@@ -19,11 +19,11 @@ public class HomePage extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //get videoName from textView
                 String vn = videoName.getText().toString();
-                System.out.println("------------------------------------------------------");
-                System.out.println("vn:"+vn);
                 Intent intent = new Intent(HomePage.this, playVideo.class);
-                intent.putExtra("vn",vn);//transfer the vn to next activity
+                //pass the videoName to next activity(playVideo)
+                intent.putExtra("vn",vn);
                 startActivity(intent);
             }
         });
