@@ -13,9 +13,6 @@
         tools:targetApi="31">
         <activity
             android:name=".HomePage"
-            android:exported="false" />
-        <activity
-            android:name=".LoginPage"
             android:exported="true" />
 
         <activity
@@ -26,7 +23,7 @@
             android:exported="true"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
