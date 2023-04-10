@@ -27,7 +27,7 @@ Stand up Procedure: face-to-face meeting
 | UI design      |          Astrid Liu |
 | UML design     | Phuoc Ha, Jinhao Lu |
 | Report writing |          Mengze Yin |
-| [task]         |          [assignee] |
+| Search         |           Rongyu Ma |
 
 ## Scribe Rotation
 The following dictates who will be scribe in this and the next meeting.
