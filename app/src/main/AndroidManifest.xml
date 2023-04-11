@@ -20,9 +20,11 @@
         <activity
             android:name=".HomePage"
             android:exported="true" />
+
         <activity
             android:name=".playVideo"
             android:exported="true" />
+
         <activity
             android:name=".LoginPage"
             android:exported="true">
