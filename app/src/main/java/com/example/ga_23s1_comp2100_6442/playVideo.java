@@ -74,10 +74,10 @@ public class playVideo extends AppCompatActivity {
         //create firebase object
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // Create a storage reference from our app
-        StorageReference storageRef = storage.getReference();
+        StorageReference storageRef = storage.getReferenceFromUrl(videoName);
         // Create a reference to "videoName.mp4"
-        StorageReference pathReference = storageRef.child(videoName + ".mp4");
-        pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//        StorageReference pathReference = storageRef.child(videoName + ".mp4");
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'videoName.mp4' and set to videoView
