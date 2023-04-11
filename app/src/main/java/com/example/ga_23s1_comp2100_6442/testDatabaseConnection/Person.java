@@ -6,13 +6,15 @@ import com.google.firebase.database.IgnoreExtraProperties;
 class Person {
     String name;
     int age;
+    Skill skill;
 
     public Person() {
     }
 
-    public Person(String name, int age) {
+    public Person(String name, int age, Skill skill) {
         this.name = name;
         this.age = age;
+        this.skill = skill;
     }
 
     @Override
@@ -20,6 +22,7 @@ class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", skill=" + skill +
                 '}';
     }
 
@@ -29,5 +32,9 @@ class Person {
 
     public int getAge() {
         return age;
+    }
+
+    public Skill getSkill() {
+        return skill;
     }
 }

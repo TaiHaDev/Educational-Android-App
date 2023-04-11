@@ -29,11 +29,11 @@ public class TestConnectionActivity extends AppCompatActivity {
     }
 
     public void writeNewPerson() {
-        Person person0 = new Person("A", 24);
-        Person person1 = new Person("B", 24);
-        Person person2= new Person("C", 24);
-        Person person3 = new Person("D", 24);
-        Person person4 = new Person("E", 24);
+        Person person0 = new Person("A", 24,new Skill("A"));
+        Person person1 = new Person("B", 24,new Skill("B"));
+        Person person2= new Person("C", 24,new Skill("C"));
+        Person person3 = new Person("D", 24,new Skill("D"));
+        Person person4 = new Person("E", 24,new Skill("E"));
         mDatabase.child("Users").child("User1").setValue(person0);
         mDatabase.child("Users").child("User2").setValue(person1);
         mDatabase.child("Users").child("User3").setValue(person2);
