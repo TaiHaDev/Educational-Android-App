@@ -2,6 +2,11 @@ package com.example.ga_23s1_comp2100_6442.model;
 
 import android.graphics.Bitmap;
 
+/**
+ * Course is a model class to model the courses data fetched from Firebase containing the important
+ * attribute sto display on screen for end user
+ * @author taiha
+ */
 public class Course {
     private String name;
     private String author;

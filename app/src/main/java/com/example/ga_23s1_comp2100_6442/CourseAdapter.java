@@ -21,6 +21,10 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter for recyclerview to display a list of courses on screen smoothly
+ * @author taiha
+ */
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
     List<Course> data ;
 

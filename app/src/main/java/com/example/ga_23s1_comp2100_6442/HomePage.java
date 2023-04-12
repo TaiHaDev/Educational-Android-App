@@ -7,18 +7,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
+
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
-
-
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
@@ -31,10 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 public class HomePage extends AppCompatActivity {
     CourseAdapter adapter;
@@ -65,6 +57,12 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * fetch the courses data from Firebase, transform it to {@link Course} class. Then set it as
+     * the recyclerview's adapter data.
+     * @author taiha
+     */
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         fb.collection(Constant.COURSE_COLLECTION).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -77,6 +75,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

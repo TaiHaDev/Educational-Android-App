@@ -1,6 +1,7 @@
 package com.example.ga_23s1_comp2100_6442.testDatabaseConnection;
 
-import com.google.firebase.database.IgnoreExtraProperties;
+
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 class Person {
