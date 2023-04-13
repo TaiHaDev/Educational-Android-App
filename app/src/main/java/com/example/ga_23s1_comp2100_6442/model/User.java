@@ -8,7 +8,7 @@ public abstract class User {
     public User() {
     }
 
-    public User(String userName, String mame, String institution) {
+    public User(String userName, String name, String institution) {
         this.userName = userName;
         this.name = name;
         this.institution = institution;

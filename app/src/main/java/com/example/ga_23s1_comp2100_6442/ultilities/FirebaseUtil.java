@@ -19,23 +19,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * FirebaseUtil is a utilities class containing static functions to be used to fetch data
- * from Firebase and perform specific actions
- * @author taiha
- */
 public class FirebaseUtil {
-    /**
-     * Set an ImageView instance to display an image from firebase storage given the url.
-     * @param requestManager from Glide library
-     * @param imageView - the imageview to set the displaying image
-     * @param url - the url of the image from storage
-     */
     public static void downloadAndSetImageFromStorage(RequestManager requestManager, ImageView imageView, String url) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference gsReference = storage.getReferenceFromUrl(url);
@@ -47,13 +35,6 @@ public class FirebaseUtil {
             }
         });
     }
-
-    /**
-     * Simple firebase query to search by search term. After getting the result from firebase,
-     * set the adapter's data to show the results.
-     * @param term the search term
-     * @param adapter recylerview's adapter
-     */
     public static void simpleQueryFireStore(String term, CourseAdapter adapter) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(Constant.COURSE_COLLECTION)
