@@ -34,7 +34,7 @@ The following dictates who will be scribe in this and the next meeting.
 
 |     Name      |
 |:-------------:|
-|  Mengze Yin   |
+|  Astrid Liu   |
 | [Member name] |
 | [Member name] |
 | [Member name] |
