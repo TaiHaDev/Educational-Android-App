@@ -3,13 +3,18 @@ package com.example.ga_23s1_comp2100_6442.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.UserMessage;
+import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
@@ -66,9 +71,20 @@ public class MessageAdapter extends FirebaseRecyclerAdapter<UserMessage, Recycle
         }
         public void bind(UserMessage message) {
             TextView messageContent = layoutView.findViewById(R.id.messageTextView);
-            messageContent.setText(message.getText());
             TextView messengerName = layoutView.findViewById(R.id.messengerTextView);
-            messengerName.setText(message.getName());
+            ImageView imageView = layoutView.findViewById(R.id.messengerImageView);
+            if (message.getName().equals(Constant.USER_PROFILE.getName())) {
+                messengerName.setVisibility(View.GONE);
+                imageView.setVisibility(View.GONE);
+                messageContent.setVisibility(View.GONE);
+                CardView senderCardView = layoutView.findViewById(R.id.message_card_2);
+                senderCardView.setVisibility(View.VISIBLE);
+                TextView senderTextView = senderCardView.findViewById(R.id.sender_content);
+                senderTextView.setText(message.getText());
+            } else {
+                messageContent.setText(message.getText());
+                messengerName.setText(message.getName());
+            }
         }
     }
 }

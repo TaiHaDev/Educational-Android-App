@@ -1,6 +1,7 @@
 package com.example.ga_23s1_comp2100_6442.model;
 
 public abstract class User {
+
     String userName;
     String name;
     String institution;

@@ -1,6 +1,7 @@
 package com.example.ga_23s1_comp2100_6442.adapter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,19 +53,29 @@ public class ChatListingAdapter extends RecyclerView.Adapter<ChatListingAdapter.
             chatGroupName.setText(model.getName());
             TextView metaDataMessage = chatView.findViewById(R.id.meta_data);
             Date date = new Date(model.getTimestamp());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             String formattedDate = sdf.format(date);
             metaDataMessage.setText(model.getLast() + " . " + formattedDate);
             chatView.setOnClickListener(event -> {
                 Intent intent = new Intent(chatView.getContext(), MessagingPage.class);
-                intent.putExtra("messageId", model.getId());
+                intent.putExtra("receiverId", model.getId());
+                intent.putExtra("receiverName", model.getName());
                 chatView.getContext().startActivity(intent);
             });
+            if (!model.isSeen()) {
+                chatGroupName.setTextColor(Color.BLACK);
+                metaDataMessage.setTextColor(Color.BLACK);
+            }
         }
     }
     public void addData(ChatMetaData instance) {
         data.add(instance);
         notifyItemInserted(data.size() - 1);
+    }
+    public void removeData(ChatMetaData instance) {
+        int index = data.indexOf(instance);
+        data.remove(index);
+        notifyItemRemoved(index);
     }
 
 }

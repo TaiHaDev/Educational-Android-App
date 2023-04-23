@@ -1,6 +1,9 @@
 package com.example.ga_23s1_comp2100_6442.model;
 
+import java.util.Objects;
+
 public class ChatMetaData {
+
     private String id;
     private String name;
     private String last;
@@ -64,5 +67,18 @@ public class ChatMetaData {
                 ", seen=" + seen +
                 ", timestamp=" + timestamp +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatMetaData that = (ChatMetaData) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

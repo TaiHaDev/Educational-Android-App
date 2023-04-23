@@ -39,15 +39,13 @@ public class ChatListingPage extends AppCompatActivity {
         adapter = new ChatListingAdapter();
         RecyclerView chatListingRecyclerView = findViewById(R.id.chat_listing);
         chatListingRecyclerView.setAdapter(adapter);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("metadata").child("zKJa5xhHygh1STksutBv46gNhcr1");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("metadata").child(mAuth.getCurrentUser().getUid());
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                System.out.println("onChildAdded:" + snapshot.getKey());
                 ChatMetaData chatMetaData = snapshot.getValue(ChatMetaData.class);
                 adapter.addData(chatMetaData);
             }
-
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
@@ -55,7 +53,8 @@ public class ChatListingPage extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                ChatMetaData chatMetaData = snapshot.getValue(ChatMetaData.class);
+                adapter.removeData(chatMetaData);
             }
 
             @Override
@@ -88,7 +87,11 @@ public class ChatListingPage extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.user_search) {
+            Intent intent = new Intent(this, UserSearchingPage.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

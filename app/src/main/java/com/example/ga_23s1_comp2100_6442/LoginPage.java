@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -50,12 +51,17 @@ public class LoginPage extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            // fetch the user profile using the uid from the sign in user
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Constant.setUserNameAfterLogin(user.getUid());
+
+
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginPage.this, HomePage.class);
                             startActivity(intent);
+
 
 //                            updateUI(user);
                         } else {
