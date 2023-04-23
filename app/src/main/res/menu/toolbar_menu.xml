@@ -6,4 +6,8 @@
         android:icon="@drawable/baseline_search_24"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"/>
+    <item android:id="@+id/start_chatting"
+        android:icon="@drawable/ic_message_icon"
+        app:showAsAction="always"
+        android:title="Message" />
 </menu>

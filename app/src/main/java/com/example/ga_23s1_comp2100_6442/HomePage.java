@@ -7,33 +7,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
 
+import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class HomePage extends AppCompatActivity {
     CourseAdapter adapter;
@@ -83,6 +71,7 @@ public class HomePage extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.search_icon);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search our Courses");
+        // search icon behaviour
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -95,6 +84,16 @@ public class HomePage extends AppCompatActivity {
                 return false;
             }
         });
+        // messaging icon behaviour
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.start_chatting) {
+            Intent intent = new Intent(this, ChatListingPage.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

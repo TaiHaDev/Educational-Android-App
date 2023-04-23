@@ -4,24 +4,18 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.example.ga_23s1_comp2100_6442.CourseAdapter;
+import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class FirebaseUtil {
     public static void downloadAndSetImageFromStorage(RequestManager requestManager, ImageView imageView, String url) {

@@ -21,14 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginPage extends AppCompatActivity {
-
-
     FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-
         TextView userName=(TextView) findViewById(R.id.userName);
         TextView password=(TextView) findViewById(R.id.password);
         MaterialButton loginBtn=(MaterialButton) findViewById(R.id.loginBtn);
@@ -59,6 +56,7 @@ public class LoginPage extends AppCompatActivity {
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginPage.this, HomePage.class);
                             startActivity(intent);
+
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

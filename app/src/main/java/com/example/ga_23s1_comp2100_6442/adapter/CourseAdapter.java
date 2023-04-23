@@ -1,8 +1,7 @@
-package com.example.ga_23s1_comp2100_6442;
+package com.example.ga_23s1_comp2100_6442.adapter;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.Course;
+import com.example.ga_23s1_comp2100_6442.playVideo;
 import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
