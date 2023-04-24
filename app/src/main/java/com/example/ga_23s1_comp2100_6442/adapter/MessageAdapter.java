@@ -73,18 +73,25 @@ public class MessageAdapter extends FirebaseRecyclerAdapter<UserMessage, Recycle
             TextView messageContent = layoutView.findViewById(R.id.messageTextView);
             TextView messengerName = layoutView.findViewById(R.id.messengerTextView);
             ImageView imageView = layoutView.findViewById(R.id.messengerImageView);
+            CardView cardView = layoutView.findViewById(R.id.message_card);
+            CardView senderCardView = layoutView.findViewById(R.id.message_card_2);
+
             if (message.getName().equals(Constant.USER_PROFILE.getName())) {
                 messengerName.setVisibility(View.GONE);
                 imageView.setVisibility(View.GONE);
                 messageContent.setVisibility(View.GONE);
-                CardView senderCardView = layoutView.findViewById(R.id.message_card_2);
                 senderCardView.setVisibility(View.VISIBLE);
                 TextView senderTextView = senderCardView.findViewById(R.id.sender_content);
                 senderTextView.setText(message.getText());
             } else {
+                messengerName.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.VISIBLE);
+                messageContent.setVisibility(View.VISIBLE);
+                senderCardView.setVisibility(View.GONE);
                 messageContent.setText(message.getText());
                 messengerName.setText(message.getName());
             }
+
         }
     }
 }
