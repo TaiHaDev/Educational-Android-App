@@ -18,6 +18,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Locale;
+import java.util.Objects;
+
 public class SignUpPage extends AppCompatActivity implements View.OnClickListener {
     TextView userName;
     TextView name;
@@ -66,11 +69,12 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
                     Student student = new Student(
                             userNameS,
                             nameS,
-                            institutionS
+                            institutionS,
+                            Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()
                     );
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     System.out.println("am i running");
-                    db.collection("students").document().set(student);
+                    db.collection("students").document("1111").set(student);
 
 
                 } else {
@@ -89,7 +93,7 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
         if (view.getId() == R.id.signUpBtn) {
             System.out.println("i am signB");
             registerUser();
-            Intent intent=new Intent(SignUpPage.this, LoginPage.class);
+            Intent intent = new Intent(SignUpPage.this, LoginPage.class);
             startActivity(intent);
         }
     }

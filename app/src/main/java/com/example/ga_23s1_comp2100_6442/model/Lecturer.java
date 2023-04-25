@@ -23,8 +23,8 @@ public class Lecturer extends User {
     public Lecturer() {
     }
 
-    public Lecturer(String userName, String name, String institution) {
-        super(userName, name, institution);
+    public Lecturer(String userName, String name, String institution,String id) {
+        super(userName, name, institution,id);
     }
 
 

@@ -7,6 +7,7 @@ public abstract class User {
     String userName;
     String name;
     String institution;
+    String id;
     List<Request> requestsGet;
     List<Request> requestsSent;
     Set<User> followers;
@@ -15,10 +16,11 @@ public abstract class User {
     public User() {
     }
 
-    public User(String userName, String name, String institution) {
+    public User(String userName, String name, String institution,String id) {
         this.userName = userName;
         this.name = name;
         this.institution = institution;
+        this.id =id;
     }
 
 
@@ -56,6 +58,14 @@ public abstract class User {
 
     public void setInstitution(String institution) {
         this.institution = institution;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<Request> getRequestsGet() {
