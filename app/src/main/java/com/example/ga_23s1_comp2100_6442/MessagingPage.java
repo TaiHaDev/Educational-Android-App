@@ -160,6 +160,7 @@ public class MessagingPage extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(this, ChatListingPage.class);
             startActivity(intent);
+            finish();
         } else if (item.getItemId() == R.id.block_chat) {
             setupBlockDialog(item);
         }

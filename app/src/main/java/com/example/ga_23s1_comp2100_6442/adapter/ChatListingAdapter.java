@@ -1,5 +1,6 @@
 package com.example.ga_23s1_comp2100_6442.adapter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -60,7 +61,10 @@ public class ChatListingAdapter extends RecyclerView.Adapter<ChatListingAdapter.
                 Intent intent = new Intent(chatView.getContext(), MessagingPage.class);
                 intent.putExtra("receiverId", model.getId());
                 intent.putExtra("receiverName", model.getName());
-                chatView.getContext().startActivity(intent);
+                Activity activity = (Activity) chatView.getContext();
+                activity.startActivity(intent);
+                activity.finish();
+
             });
             if (!model.isSeen()) {
                 chatGroupName.setTextColor(Color.BLACK);

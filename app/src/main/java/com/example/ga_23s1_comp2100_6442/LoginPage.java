@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginPage extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -27,6 +28,8 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+        // saving the data from firebase realtime database to save to disk
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         TextView userName=(TextView) findViewById(R.id.userName);
         TextView password=(TextView) findViewById(R.id.password);
         MaterialButton loginBtn=(MaterialButton) findViewById(R.id.loginBtn);

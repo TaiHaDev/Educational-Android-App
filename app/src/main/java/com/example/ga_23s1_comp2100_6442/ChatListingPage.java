@@ -34,8 +34,8 @@ public class ChatListingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_listing_page);
         setUpToolbar();
-        mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         adapter = new ChatListingAdapter();
         RecyclerView chatListingRecyclerView = findViewById(R.id.chat_listing);
         chatListingRecyclerView.setAdapter(adapter);
@@ -87,6 +87,7 @@ public class ChatListingPage extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);
+            finish();
         } else if (item.getItemId() == R.id.user_search) {
             Intent intent = new Intent(this, UserSearchingPage.class);
             startActivity(intent);
