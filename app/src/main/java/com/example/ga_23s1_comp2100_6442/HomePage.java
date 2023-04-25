@@ -1,5 +1,7 @@
 package com.example.ga_23s1_comp2100_6442;
 
+import static com.example.ga_23s1_comp2100_6442.utilities.UploadingDataJob.readingDataFromCSV;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -7,33 +9,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.ga_23s1_comp2100_6442.model.Course;
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
-import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.ga_23s1_comp2100_6442.utilities.Constant;
+import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class HomePage extends AppCompatActivity {
     CourseAdapter adapter;
@@ -66,7 +58,7 @@ public class HomePage extends AppCompatActivity {
     }
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fb.collection(Constant.COURSE_COLLECTION).limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = queryDocumentSnapshots.toObjects(Course.class);
