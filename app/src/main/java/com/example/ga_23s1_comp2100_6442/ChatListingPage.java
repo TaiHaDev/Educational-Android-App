@@ -15,7 +15,6 @@ import android.widget.Adapter;
 import com.example.ga_23s1_comp2100_6442.adapter.ChatListingAdapter;
 import com.example.ga_23s1_comp2100_6442.model.ChatMetaData;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;

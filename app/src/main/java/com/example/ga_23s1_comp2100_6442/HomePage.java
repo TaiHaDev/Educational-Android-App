@@ -54,7 +54,7 @@ public class HomePage extends AppCompatActivity {
     }
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fb.collection(Constant.COURSE_COLLECTION).limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = queryDocumentSnapshots.toObjects(Course.class);

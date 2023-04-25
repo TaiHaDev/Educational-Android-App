@@ -1,6 +1,7 @@
 package com.example.ga_23s1_comp2100_6442;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -207,13 +209,29 @@ public class MessagingPage extends AppCompatActivity {
         DatabaseReference db = FirebaseDatabase.getInstance()
                 .getReference("block")
                 .child(receiverId);
-        db.child(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+        db.child(currentUid).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    menuItem.setIcon(R.drawable.unblock_chat);
-                    menuItem.setTitle("unblock");
-                }
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                menuItem.setIcon(R.drawable.unblock_chat);
+                menuItem.setTitle("unblock");
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                menuItem.setIcon(R.drawable.block_chat);
+                menuItem.setTitle("block");
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
