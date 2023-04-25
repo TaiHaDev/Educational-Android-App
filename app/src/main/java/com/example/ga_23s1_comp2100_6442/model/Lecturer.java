@@ -27,21 +27,6 @@ public class Lecturer extends User {
         super(userName, name, institution);
     }
 
-    @Override
-    public void sendRequest(Request request) {
-
-    }
-
-    @Override
-    public void acceptRequest(Request request) {
-
-    }
-
-    @Override
-    public void denyRequest(Request request) {
-
-    }
-
 
     public void addStudentToCourse(Student student, String courseId) {
         student.getCoursesEnrolled().remove(courseId);

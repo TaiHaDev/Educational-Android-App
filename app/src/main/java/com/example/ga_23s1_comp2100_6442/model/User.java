@@ -7,7 +7,11 @@ public abstract class User {
     String userName;
     String name;
     String institution;
-    List<Request> requests;
+    List<Request> requestsGet;
+    List<Request> requestsSent;
+    Set<User> followers;
+    Set<User> following;
+
     public User() {
     }
 
@@ -17,10 +21,18 @@ public abstract class User {
         this.institution = institution;
     }
 
-    public abstract void sendRequest(Request request);
-    public abstract void acceptRequest(Request request);
 
-    public abstract void denyRequest(Request request);
+    public void sendRequest(Request request) {
+        request.send();
+    }
+
+    public void acceptRequest(Request request) {
+        request.accept();
+    }
+
+    public void denyRequest(Request request) {
+        request.deny();
+    }
 
     public String getUserName() {
         return userName;
@@ -46,11 +58,35 @@ public abstract class User {
         this.institution = institution;
     }
 
-    public List<Request> getRequests() {
-        return requests;
+    public List<Request> getRequestsGet() {
+        return requestsGet;
     }
 
-    public void setRequests(List<Request> requests) {
-        this.requests = requests;
+    public void setRequestsGet(List<Request> requestsGet) {
+        this.requestsGet = requestsGet;
+    }
+
+    public List<Request> getRequestsSent() {
+        return requestsSent;
+    }
+
+    public void setRequestsSent(List<Request> requestsSent) {
+        this.requestsSent = requestsSent;
+    }
+
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
+    }
+
+    public Set<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Set<User> following) {
+        this.following = following;
     }
 }
