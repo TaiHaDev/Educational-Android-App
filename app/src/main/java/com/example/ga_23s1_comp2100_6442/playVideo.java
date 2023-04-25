@@ -3,6 +3,7 @@ package com.example.ga_23s1_comp2100_6442;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,11 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.ga_23s1_comp2100_6442.model.Course;
+import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class playVideo extends AppCompatActivity {
     private VideoView mainVideoView;
@@ -30,6 +35,9 @@ public class playVideo extends AppCompatActivity {
 
     private String videoName;//video name for searching
     private int playBackPosition = 0;
+    Course currentCourse;
+    List<Course> course = new ArrayList<>();
+    boolean courseCreated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +47,9 @@ public class playVideo extends AppCompatActivity {
         mainVideoView = (VideoView) findViewById(R.id.videoView);
         currentProgress = (ProgressBar) findViewById(R.id.progressBar);
         //create bundle to get videoName from last activity(HomePage)
-        Bundle bundle = getIntent().getExtras();
+        Intent i = getIntent();
         //check if videoName is passed by bundle
-        if (bundle.getString("vn") != null) {
-            videoName = bundle.getString("vn");
-        }
+       currentCourse=(Course) i.getSerializableExtra("vn");
 
         //set mediaController
         mediaController = new MediaController(this);
@@ -56,10 +62,11 @@ public class playVideo extends AppCompatActivity {
                 mainVideoView.start();
             }
         });
-        mainVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener(){
+        mainVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START){
+
+                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
                     currentProgress.setVisibility(View.INVISIBLE);
                     return true;
                 }
@@ -74,7 +81,9 @@ public class playVideo extends AppCompatActivity {
         //create firebase object
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // Create a storage reference from our app
-        StorageReference storageRef = storage.getReferenceFromUrl(videoName);
+
+        StorageReference storageRef = storage.getReferenceFromUrl(currentCourse.getLink());
+
         // Create a reference to "videoName.mp4"
 //        StorageReference pathReference = storageRef.child(videoName + ".mp4");
         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -92,6 +101,7 @@ public class playVideo extends AppCompatActivity {
         });
 
         currentProgress.setVisibility(View.VISIBLE);
+
 
     }
 

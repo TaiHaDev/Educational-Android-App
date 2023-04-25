@@ -19,6 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class FirebaseUtil {
     }
     public static void simpleQueryFireStore(String term, CourseAdapter adapter) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(Constant.COURSE_COLLECTION)
+        db.collection(Constant.COURSE_COLLECTION_TEST)
                 .whereArrayContains("searchTerm", term)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -56,5 +57,7 @@ public class FirebaseUtil {
                     }
                 });
     }
+
+
 
 }
