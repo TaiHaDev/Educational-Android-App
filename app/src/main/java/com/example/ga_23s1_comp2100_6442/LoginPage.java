@@ -13,23 +13,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginPage extends AppCompatActivity {
+
+
     FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-        // saving the data from firebase realtime database to save to disk
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         TextView userName=(TextView) findViewById(R.id.userName);
         TextView password=(TextView) findViewById(R.id.password);
         MaterialButton loginBtn=(MaterialButton) findViewById(R.id.loginBtn);
@@ -61,6 +60,7 @@ public class LoginPage extends AppCompatActivity {
 
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginPage.this, HomePage.class);
                             startActivity(intent);

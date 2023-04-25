@@ -16,7 +16,6 @@ import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -35,7 +34,6 @@ public class playVideo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_video);
-
         mainVideoView = (VideoView) findViewById(R.id.videoView);
         currentProgress = (ProgressBar) findViewById(R.id.progressBar);
         //create bundle to get videoName from last activity(HomePage)
