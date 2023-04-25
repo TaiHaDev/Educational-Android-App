@@ -8,6 +8,7 @@ import com.opencsv.CSVReader;
 public class Description {
     public static void main(String[] args) throws IOException {
         String file_input = "D:\\eclipse-workspace\\Crawl1\\src\\main\\output\\crawl.csv";
+        String file_output = "D:\\eclipse-workspace\\Crawl1\\src\\main\\output\\description.csv";
         String stop_words = "D:\\eclipse-workspace\\Crawl1\\src\\main\\java\\english_stopwords";
         final String regEx = "[\n`~!@#$%^&*()+=|{}':;'\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
 
@@ -31,6 +32,9 @@ public class Description {
                 e.printStackTrace();
             }
         }
+        File output_file = new File(file_output);
+        BufferedWriter bw = new BufferedWriter(new FileWriter(output_file, true));
+
         TreeSet<String> descripts = new TreeSet<String>();
         Map<String, Integer> des_map = new HashMap<>();
         for(int i = 0; i < 2607; i++) {
@@ -46,8 +50,12 @@ public class Description {
             }
             String skills_result = skills_builder.toString().trim().replaceAll(regEx, "");
             String[] skill_split = skills_result.split(",");
+            TreeSet<String> terms = new TreeSet<String>();
             for (String s : skill_split){
                 s = s.trim();
+                if(!s.isEmpty()){
+                    terms.add(s);
+                }
                 // System.out.println(s);
                 if(des_map.containsKey(s)) {
                     int v = des_map.get(s);
@@ -58,13 +66,19 @@ public class Description {
                 }
                 descripts.add(s);
             }
+            String[] descrip_term = terms.stream().toArray(String[]::new);
+            // System.out.println(Arrays.toString(search_term));
+            bw.write(Arrays.toString(descrip_term));
+            bw.newLine();
         }
+        bw.close();
         String[] description = descripts.stream().toArray(String[]::new);
         // System.out.println(Arrays.toString(description));
         System.out.println(description.length);
         System.out.println(des_map.size());
         Set<Map.Entry<String, Integer>>  entrySet  = des_map.entrySet();
 
+        /*
         for (Map.Entry<String, Integer> eset : entrySet){
             String key = eset.getKey();
             int value = eset.getValue();
@@ -72,5 +86,6 @@ public class Description {
                 System.out.print(key+" "+value+ "\n");
             }
         }
+         */
     }
 }
