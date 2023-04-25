@@ -1,5 +1,4 @@
 package com.example.ga_23s1_comp2100_6442.ultilities;
-
 import java.time.Duration;
 import java.util.*;
 import java.io.*;
@@ -50,7 +49,7 @@ public class SearchTerm {
         File output_file = new File(file_output);
         BufferedWriter bw = new BufferedWriter(new FileWriter(output_file, true));
 
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 2607; i++){
             String[] origin_author = author.get(i).toLowerCase().split(" ");
             String[] origin_title = title.get(i).toLowerCase().split(" ");
             String[] origin_skills = skills.get(i).toLowerCase().split(" ");
@@ -77,8 +76,8 @@ public class SearchTerm {
                     skills_builder.append(' ');
                 }
             }
-            String author_result = author_builder.toString().trim().replaceAll(regEx, "");
-            String title_result = title_builder.toString().trim().replaceAll(regEx, "");
+            String author_result = author_builder.toString().trim().replaceAll(regEx, " ");
+            String title_result = title_builder.toString().trim().replaceAll(regEx, " ");
             String skills_result = skills_builder.toString().trim().replaceAll(regEx, "");
             // System.out.println(author.get(i));
             // System.out.println(author_result);
@@ -86,12 +85,18 @@ public class SearchTerm {
             // System.out.println(title_result);
             // System.out.println(skills.get(i));
             // System.out.println(skills_result);
+            String[] author_split = author_result.split(" ");
+            String[] title_split = title_result.split(" ");
             TreeSet<String> terms = new TreeSet<String>();
-            for (String s : origin_author){
-                terms.add(s);
+            for (String s : author_split){
+                if(!s.isEmpty()){
+                    terms.add(s);
+                }
             }
-            for (String s : origin_title){
-                terms.add(s);
+            for (String s : title_split){
+                if(!s.isEmpty()){
+                    terms.add(s);
+                }
             }
             String[] search_term = terms.stream().toArray(String[]::new);
             // System.out.println(Arrays.toString(search_term));

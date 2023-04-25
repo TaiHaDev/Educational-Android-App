@@ -32,6 +32,7 @@ public class Description {
             }
         }
         TreeSet<String> descripts = new TreeSet<String>();
+        Map<String, Integer> des_map = new HashMap<>();
         for(int i = 0; i < 2607; i++) {
             String[] origin_skills = skills.get(i).toLowerCase().split(" ");
 
@@ -47,11 +48,29 @@ public class Description {
             String[] skill_split = skills_result.split(",");
             for (String s : skill_split){
                 s = s.trim();
+                // System.out.println(s);
+                if(des_map.containsKey(s)) {
+                    int v = des_map.get(s);
+                    des_map.put(s, v+1);
+                }
+                else {
+                    des_map.put(s, 1);
+                }
                 descripts.add(s);
             }
         }
         String[] description = descripts.stream().toArray(String[]::new);
-        System.out.println(Arrays.toString(description));
+        // System.out.println(Arrays.toString(description));
         System.out.println(description.length);
+        System.out.println(des_map.size());
+        Set<Map.Entry<String, Integer>>  entrySet  = des_map.entrySet();
+
+        for (Map.Entry<String, Integer> eset : entrySet){
+            String key = eset.getKey();
+            int value = eset.getValue();
+            if(value > 1250){
+                System.out.print(key+" "+value+ "\n");
+            }
+        }
     }
 }
