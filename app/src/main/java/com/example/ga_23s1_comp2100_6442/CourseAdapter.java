@@ -64,7 +64,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private void setEventHandlerForHolder(ViewHolder holder, Course currentCourse) {
         holder.rootView.setOnClickListener(event -> {
             Intent intent = new Intent(holder.rootView.getContext(), playVideo.class);
-            intent.putExtra("vn", currentCourse);
+            intent.putExtra("vn", currentCourse.getCourseId());
             holder.rootView.getContext().startActivity(intent);
         });
     }

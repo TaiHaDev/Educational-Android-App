@@ -122,6 +122,7 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
             registerUser(userNameS, passwordS, nameS, institutionS);
             addUserToDatabase(userNameS, nameS, institutionS);
             Intent intent = new Intent(SignUpPage.this, LoginPage.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }

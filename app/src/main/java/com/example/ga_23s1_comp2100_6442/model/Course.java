@@ -1,7 +1,7 @@
 package com.example.ga_23s1_comp2100_6442.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Course is a model class to model the courses data fetched from Firebase containing the important
@@ -9,17 +9,16 @@ import java.util.Set;
  *
  * @author taiha
  */
-public class Course implements Serializable {
-    private String id;
+public class Course {
+    private String courseId;
     private String title;
     private String author;
     private String link;
     private String thumbnail;
-    private Set<String> studentsEnrolled;
-    private Set<String> StudentsApplied;
-    private Set<Lecturer> Lecturers;
+    private List<String> studentsEnrolled;
+    private List<String> StudentsApplied;
+    private List<String> Lecturers;
     private boolean isPublic;
-
 
 
     public Course(String title, String author, String link, String thumbnail, boolean isPublic) {
@@ -27,19 +26,28 @@ public class Course implements Serializable {
         this.author = author;
         this.link = link;
         this.thumbnail = thumbnail;
-        this.isPublic=isPublic;
+        this.isPublic = isPublic;
+    }
+
+    public Course(String title, String author, String link, String thumbnail, boolean isPublic,List<String> studentsEnrolled) {
+        this.title = title;
+        this.author = author;
+        this.link = link;
+        this.thumbnail = thumbnail;
+        this.isPublic = isPublic;
+        this.studentsEnrolled=studentsEnrolled;
     }
 
     public Course() {
 
     }
 
-    public String getId() {
-        return id;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getTitle() {
@@ -51,12 +59,9 @@ public class Course implements Serializable {
     }
 
     public String getLink() {
-        if (isPublic) {
-            return link;
-        } else {
-            return "gs://comp2100-comp6442-assignment.appspot.com/dogs.mp4";
-        }
+        return link;
     }
+
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
     }
@@ -64,31 +69,32 @@ public class Course implements Serializable {
     public String getThumbnail() {
         return thumbnail;
     }
-    public boolean getIsPublic(){
+
+    public boolean getIsPublic() {
         return isPublic;
     }
 
-    public Set<String> getStudentsEnrolled() {
+    public List<String> getStudentsEnrolled() {
         return studentsEnrolled;
     }
 
-    public void setStudentsEnrolled(Set<String> studentsEnrolled) {
+    public void setStudentsEnrolled(List<String> studentsEnrolled) {
         this.studentsEnrolled = studentsEnrolled;
     }
 
-    public Set<String> getStudentsApplied() {
+    public List<String> getStudentsApplied() {
         return StudentsApplied;
     }
 
-    public void setStudentsApplied(Set<String> studentsApplied) {
+    public void setStudentsApplied(List<String> studentsApplied) {
         StudentsApplied = studentsApplied;
     }
 
-    public Set<Lecturer> getLecturers() {
+    public List<String> getLecturers() {
         return Lecturers;
     }
 
-    public void setLecturers(Set<Lecturer> lecturers) {
+    public void setLecturers(List<String> lecturers) {
         Lecturers = lecturers;
     }
 
@@ -104,7 +110,4 @@ public class Course implements Serializable {
         this.thumbnail = thumbnail;
     }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
 }

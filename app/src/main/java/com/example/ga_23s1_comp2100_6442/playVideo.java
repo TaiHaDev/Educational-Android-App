@@ -16,9 +16,14 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.ga_23s1_comp2100_6442.model.Course;
+import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -38,6 +43,10 @@ public class playVideo extends AppCompatActivity {
     Course currentCourse;
     List<Course> course = new ArrayList<>();
     boolean courseCreated = false;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +55,9 @@ public class playVideo extends AppCompatActivity {
 
         mainVideoView = (VideoView) findViewById(R.id.videoView);
         currentProgress = (ProgressBar) findViewById(R.id.progressBar);
-        //create bundle to get videoName from last activity(HomePage)
-        Intent i = getIntent();
-        //check if videoName is passed by bundle
-       currentCourse=(Course) i.getSerializableExtra("vn");
+        //get current auth
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         //set mediaController
         mediaController = new MediaController(this);
@@ -78,25 +86,41 @@ public class playVideo extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //create firebase object
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        // Create a storage reference from our app
-
-        StorageReference storageRef = storage.getReferenceFromUrl(currentCourse.getLink());
-
-        // Create a reference to "videoName.mp4"
-//        StorageReference pathReference = storageRef.child(videoName + ".mp4");
-        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        //create bundle to get videoName from last activity(HomePage)
+        Intent i = getIntent();
+        //check if videoName is passed by bundle
+        String id = i.getStringExtra("vn");
+        assert id != null;
+        db.collection(Constant.COURSE_COLLECTION_TEST).document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'videoName.mp4' and set to videoView
-                mainVideoView.setVideoURI(uri);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(playVideo.this, "Video not found!", Toast.LENGTH_LONG).show();
-                // Handle any errors
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                currentCourse = documentSnapshot.toObject(Course.class);
+                //create firebase object
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                // Create a storage reference from our app
+                String link;
+                if (currentCourse.getIsPublic()) {
+                    link = currentCourse.getLink();
+                } else if (currentCourse.getStudentsEnrolled().contains(currentUser.getUid())) {
+                    link = currentCourse.getLink();
+                } else {
+                    link = "gs://comp2100-comp6442-assignment.appspot.com/ocean.mp4";
+                }
+                StorageReference storageRef = storage.getReferenceFromUrl(link);
+                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        // Got the download URL for 'videoName.mp4' and set to videoView
+                        mainVideoView.setVideoURI(uri);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(playVideo.this, "Video not found!", Toast.LENGTH_LONG).show();
+                        // Handle any errors
+                    }
+                });
+
             }
         });
 
