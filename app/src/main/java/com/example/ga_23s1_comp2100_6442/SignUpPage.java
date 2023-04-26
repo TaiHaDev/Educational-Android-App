@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.ga_23s1_comp2100_6442.model.Lecturer;
 import com.example.ga_23s1_comp2100_6442.model.Student;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Locale;
 import java.util.Objects;
 
-public class SignUpPage extends AppCompatActivity implements View.OnClickListener {
+public class SignUpPage extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     TextView userName;
     TextView name;
     TextView institution;
@@ -31,6 +33,8 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch sw;
     private FirebaseAuth auth;
+    boolean isLecture;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
         institution = (TextView) findViewById(R.id.institution);
         password = (TextView) findViewById(R.id.newPassword);
         sw = findViewById(R.id.switch1);
+        sw.setOnCheckedChangeListener(this);
         findViewById(R.id.signUpBtn).setOnClickListener(this);
         auth = FirebaseAuth.getInstance();
     }
@@ -70,17 +75,25 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success");
 //                    FirebaseUser user = mAuth.getCurrentUser();
-                    Student student = new Student(
-                            userNameS,
-                            nameS,
-                            institutionS,
-                            Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()
-                    );
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    System.out.println("am i running");
-                    db.collection("students").document("1111").set(student);
-
-
+                    if (isLecture) {
+                        Lecturer lecturer = new Lecturer(
+                                userNameS,
+                                nameS,
+                                institutionS,
+                                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()
+                        );
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("lecturers").document(lecturer.getId()).set(lecturer);
+                    } else {
+                        Student student = new Student(
+                                userNameS,
+                                nameS,
+                                institutionS,
+                                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()
+                        );
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("students").document(student.getId()).set(student);
+                    }
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -95,10 +108,20 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.signUpBtn) {
-            System.out.println("i am signB");
             registerUser();
             Intent intent = new Intent(SignUpPage.this, LoginPage.class);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            isLecture = true;
+            System.out.println(isLecture);
+        } else {
+            isLecture = false;
+            System.out.println(isLecture);
         }
     }
 }
