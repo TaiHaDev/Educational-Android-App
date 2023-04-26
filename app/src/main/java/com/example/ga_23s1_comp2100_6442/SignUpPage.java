@@ -38,6 +38,7 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     boolean isLecture;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
