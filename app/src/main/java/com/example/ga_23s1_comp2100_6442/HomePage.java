@@ -17,8 +17,7 @@ import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
-import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;

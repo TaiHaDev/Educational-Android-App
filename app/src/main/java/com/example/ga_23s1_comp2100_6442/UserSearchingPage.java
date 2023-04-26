@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.example.ga_23s1_comp2100_6442.adapter.SearchUserAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.model.DatabaseUser;
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
+import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;

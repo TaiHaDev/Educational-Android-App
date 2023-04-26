@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.example.ga_23s1_comp2100_6442.adapter.MessageAdapter;
 import com.example.ga_23s1_comp2100_6442.model.ChatMetaData;
 import com.example.ga_23s1_comp2100_6442.model.UserMessage;
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
+import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

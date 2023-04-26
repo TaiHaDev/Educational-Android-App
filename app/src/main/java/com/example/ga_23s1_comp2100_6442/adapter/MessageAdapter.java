@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.UserMessage;
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
+import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
