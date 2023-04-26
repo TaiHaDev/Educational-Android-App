@@ -5,10 +5,12 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.ga_23s1_comp2100_6442.model.Student;
@@ -26,6 +28,8 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     TextView name;
     TextView institution;
     TextView password;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch sw;
     private FirebaseAuth auth;
 
     @Override
@@ -37,7 +41,7 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
         name = (TextView) findViewById(R.id.name);
         institution = (TextView) findViewById(R.id.institution);
         password = (TextView) findViewById(R.id.newPassword);
-
+        sw = findViewById(R.id.switch1);
         findViewById(R.id.signUpBtn).setOnClickListener(this);
         auth = FirebaseAuth.getInstance();
     }

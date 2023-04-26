@@ -31,7 +31,7 @@ public class Request {
             setAccepted(true);
         } else if (requestType == RequestType.JoinCourse) {
             Lecturer lecturer = (Lecturer) receiver;
-            lecturer.addStudentToCourse((Student) sender, information);
+            lecturer.addStudentToCourse(sender.id, information);
             setAccepted(true);
         }
     }

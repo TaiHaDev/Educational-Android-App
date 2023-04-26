@@ -10,19 +10,18 @@
         android:id="@+id/signUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="35dp"
         android:layout_margin="50dp"
         android:gravity="center"
-        />
+        android:text="Sign Up"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/newUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/signUp"
+        android:layout_below="@+id/switch1"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -37,75 +36,91 @@
 
     <!--name-->
     <EditText
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/name"
         android:layout_below="@+id/newUserName"
-        android:background="#30ffffff"
-        android:hint="Your Name"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
         android:layout_margin="10dp"
-        android:padding="20dp"
+        android:background="#30ffffff"
         android:drawableLeft="@drawable/baseline_info_24"
         android:drawablePadding="20dp"
+        android:hint="Your Name"
         android:inputType="text"
-        />
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
     <!--Institution-->
     <EditText
+        android:id="@+id/institution"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/institution"
         android:layout_below="@+id/name"
-        android:background="#30ffffff"
-        android:hint="Your Institution"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
         android:layout_margin="10dp"
-        android:padding="20dp"
+        android:background="#30ffffff"
         android:drawableLeft="@drawable/baseline_info_24"
         android:drawablePadding="20dp"
+        android:hint="Your Institution"
         android:inputType="text"
-        />
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
     <!--Password-->
     <EditText
+        android:id="@+id/newPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/newPassword"
         android:layout_below="@+id/institution"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#30ffffff"
-        android:hint="Password"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:layout_margin="10dp"
-        android:padding="20dp"
         android:drawableLeft="@drawable/baseline_info_24"
         android:drawablePadding="20dp"
+        android:hint="Password"
         android:inputType="textPassword"
-        />
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
 
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/signUpBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/signUpBtn"
         android:layout_below="@+id/newPassword"
-        android:text="Sign Up"
-        android:backgroundTint="@color/design_default_color_secondary"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        />
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Sign Up" />
 
 
     <TextView
+        android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/forgotPassword"
         android:layout_below="@id/signUpBtn"
-        android:text="Have an account? Login here"
-        android:textColor="@color/white"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        />
+        android:text="Have an account? Login here"
+        android:textColor="@color/white" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Are you a lecturer? "
+        android:textColor="@color/white"
+        android:checked="true"
+        android:textOff="OFF"
+        android:textOn="ON"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
 
 </RelativeLayout>

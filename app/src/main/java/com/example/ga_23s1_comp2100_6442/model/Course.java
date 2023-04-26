@@ -15,8 +15,8 @@ public class Course implements Serializable {
     private String author;
     private String link;
     private String thumbnail;
-    private Set<Student> studentsEnrolled;
-    private Set<Student> StudentsApplied;
+    private Set<String> studentsEnrolled;
+    private Set<String> StudentsApplied;
     private Set<Lecturer> Lecturers;
     private boolean isPublic;
 
@@ -68,19 +68,19 @@ public class Course implements Serializable {
         return isPublic;
     }
 
-    public Set<Student> getStudentsEnrolled() {
+    public Set<String> getStudentsEnrolled() {
         return studentsEnrolled;
     }
 
-    public void setStudentsEnrolled(Set<Student> studentsEnrolled) {
+    public void setStudentsEnrolled(Set<String> studentsEnrolled) {
         this.studentsEnrolled = studentsEnrolled;
     }
 
-    public Set<Student> getStudentsApplied() {
+    public Set<String> getStudentsApplied() {
         return StudentsApplied;
     }
 
-    public void setStudentsApplied(Set<Student> studentsApplied) {
+    public void setStudentsApplied(Set<String> studentsApplied) {
         StudentsApplied = studentsApplied;
     }
 
