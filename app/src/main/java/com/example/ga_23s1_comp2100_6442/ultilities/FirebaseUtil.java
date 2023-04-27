@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.ga_23s1_comp2100_6442.CourseAdapter;
+import com.example.ga_23s1_comp2100_6442.RequestAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
+import com.example.ga_23s1_comp2100_6442.model.Request;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -57,6 +59,8 @@ public class FirebaseUtil {
                     }
                 });
     }
+
+
 
 
 

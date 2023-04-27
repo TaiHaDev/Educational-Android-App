@@ -46,7 +46,6 @@ public class playVideo extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +97,7 @@ public class playVideo extends AppCompatActivity {
                 //create firebase object
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 // Create a storage reference from our app
+                //check enrolled student list
                 String link;
                 if (currentCourse.getIsPublic()) {
                     link = currentCourse.getLink();
@@ -106,6 +106,7 @@ public class playVideo extends AppCompatActivity {
                 } else {
                     link = "gs://comp2100-comp6442-assignment.appspot.com/ocean.mp4";
                 }
+                //set links to the reference
                 StorageReference storageRef = storage.getReferenceFromUrl(link);
                 storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override

@@ -73,7 +73,6 @@ public class LoginPage extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     @Override

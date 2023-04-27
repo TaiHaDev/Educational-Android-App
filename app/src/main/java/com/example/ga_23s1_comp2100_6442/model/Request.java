@@ -1,8 +1,12 @@
 package com.example.ga_23s1_comp2100_6442.model;
 
-public class Request {
-    private User sender;
-    private User receiver;
+import java.io.Serializable;
+
+public class Request  {
+    private String sender;
+    private String senderName;
+    private String receiver;
+    private String receiverName;
     private boolean isAccepted;
     private RequestType requestType;
 
@@ -11,48 +15,30 @@ public class Request {
     public Request() {
     }
 
-    public Request(User sender, User receiver, RequestType requestType, String information) {
+    public Request(String sender, String receiver, RequestType requestType, String information,String senderName,String receiverName) {
         this.sender = sender;
         this.receiver = receiver;
         this.requestType = requestType;
         this.isAccepted = false;
         this.information = information;
+        this.senderName=senderName;
+        this.receiverName=receiverName;
     }
 
-    public void send() {
-        sender.getRequestsSent().add(this);
-        receiver.getRequestsGet().add(this);
-    }
 
-    public void accept() {
-        if (requestType == RequestType.Follow) {
-            sender.following.add(receiver);
-            receiver.followers.add(sender);
-            setAccepted(true);
-        } else if (requestType == RequestType.JoinCourse) {
-            Lecturer lecturer = (Lecturer) receiver;
-            lecturer.addStudentToCourse(sender.id, information);
-            setAccepted(true);
-        }
-    }
-
-    public void deny() {
-
-    }
-
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
-    public User getReceiver() {
+    public String getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(User receiver) {
+    public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
 
@@ -82,5 +68,21 @@ public class Request {
 
     public void setInformation(String information) {
         this.information = information;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 }
