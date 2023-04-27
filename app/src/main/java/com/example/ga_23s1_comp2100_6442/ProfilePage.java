@@ -72,6 +72,11 @@ public class ProfilePage extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
+                else if (item.getItemId() == R.id.forumsMenu) {
+                    Intent intent = new Intent(getApplicationContext(), ForumPage.class);
+                    startActivity(intent);
+                    return true;
+                }
                 return false;
             }
         });

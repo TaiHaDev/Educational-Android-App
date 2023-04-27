@@ -3,6 +3,9 @@
     <item android:title="Courses"
         android:id="@+id/coursesMenu"
         android:icon="@drawable/ic_action_name"/>
+    <item android:title="Forum"
+        android:id="@+id/forumsMenu"
+        android:icon="@drawable/ic_forum_24"/>
     <item android:title="Profile"
         android:id="@+id/profileMenu"
         android:icon="@drawable/ic_profile_menu"/>
