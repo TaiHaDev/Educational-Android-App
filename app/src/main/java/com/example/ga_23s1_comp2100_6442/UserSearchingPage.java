@@ -10,9 +10,12 @@ import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.model.DatabaseUser;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserSearchingPage extends AppCompatActivity {
@@ -31,7 +34,12 @@ public class UserSearchingPage extends AppCompatActivity {
         fb.collection(Constant.USER_COLLECTION).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DatabaseUser> fireBaseData = queryDocumentSnapshots.toObjects(DatabaseUser.class);
+                List<DatabaseUser> fireBaseData = new ArrayList<>();
+                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    String name = (String) documentSnapshot.get("name");
+                    String email = (String) documentSnapshot.get("email");
+                    fireBaseData.add(new DatabaseUser(name, email, documentSnapshot.getId()));
+                }
                 adapter = new SearchUserAdapter(fireBaseData);
                 RecyclerView recyclerView = findViewById(R.id.searching_page_recycler_view);
                 recyclerView.setAdapter(adapter);

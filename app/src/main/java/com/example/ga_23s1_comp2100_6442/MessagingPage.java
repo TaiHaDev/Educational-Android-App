@@ -41,6 +41,7 @@ public class MessagingPage extends AppCompatActivity {
     String receiverId;
     String receiverName;
     String currentUid;
+    FirebaseDatabase db = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,10 @@ public class MessagingPage extends AppCompatActivity {
         receiverId = bundle.getString("receiverId");
         receiverName = bundle.getString("receiverName");
         String messageId = generateMessageId(currentUid, receiverId);
+        // Setup
         setChatBlock();
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        addGettingBlockListener();
+
         DatabaseReference reference = db.getReference().child(Constant.MESSAGE_COLLECTION).child(messageId);
         FirebaseRecyclerOptions<UserMessage> data = new FirebaseRecyclerOptions
                 .Builder<UserMessage>()
@@ -100,7 +103,7 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     public void updateChatListing(String uid, ChatMetaData chatMetaData) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+        DatabaseReference databaseReference = db
                 .getReference(Constant.METADATA_COLLECTION)
                 .child(uid);
         Query query = databaseReference.orderByChild("id").equalTo(chatMetaData.getId()).limitToFirst(1);
@@ -200,22 +203,64 @@ public class MessagingPage extends AppCompatActivity {
     }
 
     public void blockingThisUser() {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference ref = db.getReference().child("block");
         ref.child(receiverId).child(currentUid).setValue("");
     }
 
     public void setIconBlock(MenuItem menuItem) {
-        DatabaseReference db = FirebaseDatabase.getInstance()
+        DatabaseReference ref = db
                 .getReference("block")
                 .child(receiverId);
-        db.child(currentUid).addChildEventListener(new ChildEventListener() {
+        ref.child(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    menuItem.setIcon(R.drawable.unblock_chat);
+                    menuItem.setTitle("unblock");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void setChatBlock() {
+        DatabaseReference ref = db
+                .getReference("block")
+                .child(currentUid);
+        ref.child(receiverId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    setUIBlock();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void unblockingThisUser() {
+        DatabaseReference ref = db.getReference("block").child(receiverId);
+        ref.child(currentUid).removeValue();
+    }
+
+    private void addGettingBlockListener() {
+        db.getReference().child("block")
+                .child(currentUid)
+                .addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                menuItem.setIcon(R.drawable.unblock_chat);
-                menuItem.setTitle("unblock");
-
-
+                if (snapshot.getKey().equals(receiverId)) {
+                    // change the UI so it doesn't allow message to be sent
+                    setUIBlock();
+                }
             }
 
             @Override
@@ -225,8 +270,9 @@ public class MessagingPage extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                menuItem.setIcon(R.drawable.block_chat);
-                menuItem.setTitle("block");
+                if (snapshot.getKey().equals(receiverId)) {
+                    setUIUnblock();
+                }
             }
 
             @Override
@@ -240,32 +286,17 @@ public class MessagingPage extends AppCompatActivity {
             }
         });
     }
-
-    public void setChatBlock() {
-        DatabaseReference db = FirebaseDatabase.getInstance()
-                .getReference("block")
-                .child(currentUid);
-        db.child(receiverId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    LinearLayout layout = findViewById(R.id.message_chat_layout);
-                    layout.setVisibility(View.GONE);
-                    TextView blockingInfoTextView = findViewById(R.id.blocking_info);
-                    blockingInfoTextView.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    public void setUIBlock() {
+        LinearLayout layout = findViewById(R.id.message_chat_layout);
+        layout.setVisibility(View.GONE);
+        TextView blockingInfoTextView = findViewById(R.id.blocking_info);
+        blockingInfoTextView.setVisibility(View.VISIBLE);
     }
-
-    public void unblockingThisUser() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("block").child(receiverId);
-        ref.child(currentUid).removeValue();
+    public void setUIUnblock() {
+        LinearLayout layout = findViewById(R.id.message_chat_layout);
+        layout.setVisibility(View.VISIBLE);
+        TextView blockingInfoTextView = findViewById(R.id.blocking_info);
+        blockingInfoTextView.setVisibility(View.GONE);
     }
 
 

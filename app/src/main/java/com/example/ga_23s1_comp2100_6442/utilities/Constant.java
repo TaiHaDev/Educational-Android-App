@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.core.Tag;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -27,13 +28,12 @@ public class Constant {
 
     public static void setUserNameAfterLogin(String uid) {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.USER_COLLECTION).whereEqualTo("uid", uid).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        fb.collection(Constant.USER_COLLECTION).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    USER_PROFILE = task.getResult().getDocuments().get(0).toObject(DatabaseUser.class);
-                } else {
-                    Log.d(TAG, "failed to fetch user profile");
+                    USER_PROFILE = task.getResult().toObject(DatabaseUser.class);
+                    USER_PROFILE.setUid(uid);
                 }
             }
         });

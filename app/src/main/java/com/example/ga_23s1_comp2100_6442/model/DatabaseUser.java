@@ -5,10 +5,14 @@ public class DatabaseUser {
     private String name;
     private String email;
     public DatabaseUser() {}
-    public DatabaseUser(String uid, String name, String email) {
-        this.uid = uid;
+    public DatabaseUser(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+    public DatabaseUser(String name, String email, String uid) {
+        this.name = name;
+        this.email = email;
+        this.uid = uid;
     }
 
     public String getUid() {
