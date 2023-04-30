@@ -1,5 +1,6 @@
 package com.example.ga_23s1_comp2100_6442.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,10 +11,12 @@ public class Student extends User {
 
     public Student() {
     }
-    
 
-    public Student(String userName, String name, String institution,String id) {
-        super(userName, name, institution,id);
+
+    public Student(String userName, String name, String institution, String id) {
+        super(userName, name, institution, id);
+        coursesEnrolled = new ArrayList<>();
+        waitingList = new ArrayList<>();
     }
 
 

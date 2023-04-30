@@ -1,6 +1,5 @@
 package com.example.ga_23s1_comp2100_6442.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ public class Course {
     private String link;
     private String thumbnail;
     private List<String> studentsEnrolled;
-    private List<String> StudentsApplied;
+    private List<String> studentsApplied;
     private List<String> Lecturers;
     private boolean isPublic;
 
@@ -86,11 +85,11 @@ public class Course {
     }
 
     public List<String> getStudentsApplied() {
-        return StudentsApplied;
+        return studentsApplied;
     }
 
     public void setStudentsApplied(List<String> studentsApplied) {
-        StudentsApplied = studentsApplied;
+        this.studentsApplied = studentsApplied;
     }
 
     public List<String> getLecturers() {

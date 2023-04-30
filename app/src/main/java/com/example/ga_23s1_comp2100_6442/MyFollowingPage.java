@@ -31,13 +31,14 @@ public class MyFollowingPage extends AppCompatActivity {
     List<String> followingNames = new ArrayList<>();
     ListView listView;
     FirebaseAuth mAuth;
-    FirebaseUser user;
+    FirebaseUser currentUser;
     FirebaseFirestore db;
     ArrayAdapter adapter;
     TextView refresh;
     TextView followInput;
-    String inputId;
-    String inputName;
+    String inputUserName;
+    String receiverName;
+    String receiverId;
     Button followButton;
 
 
@@ -51,48 +52,40 @@ public class MyFollowingPage extends AppCompatActivity {
         followButton = findViewById(R.id.followButton);
         followInput = findViewById(R.id.followInput);
         mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, followingNames);
         listView.setAdapter(adapter);
         fetchFollowing();
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputId = followInput.getText().toString();
+                inputUserName = followInput.getText().toString();
+                //find receiver by email(userName)
+                db.collection("students").whereEqualTo("userName", inputUserName)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        receiverId =document.getId();
+                                        receiverName = (String) document.get("name");
+                                    }
+                                }
+                            }
+                        });
 
-                db.collection("students").document(inputId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                db.collection("students").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                inputName = (String)document.get("name");
-                                Log.d(TAG, "DocumentSnapshot data: " + inputName);
-                            } else {
-                                Log.d(TAG, "No such document");
+                                followUser(currentUser.getUid(), receiverId, (String) document.get("name"), receiverName);
                             }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
                         }
                     }
                 });
-                db.collection("students").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                followUser(user.getUid(), inputId, (String)document.get("name"),inputName );
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-
             }
         });
         refresh.setOnClickListener(new View.OnClickListener() {
@@ -104,9 +97,8 @@ public class MyFollowingPage extends AppCompatActivity {
     }
 
     private void fetchFollowing() {
-
         //get all the uid from current user's followers
-        db.collection("students").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("students").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -148,16 +140,10 @@ public class MyFollowingPage extends AppCompatActivity {
                         followingNames.add(name + ":   " + userName);
                         //update data in adapter
                         adapter.notifyDataSetChanged();
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d(TAG, "No such document");
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
-
     }
 
     public void followUser(String sender, String receiver, String senderName, String receiverName) {

@@ -1,5 +1,6 @@
 package com.example.ga_23s1_comp2100_6442.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,10 @@ public abstract class User {
         this.name = name;
         this.institution = institution;
         this.id = id;
+        List<String> requestsGet = new ArrayList<>();
+        List<String> requestsSent = new ArrayList<>();
+        List<String> followers = new ArrayList<>();
+        List<String> following = new ArrayList<>();
     }
 
 
