@@ -10,19 +10,18 @@ public abstract class User {
     String id;
     List<String> requestsGet;
     List<String> requestsSent;
-    Set<User> followers;
-    Set<User> following;
+    List<String> followers;
+    List<String> following;
 
     public User() {
     }
 
-    public User(String userName, String name, String institution,String id) {
+    public User(String userName, String name, String institution, String id) {
         this.userName = userName;
         this.name = name;
         this.institution = institution;
-        this.id =id;
+        this.id = id;
     }
-
 
 
     public String getUserName() {
@@ -73,19 +72,19 @@ public abstract class User {
         this.requestsSent = requestsSent;
     }
 
-    public Set<User> getFollowers() {
+    public List<String> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(Set<User> followers) {
+    public void setFollowers(List<String> followers) {
         this.followers = followers;
     }
 
-    public Set<User> getFollowing() {
+    public List<String> getFollowing() {
         return following;
     }
 
-    public void setFollowing(Set<User> following) {
+    public void setFollowing(List<String> following) {
         this.following = following;
     }
 

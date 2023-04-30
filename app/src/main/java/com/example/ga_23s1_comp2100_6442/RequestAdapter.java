@@ -50,23 +50,26 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         TextView courseNameTextView = holder.rootView.findViewById(R.id.sender_name);
         courseNameTextView.setText(currentRequest.getSenderName());
         TextView courseAuthorTextView = holder.rootView.findViewById(R.id.request_info);
+        String[] information = currentRequest.getInformation().split("/");
         String info;
-        if (Objects.equals(currentRequest.getInformation(), "follow")) {
+        if (Objects.equals(currentRequest.getRequestType(), Request.RequestType.Follow)) {
             info = currentRequest.getSenderName()+" wants to follow you";
         } else {
-            info = currentRequest.getSenderName()+" wants to join "+currentRequest.getReceiverName();
+            info = currentRequest.getSenderName()+" wants to join "+information[0];
         }
         courseAuthorTextView.setText(info);
+
+        //set accept and deny buttons
         Button accept = holder.rootView.findViewById(R.id.accept);
         Button deny = holder.rootView.findViewById(R.id.deny);
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Objects.equals(currentRequest.getInformation(), "follow")) {
+                if (Objects.equals(currentRequest.getRequestType(), Request.RequestType.Follow)) {
                     db.collection("students").document(currentRequest.getReceiver()).update("followers", FieldValue.arrayUnion(currentRequest.getSender()));
                     db.collection("students").document(currentRequest.getSender()).update("following", FieldValue.arrayUnion(currentRequest.getReceiver()));
                 } else {
-                    db.collection(Constant.COURSE_COLLECTION_TEST).document(currentRequest.getInformation()).update("studentsEnrolled", FieldValue.arrayUnion(currentRequest.getSender()));
+                    db.collection(Constant.COURSE_COLLECTION_TEST).document(information[1]).update("studentsEnrolled", FieldValue.arrayUnion(currentRequest.getSender()));
                 }
                 accept.setEnabled(false);
                 deny.setEnabled(false);

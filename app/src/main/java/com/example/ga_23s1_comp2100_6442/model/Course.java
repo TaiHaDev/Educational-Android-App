@@ -13,6 +13,7 @@ public class Course {
     private String courseId;
     private String title;
     private String author;
+    private String authorId;
     private String link;
     private String thumbnail;
     private List<String> studentsEnrolled;
@@ -21,21 +22,23 @@ public class Course {
     private boolean isPublic;
 
 
-    public Course(String title, String author, String link, String thumbnail, boolean isPublic) {
+    public Course(String title, String author,String authorId, String link, String thumbnail, boolean isPublic) {
         this.title = title;
         this.author = author;
         this.link = link;
         this.thumbnail = thumbnail;
         this.isPublic = isPublic;
+        this.authorId=authorId;
     }
 
-    public Course(String title, String author, String link, String thumbnail, boolean isPublic,List<String> studentsEnrolled) {
+    public Course(String title, String author,String authorId, String link, String thumbnail, boolean isPublic,List<String> studentsEnrolled) {
         this.title = title;
         this.author = author;
         this.link = link;
         this.thumbnail = thumbnail;
         this.isPublic = isPublic;
         this.studentsEnrolled=studentsEnrolled;
+        this.authorId=authorId;
     }
 
     public Course() {
@@ -110,4 +113,19 @@ public class Course {
         this.thumbnail = thumbnail;
     }
 
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
 }

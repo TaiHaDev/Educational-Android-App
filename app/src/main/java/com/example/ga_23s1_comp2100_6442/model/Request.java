@@ -2,7 +2,7 @@ package com.example.ga_23s1_comp2100_6442.model;
 
 import java.io.Serializable;
 
-public class Request  {
+public class Request {
     private String sender;
     private String senderName;
     private String receiver;
@@ -15,15 +15,17 @@ public class Request  {
     public Request() {
     }
 
-    public Request(String sender, String receiver, RequestType requestType, String information,String senderName,String receiverName) {
+    public Request(String sender, String receiver, RequestType requestType, String information, String senderName, String receiverName) {
         this.sender = sender;
         this.receiver = receiver;
         this.requestType = requestType;
         this.isAccepted = false;
         this.information = information;
-        this.senderName=senderName;
-        this.receiverName=receiverName;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
     }
+
+
 
 
     public String getSender() {

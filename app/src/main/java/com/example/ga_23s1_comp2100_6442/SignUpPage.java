@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
@@ -42,7 +43,6 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_page);
-
         userName = (TextView) findViewById(R.id.newUserName);
         name = (TextView) findViewById(R.id.name);
         institution = (TextView) findViewById(R.id.institution);
@@ -93,6 +93,9 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
         while (user == null) {
             user = auth.getCurrentUser();
         }
+        //set name in authentication
+        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(nameS).build();
+        user.updateProfile(profileChangeRequest);
         if (isLecture) {
             Lecturer lecturer = new Lecturer(
                     userNameS,
