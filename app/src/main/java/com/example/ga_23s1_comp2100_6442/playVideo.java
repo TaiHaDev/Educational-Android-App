@@ -90,7 +90,6 @@ public class playVideo extends AppCompatActivity {
         mainVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
-
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
                     currentProgress.setVisibility(View.INVISIBLE);
                     return true;
@@ -185,6 +184,8 @@ public class playVideo extends AppCompatActivity {
                         if (currentCourse.getIsPublic()) {
                             //add student studentsEnrolled in current course
                             db.collection(Constant.COURSE_COLLECTION_TEST).document(currentCourse.getCourseId()).update("studentsEnrolled", FieldValue.arrayUnion(currentUser.getUid()));
+                            //add current course to this student
+                            db.collection("students").document(currentUser.getUid()).update("coursesEnrolled", FieldValue.arrayUnion(currentCourse.getCourseId()));
                             enrollButton.setText("enrolled");
                         } else {
                             //create new request

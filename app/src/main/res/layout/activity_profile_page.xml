@@ -63,7 +63,6 @@
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:gravity="center"
-        android:inputType="textPersonName"
         android:text="My Followers"
         android:textSize="20dp" />
     <TextView
@@ -77,8 +76,21 @@
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:gravity="center"
-        android:inputType="textPersonName"
         android:text="My Following"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/enrolledCourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/following"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="My Courses"
         android:textSize="20dp" />
 
 </RelativeLayout>

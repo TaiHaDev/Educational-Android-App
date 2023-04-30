@@ -30,6 +30,7 @@ public class ProfilePage extends AppCompatActivity {
         TextView myFollowers = findViewById(R.id.followers);
         TextView myFollowing = findViewById(R.id.following);
         TextView requests = findViewById(R.id.requests);
+        TextView myCourses = findViewById(R.id.enrolledCourse);
         myFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,6 +47,12 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ProfilePage.this, RequestPage.class));
+            }
+        });
+        myCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfilePage.this, MyCoursesPage.class));
             }
         });
         logOutBtn.setOnClickListener(new View.OnClickListener() {

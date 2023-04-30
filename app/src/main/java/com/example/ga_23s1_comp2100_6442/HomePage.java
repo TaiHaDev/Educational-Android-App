@@ -95,7 +95,6 @@ public class HomePage extends AppCompatActivity {
                 FirebaseUtil.simpleQueryFireStore(query, adapter);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;

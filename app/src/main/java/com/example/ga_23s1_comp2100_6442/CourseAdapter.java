@@ -17,6 +17,7 @@ import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
@@ -24,6 +25,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     public void setData(List<Course> data) {
         this.data = data;
+        notifyDataSetChanged();
+    }
+    public void updateData(Course course) {
+       if (this.data==null){
+           data=new ArrayList<>();
+       }
+       data.add(course);
         notifyDataSetChanged();
     }
 
