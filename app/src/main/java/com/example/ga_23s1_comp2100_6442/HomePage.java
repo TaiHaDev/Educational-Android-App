@@ -8,13 +8,16 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
+import com.example.ga_23s1_comp2100_6442.storage.AVLTree;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 
@@ -24,21 +27,29 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity {
-    CourseAdapter adapter;
+    private CourseAdapter adapter;
+    public static AVLTree historySearchTree;
+    private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new CourseAdapter();
         setContentView(R.layout.activity_home_page);
+        loadRecentlySearch();
+        adapter = new CourseAdapter(sharedPref);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         bottomNavigationHandler();
         fetchAndDisplayCourses();
-
     }
 
     private void bottomNavigationHandler() {
@@ -84,6 +95,7 @@ public class HomePage extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 return false;
             }
         });
@@ -99,4 +111,26 @@ public class HomePage extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * load the search history tree from shared preferences
+     * @author: Tai Ha
+     */
+
+    public void loadRecentlySearch() {
+        if (historySearchTree != null) return;
+        Gson gson = new Gson();
+        sharedPref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+        String jsonString = sharedPref.getString("historySearchTree", null);
+        historySearchTree = gson.fromJson(jsonString, AVLTree.class);
+        if (historySearchTree == null) historySearchTree = new AVLTree();
+        historySearchTree.inOrderTraversal();
+    }
+
+
+
+
+
+
+
 }

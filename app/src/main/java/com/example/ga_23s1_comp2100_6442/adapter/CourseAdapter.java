@@ -1,6 +1,8 @@
 package com.example.ga_23s1_comp2100_6442.adapter;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +15,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.example.ga_23s1_comp2100_6442.HomePage;
 import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.playVideo;
 import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
     List<Course> data ;
+    SharedPreferences sharedPref;
+
+    String searchingCourseName;
+
+    public CourseAdapter(SharedPreferences sharedPref) {
+        this.sharedPref = sharedPref;
+    }
 
     public void setData(List<Course> data) {
         this.data = data;
@@ -51,7 +62,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 .getInstance()
                 .getReferenceFromUrl(currentCourse.getThumbnail());
         FirebaseUtil.downloadAndSetImageFromStorage(Glide.with(holder.rootView.getContext()), courseThumbnailImageView, currentCourse.getThumbnail());
-        setEventHandlerForHolder(holder, currentCourse.getLink().get(0));
+        setEventHandlerForHolder(holder, currentCourse);
+
+
+        // mark the recently searched course
+        if (HomePage.historySearchTree.search(currentCourse)) {
+            courseNameTextView.setTextColor(Color.MAGENTA);
+        } else {
+            courseNameTextView.setTextColor(Color.BLACK);
+        }
     }
 
     @Override
@@ -65,11 +84,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             this.rootView = rootView;
         }
     }
-    private void setEventHandlerForHolder(ViewHolder holder, String link) {
+    private void setEventHandlerForHolder(ViewHolder holder, Course course) {
         holder.rootView.setOnClickListener(event -> {
             Intent intent = new Intent(holder.rootView.getContext(), playVideo.class);
-            intent.putExtra("vn", link);
+            // todo: .get(0) is temporarily used, fix later
+            intent.putExtra("vn", course.getLink().get(0));
+            HomePage.historySearchTree.insert(course);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("historySearchTree",new Gson().toJson(HomePage.historySearchTree));
+            editor.apply();
             holder.rootView.getContext().startActivity(intent);
         });
+    }
+
+
+    public void setSearchingCourseName(String searchingCourseName) {
+        this.searchingCourseName = searchingCourseName;
     }
 }

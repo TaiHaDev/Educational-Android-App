@@ -4,13 +4,14 @@ import android.graphics.Bitmap;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Course is a model class to model the courses data fetched from Firebase containing the important
  * attribute sto display on screen for end user
  * @author taiha
  */
-public class Course {
+public class Course implements Comparable<Course>{
     private String author;
     private String title;
     private String thumbnail;
@@ -18,6 +19,7 @@ public class Course {
     private String description;
     private List<String> filters;
     private List<String>  searchTerm;
+
 
 
     public Course(String author, String title, String thumbnail, List<String> link, String description, List<String> filters, List<String> searchTerm) {
@@ -101,5 +103,26 @@ public class Course {
                 ", filters=" + filters +
                 ", searchTerm=" + searchTerm +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(author, course.author) && Objects.equals(title, course.title) && Objects.equals(thumbnail, course.thumbnail) && Objects.equals(link, course.link) && Objects.equals(description, course.description) && Objects.equals(filters, course.filters) && Objects.equals(searchTerm, course.searchTerm);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(author, title, thumbnail, link, description, filters, searchTerm);
+    }
+
+
+    @Override
+    public int compareTo(Course course) {
+        if (this.hashCode() > course.hashCode()) return 1;
+        else if (this.hashCode() < course.hashCode()) return -1;
+        return 0;
     }
 }

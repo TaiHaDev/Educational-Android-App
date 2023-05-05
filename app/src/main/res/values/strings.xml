@@ -11,4 +11,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_user_searchin_page">UserSearchinPage</string>
     <string name="blocking_message">You are blocked by this user.\nYou can\'t not reply now.</string>
+    <string name="preference_file_key">hehehe</string>
 </resources>
