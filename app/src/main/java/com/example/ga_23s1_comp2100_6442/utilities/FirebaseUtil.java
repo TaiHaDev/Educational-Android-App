@@ -54,7 +54,8 @@ public class FirebaseUtil {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<Course> courses = queryDocumentSnapshots.toObjects(Course.class);
+                        List<Course> courses = new ArrayList<>();
+                        CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,courses);
                         System.out.println(":" + courses);
                         adapter.setData(courses);
                     }

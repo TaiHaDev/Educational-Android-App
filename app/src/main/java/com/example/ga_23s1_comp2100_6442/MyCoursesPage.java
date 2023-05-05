@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
+import com.example.ga_23s1_comp2100_6442.utilities.CourseUtil;
 import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,16 +39,4 @@ public class MyCoursesPage extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void fetchAndDisplayCourses() {
-        FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION_TEST).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<Course> fireBaseData = queryDocumentSnapshots.toObjects(Course.class);
-                adapter.setData(fireBaseData);
-                RecyclerView recyclerView = findViewById(R.id.courses_list);
-                recyclerView.setAdapter(adapter);
-            }
-        });
-    }
 }
