@@ -16,7 +16,7 @@ public class Course implements Comparable<Course>{
     private String title;
     private String author;
     private String authorId;
-    private List<String> link;
+    private String link;
     private String thumbnail;
     private List<String> studentsEnrolled;
     private List<String> studentsApplied;
@@ -34,15 +34,7 @@ public class Course implements Comparable<Course>{
         this.isPublic = isPublic;
         this.authorId=authorId;
     }
-    public Course(String author, String title, String thumbnail, List<String> link, String description, List<String> filters, List<String> searchTerm) {
-        this.author = author;
-        this.title = title;
-        this.thumbnail = thumbnail;
-        this.link = link;
-        this.description = description;
-        this.filters = filters;
-        this.searchTerm = searchTerm;
-    }
+
     public Course(String title, String author,String authorId, String link, String thumbnail, boolean isPublic,List<String> studentsEnrolled) {
         this.title = title;
         this.author = author;
@@ -53,12 +45,7 @@ public class Course implements Comparable<Course>{
         this.authorId=authorId;
     }
 
-    public Course(String title, String author,String authorId, String link, String thumbnail, boolean isPublic,List<String> studentsEnrolled) {
-        this.title = title;
-        this.author = author;
-        this.link = link;
-        this.thumbnail = thumbnail;
-    }
+
     public Course() {
 
     }
@@ -71,25 +58,19 @@ public class Course implements Comparable<Course>{
         this.courseId = courseId;
     }
 
-    public String getTitle() {
-        return title;
-    }
+
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
@@ -135,9 +116,7 @@ public class Course implements Comparable<Course>{
         this.author = author;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
+
 
     public String getAuthorId() {
         return authorId;
@@ -159,13 +138,9 @@ public class Course implements Comparable<Course>{
         this.thumbnail = thumbnail;
     }
 
-    public List<String> getLink() {
-        return link;
-    }
 
-    public void setLink(List<String> link) {
-        this.link = link;
-    }
+
+
 
     public String getDescription() {
         return description;
@@ -217,6 +192,10 @@ public class Course implements Comparable<Course>{
         return Objects.hash(author, title, thumbnail, link, description, filters, searchTerm);
     }
 
+
+    public String getLink() {
+        return link;
+    }
 
     @Override
     public int compareTo(Course course) {

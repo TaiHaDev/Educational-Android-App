@@ -1,4 +1,4 @@
-package com.example.ga_23s1_comp2100_6442;
+package com.example.ga_23s1_comp2100_6442.adapter;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +36,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     public CourseAdapter(SharedPreferences sharedPref) {
         this.sharedPref = sharedPref;
     }
+    public CourseAdapter() {}
 
     public void setData(List<Course> data) {
         this.data = data;
@@ -73,11 +74,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
 
         // mark the recently searched course
-        if (HomePage.historySearchTree.search(currentCourse)) {
-            courseNameTextView.setTextColor(Color.MAGENTA);
-        } else {
-            courseNameTextView.setTextColor(Color.BLACK);
-        }
+//        if (HomePage.historySearchTree.search(currentCourse)) {
+//            courseNameTextView.setTextColor(Color.MAGENTA);
+//        } else {
+//            courseNameTextView.setTextColor(Color.BLACK);
+//        }
     }
 
     @Override

@@ -19,8 +19,8 @@ import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.storage.AVLTree;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
-import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 
+import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -45,14 +45,13 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        loadRecentlySearch();
+//        loadRecentlySearch();
         adapter = new CourseAdapter(sharedPref);
 
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
             startActivity(new Intent(HomePage.this, LoginPage.class));
             finish();
         }
-        adapter = new CourseAdapter();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         bottomNavigationHandler();

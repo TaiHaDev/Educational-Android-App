@@ -64,10 +64,10 @@ public class UploadingDataJob {
                 String[] searchTerms = searchTermLine.split(",");
                 List<String> link = new ArrayList<>();
                 link.add("gs://comp2100-comp6442-assignment.appspot.com/10min.mp4");
-                courses.add(new Course(author, title, "gs://comp2100-comp6442-assignment.appspot.com/3683.webp"
-                        , link
-                        , description, Arrays.stream(filters).collect(Collectors.toList())
-                        , Arrays.stream(searchTerms).collect(Collectors.toList())));
+//                courses.add(new Course(author, title, "gs://comp2100-comp6442-assignment.appspot.com/3683.webp"
+//                        , link
+//                        , description, Arrays.stream(filters).collect(Collectors.toList())
+//                        , Arrays.stream(searchTerms).collect(Collectors.toList())));
             }
         }
         catch (Exception e) {

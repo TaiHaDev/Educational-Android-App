@@ -1,4 +1,4 @@
-package com.example.ga_23s1_comp2100_6442.ultilities;
+package com.example.ga_23s1_comp2100_6442.utilities;
 
 import android.net.Uri;
 import android.widget.ImageView;
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.example.ga_23s1_comp2100_6442.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.RequestAdapter;
+import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.model.Request;
 import com.example.ga_23s1_comp2100_6442.model.Student;
