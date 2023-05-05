@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -29,7 +31,10 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+            startActivity(new Intent(LoginPage.this, HomePage.class));
+            finish();
+        }
         TextView userName=(TextView) findViewById(R.id.userName);
         TextView password=(TextView) findViewById(R.id.password);
         MaterialButton loginBtn=(MaterialButton) findViewById(R.id.loginBtn);
@@ -63,6 +68,7 @@ public class LoginPage extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginPage.this, HomePage.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
 
 
@@ -71,12 +77,10 @@ public class LoginPage extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginPage.this,"LOGIN FAIL!",Toast.LENGTH_LONG).show();
-
 //                            updateUI(null);
                         }
                     }
                 });
-
     }
 
     @Override

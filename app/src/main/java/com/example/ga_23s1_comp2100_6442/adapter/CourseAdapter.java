@@ -1,4 +1,4 @@
-package com.example.ga_23s1_comp2100_6442.adapter;
+package com.example.ga_23s1_comp2100_6442;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,6 +39,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     public void setData(List<Course> data) {
         this.data = data;
+        notifyDataSetChanged();
+    }
+    public void updateData(Course course) {
+       if (this.data==null){
+           data=new ArrayList<>();
+       }
+       data.add(course);
         notifyDataSetChanged();
     }
 
@@ -84,21 +91,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             this.rootView = rootView;
         }
     }
-    private void setEventHandlerForHolder(ViewHolder holder, Course course) {
+    private void setEventHandlerForHolder(ViewHolder holder, Course currentCourse) {
         holder.rootView.setOnClickListener(event -> {
             Intent intent = new Intent(holder.rootView.getContext(), playVideo.class);
-            // todo: .get(0) is temporarily used, fix later
-            intent.putExtra("vn", course.getLink().get(0));
-            HomePage.historySearchTree.insert(course);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("historySearchTree",new Gson().toJson(HomePage.historySearchTree));
-            editor.apply();
+            intent.putExtra("vn", currentCourse.getCourseId());
             holder.rootView.getContext().startActivity(intent);
         });
-    }
-
-
-    public void setSearchingCourseName(String searchingCourseName) {
-        this.searchingCourseName = searchingCourseName;
     }
 }

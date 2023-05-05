@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
@@ -46,10 +47,17 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
         loadRecentlySearch();
         adapter = new CourseAdapter(sharedPref);
+
+        if (FirebaseAuth.getInstance().getCurrentUser()==null){
+            startActivity(new Intent(HomePage.this, LoginPage.class));
+            finish();
+        }
+        adapter = new CourseAdapter();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         bottomNavigationHandler();
         fetchAndDisplayCourses();
+
     }
 
     private void bottomNavigationHandler() {
@@ -69,7 +77,7 @@ public class HomePage extends AppCompatActivity {
     }
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION).limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fb.collection(Constant.COURSE_COLLECTION_TEST).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = queryDocumentSnapshots.toObjects(Course.class);
