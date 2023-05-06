@@ -2,6 +2,8 @@ package com.example.ga_23s1_comp2100_6442;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.ga_23s1_comp2100_6442.utilities.UploadingDataJob.readingDataFromCSV;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,6 +25,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -31,6 +40,20 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+                try {
+        InputStream inputStreamCrawl = getAssets().open("crawl.csv");
+        InputStream inputStreamDescription = getAssets().open("description.csv");
+        InputStream inputStreamSearchTerm = getAssets().open("searchTerm.csv");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference ref = db.collection(Constant.COURSE_COLLECTION);
+        List<Course> courses = readingDataFromCSV(inputStreamCrawl, inputStreamDescription, inputStreamSearchTerm);
+        for (Course course : courses) {
+            ref.add(course);
+        }
+    } catch (
+    IOException e) {
+        throw new RuntimeException(e);
+    }
         if (FirebaseAuth.getInstance().getCurrentUser()!=null){
             startActivity(new Intent(LoginPage.this, HomePage.class));
             finish();

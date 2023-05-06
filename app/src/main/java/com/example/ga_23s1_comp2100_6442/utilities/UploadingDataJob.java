@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class UploadingDataJob {
@@ -38,7 +39,9 @@ public class UploadingDataJob {
 //        throw new RuntimeException(e);
 //    }
     public static List<Course> readingDataFromCSV(InputStream inputStreamCrawl, InputStream inputStreamDescription, InputStream inputStreamSearchTerm) {
+        String[] authorIds = {"1E88a81YzcVswD43yqT8V2Dfqqm1", "TpStXGca55ZOpCI8SB2KO2DDtgu2", "fedy9hIONwZbVa4gLVMunvc3pNg2", "ovVIgC2wJBYFpR45VJ3QlOimtWH3", "sN8c0ILusHQ4XnHlcaaoUbBwo0u2", "sZVNxulpsIXwTEHxUhXe8Wj7gDc2", "zqsQrwLnfWOVNYxojrv81IPN6o53"};
         List<Course> courses = new ArrayList<>();
+        Random random = new Random();
         try {
 
             BufferedReader readCrawl = new BufferedReader(new InputStreamReader(inputStreamCrawl));
@@ -62,12 +65,30 @@ public class UploadingDataJob {
                 searchTermLine = searchTermLine.replace("[", "");
                 searchTermLine = searchTermLine.replace("]","");
                 String[] searchTerms = searchTermLine.split(",");
-                List<String> link = new ArrayList<>();
-                link.add("gs://comp2100-comp6442-assignment.appspot.com/10min.mp4");
-//                courses.add(new Course(author, title, "gs://comp2100-comp6442-assignment.appspot.com/3683.webp"
-//                        , link
-//                        , description, Arrays.stream(filters).collect(Collectors.toList())
-//                        , Arrays.stream(searchTerms).collect(Collectors.toList())));
+                // assign author id or each course
+                String authorId;
+                if (author.equals("Google")) {
+                    authorId = authorIds[0];
+                } else if (author.equals("IBM")) {
+                    authorId = authorIds[1];
+                } else if (author.equals("Google Cloud")) {
+                    authorId = authorIds[3];
+                } else if (author.contains("Stanford University")) {
+                    authorId = authorIds[4];
+                } else {
+                    int randomIndex = random.nextInt(7);
+                    authorId = authorIds[randomIndex];
+                }
+                // assign boolean value randomly to isPublic field
+                int randomNumber = random.nextInt(10);
+                boolean isPublic;
+                isPublic = randomNumber <= 6;
+
+                courses.add(new Course(title, author, authorId,"gs://comp2100-comp6442-assignment.appspot.com/10min.mp4"
+                        , "gs://comp2100-comp6442-assignment.appspot.com/3683.webp"
+                        , isPublic
+                        , description, Arrays.stream(filters).collect(Collectors.toList())
+                        , Arrays.stream(searchTerms).collect(Collectors.toList())));
             }
         }
         catch (Exception e) {

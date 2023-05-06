@@ -26,7 +26,19 @@ public class Course implements Comparable<Course>{
     private List<String> filters;
     private List<String>  searchTerm;
 
-    public Course(String title, String author,String authorId, String link, String thumbnail, boolean isPublic) {
+    public Course(String title, String author, String authorId, String link, String thumbnail, boolean isPublic, String description, List<String> filters, List<String> searchTerm) {
+        this.title = title;
+        this.author = author;
+        this.authorId = authorId;
+        this.link = link;
+        this.thumbnail = thumbnail;
+        this.isPublic = isPublic;
+        this.description = description;
+        this.filters = filters;
+        this.searchTerm = searchTerm;
+    }
+
+    public Course(String title, String author, String authorId, String link, String thumbnail, boolean isPublic) {
         this.title = title;
         this.author = author;
         this.link = link;
