@@ -51,6 +51,7 @@ public class playVideo extends AppCompatActivity {
     private MediaController mediaController;
     private ProgressBar currentProgress;
     private TextView title;
+    String id;
 
     private String videoName;//video name for searching
     private int playBackPosition = 0;
@@ -106,9 +107,9 @@ public class playVideo extends AppCompatActivity {
         //create bundle to get videoName from last activity(HomePage)
         Intent i = getIntent();
         //check if videoName is passed by bundle
-        String id = i.getStringExtra("vn");
+        id = i.getStringExtra("vn");
         assert id != null;
-        db.collection(Constant.COURSE_COLLECTION_TEST).document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        db.collection(Constant.COURSE_COLLECTION).document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -122,14 +123,14 @@ public class playVideo extends AppCompatActivity {
                 String link;
                 if (currentCourse.getIsPublic()) {
                     link = currentCourse.getLink();
-                    if (currentCourse.getStudentsEnrolled().contains(currentUser.getUid())) {
+                    if (currentCourse.getStudentsEnrolled()!=null&&currentCourse.getStudentsEnrolled().contains(currentUser.getUid())) {
                         enrollButton.setText("enrolled");
                         enrollButton.setEnabled(false);
                     } else {
                         enrollButton.setText("enroll");
                         enrollButton.setEnabled(true);
                     }
-                } else if (currentCourse.getStudentsEnrolled().contains(currentUser.getUid())) {
+                } else if (currentCourse.getStudentsEnrolled()!=null&&currentCourse.getStudentsEnrolled().contains(currentUser.getUid())) {
                     link = currentCourse.getLink();
                     enrollButton.setText("enrolled");
                     enrollButton.setEnabled(false);
@@ -138,7 +139,7 @@ public class playVideo extends AppCompatActivity {
                     enrollButton.setEnabled(true);
                     link = "gs://comp2100-comp6442-assignment.appspot.com/ocean.mp4";
                 }
-                if (currentCourse.getStudentsApplied().contains(currentUser.getUid())) {
+                if (currentCourse.getStudentsApplied()!=null&&currentCourse.getStudentsApplied().contains(currentUser.getUid())) {
                     enrollButton.setText("pending");
                     enrollButton.setEnabled(false);
                 }
@@ -182,17 +183,17 @@ public class playVideo extends AppCompatActivity {
                         assert student != null;
                         if (currentCourse.getIsPublic()) {
                             //add student studentsEnrolled in current course
-                            db.collection(Constant.COURSE_COLLECTION_TEST).document(currentCourse.getCourseId()).update("studentsEnrolled", FieldValue.arrayUnion(currentUser.getUid()));
+                            db.collection(Constant.COURSE_COLLECTION).document(id).update("studentsEnrolled", FieldValue.arrayUnion(currentUser.getUid()));
                             //add current course to this student
-                            db.collection("students").document(currentUser.getUid()).update("coursesEnrolled", FieldValue.arrayUnion(currentCourse.getCourseId()));
+                            db.collection(Constant.STUDENTS_COLLECTION).document(currentUser.getUid()).update("coursesEnrolled", FieldValue.arrayUnion(id));
                             enrollButton.setText("enrolled");
                         } else {
                             //create new request
-                            Request r = new Request(currentUser.getUid(), currentCourse.getAuthorId(), Request.RequestType.JoinCourse, currentCourse.getTitle() + "/" + currentCourse.getCourseId(), student.getName(), currentCourse.getAuthor());
+                            Request r = new Request(currentUser.getUid(), currentCourse.getAuthorId(), Request.RequestType.JoinCourse, currentCourse.getTitle() + "/" + id, student.getName(), currentCourse.getAuthor());
                             //add new request to request collection
-                            db.collection("requests").add(r);
+                            db.collection(Constant.REQUESTS_COLLECTION).add(r);
                             //add current student to pending list
-                            db.collection(Constant.COURSE_COLLECTION_TEST).document(currentCourse.getCourseId()).update("studentsApplied", FieldValue.arrayUnion(currentUser.getUid()));
+                            db.collection(Constant.COURSE_COLLECTION).document(currentCourse.getCourseId()).update("studentsApplied", FieldValue.arrayUnion(currentUser.getUid()));
                             enrollButton.setText("pending");
                         }
                         enrollButton.setEnabled(false);

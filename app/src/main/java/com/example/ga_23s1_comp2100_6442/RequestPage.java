@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.ga_23s1_comp2100_6442.adapter.RequestAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Request;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

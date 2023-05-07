@@ -11,7 +11,7 @@ public class CourseUtil {
         for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
             Course course = new Course();
             course.setCourseId(documentSnapshot.getId());
-            course.setTitle((String) documentSnapshot.get("title"));
+            System.out.println(documentSnapshot.getId());
             course.setAuthor((String) documentSnapshot.get("author"));
             course.setAuthorId((String) documentSnapshot.get("authorId"));
             course.setLink((String) documentSnapshot.get("link"));

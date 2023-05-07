@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ga_23s1_comp2100_6442.model.Request;
+import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,7 +62,7 @@ public class MyFollowingPage extends AppCompatActivity {
             public void onClick(View view) {
                 inputUserName = followInput.getText().toString();
                 //find receiver by email(userName)
-                db.collection("students").whereEqualTo("userName", inputUserName)
+                db.collection(Constant.STUDENTS_COLLECTION).whereEqualTo("userName", inputUserName)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -75,7 +76,7 @@ public class MyFollowingPage extends AppCompatActivity {
                             }
                         });
 
-                db.collection("students").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                db.collection(Constant.STUDENTS_COLLECTION).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
@@ -98,7 +99,7 @@ public class MyFollowingPage extends AppCompatActivity {
 
     private void fetchFollowing() {
         //get all the uid from current user's followers
-        db.collection("students").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(Constant.STUDENTS_COLLECTION).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -126,7 +127,7 @@ public class MyFollowingPage extends AppCompatActivity {
     public void getNameFormId(String id) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         //find the student object from on id
-        db.collection("students").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(Constant.STUDENTS_COLLECTION).document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -149,6 +150,6 @@ public class MyFollowingPage extends AppCompatActivity {
     public void followUser(String sender, String receiver, String senderName, String receiverName) {
         Request r = new Request(sender, receiver, Request.RequestType.Follow, "", senderName, receiverName);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("requests").add(r);
+        db.collection(Constant.REQUESTS_COLLECTION).add(r);
     }
 }

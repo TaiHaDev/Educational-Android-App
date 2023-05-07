@@ -21,7 +21,7 @@ import java.util.List;
 
 public class Constant {
     public static String COURSE_COLLECTION = "courses";
-    public static String COURSE_COLLECTION_TEST = "coursesTest";
+    public static String COURSE_COLLECTION_TEST = "courses";
     public static String MESSAGE_COLLECTION = "messages";
     public static String USER_COLLECTION = "user";
     public static String METADATA_COLLECTION = "metadata";

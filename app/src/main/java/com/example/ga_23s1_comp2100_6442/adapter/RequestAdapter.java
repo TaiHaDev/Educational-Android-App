@@ -1,4 +1,4 @@
-package com.example.ga_23s1_comp2100_6442;
+package com.example.ga_23s1_comp2100_6442.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.Request;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.google.firebase.firestore.FieldValue;
@@ -65,20 +66,20 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 //follow request
                 if (Objects.equals(currentRequest.getRequestType(), Request.RequestType.Follow)) {
                     //add to current student's followers
-                    db.collection("students").document(currentRequest.getReceiver()).update("followers", FieldValue.arrayUnion(currentRequest.getSender()));
+                    db.collection(Constant.STUDENTS_COLLECTION).document(currentRequest.getReceiver()).update("followers", FieldValue.arrayUnion(currentRequest.getSender()));
                     //add to the sender's following
-                    db.collection("students").document(currentRequest.getSender()).update("following", FieldValue.arrayUnion(currentRequest.getReceiver()));
+                    db.collection(Constant.STUDENTS_COLLECTION).document(currentRequest.getSender()).update("following", FieldValue.arrayUnion(currentRequest.getReceiver()));
                     //remove current request
-                    db.collection("requests").document(currentRequestId).delete();
+                    db.collection(Constant.REQUESTS_COLLECTION).document(currentRequestId).delete();
                 } else { //enroll request
                     //add student studentsEnrolled in current course
-                    db.collection(Constant.COURSE_COLLECTION_TEST).document(information[1]).update("studentsEnrolled", FieldValue.arrayUnion(currentRequest.getSender()));
+                    db.collection(Constant.COURSE_COLLECTION).document(information[1]).update("studentsEnrolled", FieldValue.arrayUnion(currentRequest.getSender()));
                     //add current course to this student
-                    db.collection("students").document(currentRequest.getSender()).update("coursesEnrolled", FieldValue.arrayUnion(information[1]));
+                    db.collection(Constant.STUDENTS_COLLECTION).document(currentRequest.getSender()).update("coursesEnrolled", FieldValue.arrayUnion(information[1]));
                     //remove student from the pending list in current course
-                    db.collection(Constant.COURSE_COLLECTION_TEST).document(information[1]).update("studentsApplied", FieldValue.arrayRemove(currentRequest.getSender()));
+                    db.collection(Constant.COURSE_COLLECTION).document(information[1]).update("studentsApplied", FieldValue.arrayRemove(currentRequest.getSender()));
                     //remove current request
-                    db.collection("requests").document(currentRequestId).delete();
+                    db.collection(Constant.REQUESTS_COLLECTION).document(currentRequestId).delete();
                 }
                 accept.setEnabled(false);
                 deny.setEnabled(false);
@@ -89,9 +90,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 //remove current request
-                db.collection("requests").document(currentRequestId).delete();
+                db.collection(Constant.REQUESTS_COLLECTION).document(currentRequestId).delete();
                 //remove student from the applying list in this course
-                db.collection(Constant.COURSE_COLLECTION_TEST).document(information[1]).update("studentsApplied", FieldValue.arrayRemove(currentRequest.getSender()));
+                db.collection(Constant.COURSE_COLLECTION).document(information[1]).update("studentsApplied", FieldValue.arrayRemove(currentRequest.getSender()));
                 accept.setEnabled(false);
                 deny.setEnabled(false);
             }
