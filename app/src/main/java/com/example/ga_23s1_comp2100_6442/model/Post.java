@@ -10,6 +10,7 @@ public class Post {
     private String description;
     private String userId;
     private Object timeStamp ;
+    private String postId;
 
 
     public Post(String title, String description, String userId) {
@@ -22,6 +23,7 @@ public class Post {
     // make sure to have an empty constructor inside ur model class
     public Post() {
     }
+
 
 
     public String getPostKey() {
@@ -64,5 +66,13 @@ public class Post {
 
     public void setTimeStamp(Object timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }

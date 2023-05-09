@@ -25,26 +25,34 @@ import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.model.Post;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
 public class ForumPage extends AppCompatActivity {
-    Dialog popAddPost ;
-    TextView popupTitle,popupDescription;
+    Post post;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    Dialog popAddPost;
+    TextView popupTitle, popupDescription;
 
     ImageView popupAddBtn;
 
     ProgressBar popupClickProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +60,8 @@ public class ForumPage extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         bottomNavigationHandler();
-
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         iniPopup();
 
@@ -67,14 +76,14 @@ public class ForumPage extends AppCompatActivity {
     }
 
 
-
     private void iniPopup() {
 
         popAddPost = new Dialog(this);
         popAddPost.setContentView(R.layout.popup_add_post);
         popAddPost.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        popAddPost.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,Toolbar.LayoutParams.WRAP_CONTENT);
+        popAddPost.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.WRAP_CONTENT);
         popAddPost.getWindow().getAttributes().gravity = Gravity.TOP;
+
 
         popupTitle = popAddPost.findViewById(R.id.popup_title);
         popupDescription = popAddPost.findViewById(R.id.popup_description);
@@ -87,41 +96,31 @@ public class ForumPage extends AppCompatActivity {
 
                 popupAddBtn.setVisibility(View.INVISIBLE);
                 popupClickProgress.setVisibility(View.VISIBLE);
+                if (!popupTitle.getText().toString().isEmpty()
+                        && !popupDescription.getText().toString().isEmpty()) {
+                    // create post Object
+                    String title = popupTitle.getText().toString();
+                    String description = popupDescription.getText().toString();
+                    post = new Post(title, description, currentUser.getUid());
+                    addPost(post);
+
+                } else {
+                    showMessage("Please verify all input fields");
+                    popupAddBtn.setVisibility(View.VISIBLE);
+                    popupClickProgress.setVisibility(View.INVISIBLE);
+
+                }
             }
         });
-
-        if (!popupTitle.getText().toString().isEmpty()
-                && !popupDescription.getText().toString().isEmpty()) {
-
-
-
-        }
-        else {
-            showMessage("Please verify all input fields and choose Post Image") ;
-            popupAddBtn.setVisibility(View.VISIBLE);
-            popupClickProgress.setVisibility(View.INVISIBLE);
-
-        }
-
-
 
     }
 
     private void addPost(Post post) {
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Posts").push();
-
-        // get post unique ID and upadte post key
-        String key = myRef.getKey();
-        post.setPostKey(key);
-
-
-        // add post data to firebase database
-
-        myRef.setValue(post).addOnSuccessListener(new OnSuccessListener<Void>() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("posts").add(post);
+        db.collection("posts").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(DocumentReference documentReference) {
                 showMessage("Post Added successfully");
                 popupClickProgress.setVisibility(View.INVISIBLE);
                 popupAddBtn.setVisibility(View.VISIBLE);
@@ -130,19 +129,14 @@ public class ForumPage extends AppCompatActivity {
         });
 
 
-
-
-
     }
+
 
     private void showMessage(String message) {
 
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
     }
-
-
-
 
 
     private void bottomNavigationHandler() {
