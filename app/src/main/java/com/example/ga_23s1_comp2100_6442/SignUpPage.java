@@ -16,7 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ga_23s1_comp2100_6442.model.Lecturer;
+import com.example.ga_23s1_comp2100_6442.model.LecturerFactory;
 import com.example.ga_23s1_comp2100_6442.model.Student;
+import com.example.ga_23s1_comp2100_6442.model.StudentFactory;
+import com.example.ga_23s1_comp2100_6442.model.UserFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -97,22 +100,13 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
         UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(nameS).build();
         user.updateProfile(profileChangeRequest);
         if (isLecture) {
-            Lecturer lecturer = new Lecturer(
-                    userNameS,
-                    nameS,
-                    institutionS,
-                    user.getUid()
-            );
-            db.collection("lecturers").document(lecturer.getId()).set(lecturer);
+            UserFactory lecturerFactory = new LecturerFactory();
+            lecturerFactory.signUp(userNameS,nameS,institutionS,user.getUid(),db);
         } else {
-            Student student = new Student(
-                    userNameS,
-                    nameS,
-                    institutionS,
-                    user.getUid()
-            );
-            db.collection("students").document(student.getId()).set(student);
+            UserFactory studentFactory = new StudentFactory();
+            studentFactory.signUp(userNameS,nameS,institutionS,user.getUid(),db);
         }
+
     }
 
     @Override
@@ -134,10 +128,10 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             isLecture = true;
-            System.out.println(isLecture);
+            System.out.println(true);
         } else {
             isLecture = false;
-            System.out.println(isLecture);
+            System.out.println(false);
         }
     }
 }

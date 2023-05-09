@@ -18,10 +18,10 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:visibility="invisible"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
 
     </FrameLayout>
 
@@ -37,14 +37,30 @@
 
     <TextView
         android:id="@+id/courseTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:layout_below="@+id/videoContainer"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
-        />
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/courseTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:id="@+id/courseDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+    </ScrollView>
 </RelativeLayout>

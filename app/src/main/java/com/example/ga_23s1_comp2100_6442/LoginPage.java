@@ -5,15 +5,19 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ga_23s1_comp2100_6442.model.User;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,21 +27,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class LoginPage extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
-
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch sw;
+    boolean isLecture;
     FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-
         if (FirebaseAuth.getInstance().getCurrentUser()!=null){
             startActivity(new Intent(LoginPage.this, HomePage.class));
             finish();
         }
         TextView userName=(TextView) findViewById(R.id.userName);
         TextView password=(TextView) findViewById(R.id.password);
+        sw = findViewById(R.id.switch2);
+        sw.setOnCheckedChangeListener(this);
         MaterialButton loginBtn=(MaterialButton) findViewById(R.id.loginBtn);
         mAuth = FirebaseAuth.getInstance();
 
@@ -70,6 +77,12 @@ public class LoginPage extends AppCompatActivity {
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginPage.this, HomePage.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                            if (isLecture){
+
+                            }else {
+
+                            }
                             startActivity(intent);
 
 
@@ -91,6 +104,18 @@ public class LoginPage extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
+        }
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            isLecture = true;
+            System.out.println(true);
+        } else {
+            isLecture = false;
+            System.out.println(false);
         }
     }
 }

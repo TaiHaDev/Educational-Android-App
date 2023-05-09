@@ -12,6 +12,7 @@ public class CourseUtil {
             Course course = new Course();
             course.setCourseId(documentSnapshot.getId());
             System.out.println(documentSnapshot.getId());
+            course.setTitle((String) documentSnapshot.get("title"));
             course.setAuthor((String) documentSnapshot.get("author"));
             course.setAuthorId((String) documentSnapshot.get("authorId"));
             course.setLink((String) documentSnapshot.get("link"));
