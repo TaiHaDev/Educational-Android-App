@@ -101,7 +101,8 @@ public class HomePage extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                FirebaseUtil.simpleQueryFireStore(query, adapter);
+                //FirebaseUtil.simpleQueryFireStore(query, adapter);
+                FirebaseUtil.QueryFireStore(query, adapter);
                 return false;
             }
 
