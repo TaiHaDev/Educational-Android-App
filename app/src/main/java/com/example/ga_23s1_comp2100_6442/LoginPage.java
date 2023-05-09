@@ -103,6 +103,7 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                                 });
 
                             }else {
+                                //maybe move to home page
                                 Constant.setUserNameAfterLogin(user.getUid());
                                 db.collection("students").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override

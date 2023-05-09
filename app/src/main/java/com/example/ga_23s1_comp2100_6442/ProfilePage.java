@@ -21,30 +21,42 @@ import org.w3c.dom.Text;
 
 public class ProfilePage extends AppCompatActivity {
     MyDataActivity Send_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_page);
+        Send_data = (MyDataActivity) getApplicationContext();
+        if (!Send_data.getUser().getIsLecturer()) {
+            setContentView(R.layout.activity_profile_page);
+        } else {
+            setContentView(R.layout.activity_lecturer_profile_page);
+        }
+
         bottomNavigationHandler();
-        MaterialButton logOutBtn=(MaterialButton) findViewById(R.id.logOutBtn);
+        MaterialButton logOutBtn = (MaterialButton) findViewById(R.id.logOutBtn);
         TextView myFollowers = findViewById(R.id.followers);
         TextView myFollowing = findViewById(R.id.following);
         TextView requests = findViewById(R.id.requests);
         TextView myCourses = findViewById(R.id.enrolledCourse);
-        Send_data= (MyDataActivity)getApplicationContext();
-        System.out.println(Send_data.getUser().getName());
-        myFollowers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        TextView myUsername = findViewById(R.id.my_username);
+        myUsername.setText(Send_data.getUser().getUserName());
+
+        if (myFollowers != null) {
+            myFollowers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     startActivity(new Intent(ProfilePage.this, MyFollowersPage.class));
-            }
-        });
-        myFollowing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ProfilePage.this, MyFollowingPage.class));
-            }
-        });
+                }
+            });
+        }
+        if (myFollowing != null) {
+            myFollowing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(ProfilePage.this, MyFollowingPage.class));
+                }
+            });
+        }
         requests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,11 +73,11 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null){
+                if (user != null) {
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(ProfilePage.this, LoginPage.class));
-                    Toast.makeText(ProfilePage.this, user.getEmail()+ " Sign out!", Toast.LENGTH_SHORT).show();
-                }else{
+                    Toast.makeText(ProfilePage.this, user.getEmail() + " Sign out!", Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(ProfilePage.this, "You aren't login Yet!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -90,7 +102,7 @@ public class ProfilePage extends AppCompatActivity {
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
-            System.out.println(name+" "+email+"  "+photoUrl+"  "+uid);
+            System.out.println(name + " " + email + "  " + photoUrl + "  " + uid);
         }
     }
 
