@@ -43,6 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 public class ForumPage extends AppCompatActivity {
+    PostAdapter adapter;
     Post post;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
