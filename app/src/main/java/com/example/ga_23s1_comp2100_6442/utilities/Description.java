@@ -1,3 +1,4 @@
+/**
 import java.util.*;
 import java.io.*;
 
@@ -70,7 +71,7 @@ public class Description {
             bw.write(Arrays.toString(descrip_term));
             bw.newLine();
              */
-        }
+/**}
         bw.close();
         String[] description = descripts.stream().toArray(String[]::new);
         // System.out.println(Arrays.toString(description));
@@ -89,3 +90,4 @@ public class Description {
 
     }
 }
+**/
