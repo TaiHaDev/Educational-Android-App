@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LecturerFactory extends UserFactory {
     @Override
-    protected User createUser(String userName, String name, String institution, String userId) {
+    public User createUser(String userName, String name, String institution, String userId) {
         return new Lecturer(userName, name, institution, userId);
     }
 

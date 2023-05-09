@@ -11,11 +11,11 @@ public class MyDataActivity extends Application {
 
     private static User user;
 
-    public static User getUser() {
+    public User getUser() {
         return user;
     }
 
-    public static void setUser(User user) {
+    public void setUser(User user) {
         MyDataActivity.user = user;
     }
 }

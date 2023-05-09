@@ -51,7 +51,6 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 //        loadRecentlySearch();
         adapter = new CourseAdapter(sharedPref);
-
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
             startActivity(new Intent(HomePage.this, LoginPage.class));
             finish();
