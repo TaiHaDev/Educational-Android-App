@@ -47,6 +47,7 @@ import io.grpc.internal.JsonUtil;
 public class playVideo extends AppCompatActivity {
     private VideoView mainVideoView;
     private TextView courseTitle;
+    private TextView courseDescription;
     private Button enrollButton;
     private MediaController mediaController;
     private ProgressBar currentProgress;
@@ -70,6 +71,7 @@ public class playVideo extends AppCompatActivity {
         mainVideoView = (VideoView) findViewById(R.id.videoView);
         currentProgress = (ProgressBar) findViewById(R.id.progressBar);
         courseTitle = findViewById(R.id.courseTitle);
+        courseDescription=findViewById(R.id.courseDescription);
         enrollButton = findViewById(R.id.enrollButton);
         title = findViewById(R.id.courseTitle);
         //get current auth
@@ -116,6 +118,7 @@ public class playVideo extends AppCompatActivity {
                 currentCourse = documentSnapshot.toObject(Course.class);
                 assert currentCourse != null;
                 courseTitle.setText(currentCourse.getTitle());
+                courseDescription.setText(currentCourse.getDescription());
                 //create firebase object
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 // Create a storage reference from our app
@@ -193,13 +196,12 @@ public class playVideo extends AppCompatActivity {
                             //add new request to request collection
                             db.collection(Constant.REQUESTS_COLLECTION).add(r);
                             //add current student to pending list
-                            db.collection(Constant.COURSE_COLLECTION).document(currentCourse.getCourseId()).update("studentsApplied", FieldValue.arrayUnion(currentUser.getUid()));
+                            db.collection(Constant.COURSE_COLLECTION).document(id).update("studentsApplied", FieldValue.arrayUnion(currentUser.getUid()));
                             enrollButton.setText("pending");
                         }
                         enrollButton.setEnabled(false);
                     }
                 });
-
             }
         });
     }
