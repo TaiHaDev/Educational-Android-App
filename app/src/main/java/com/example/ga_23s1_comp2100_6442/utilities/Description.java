@@ -1,5 +1,3 @@
-package com.example.ga_23s1_comp2100_6442.utilities;
-
 import java.util.*;
 import java.io.*;
 
@@ -7,9 +5,9 @@ import com.opencsv.CSVReader;
 
 public class Description {
     public static void main(String[] args) throws IOException {
-        String file_input = "app/src/main/java/com/example/ga_23s1_comp2100_6442/utilities/crawl.csv";
-        String file_output = "app/src/main/java/com/example/ga_23s1_comp2100_6442/utilities/description.csv";
-        String stop_words = "app/src/main/java/com/example/ga_23s1_comp2100_6442/utilities/english_stopwords";
+        String file_input = "D:\\eclipse-workspace\\Crawl1\\src\\main\\output\\crawl.csv";
+        String file_output = "D:\\eclipse-workspace\\Crawl1\\src\\main\\output\\description.csv";
+        String stop_words = "D:\\eclipse-workspace\\Crawl1\\src\\main\\java\\english_stopwords";
         final String regEx = "[\n`~!@#$%^&*()+=|{}':;'\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
 
         CSVReader reader;
@@ -68,8 +66,10 @@ public class Description {
             }
             String[] descrip_term = terms.stream().toArray(String[]::new);
             // System.out.println(Arrays.toString(search_term));
+            /*
             bw.write(Arrays.toString(descrip_term));
             bw.newLine();
+             */
         }
         bw.close();
         String[] description = descripts.stream().toArray(String[]::new);
@@ -77,16 +77,15 @@ public class Description {
         System.out.println(description.length);
         System.out.println(des_map.size());
         Set<Map.Entry<String, Integer>>  entrySet  = des_map.entrySet();
-        int count = 0;
+
+
         for (Map.Entry<String, Integer> eset : entrySet){
             String key = eset.getKey();
             int value = eset.getValue();
-            if(value >= 520 && value <= 580){
+            if(value > 400 && value < 600){
                 System.out.print(key+" "+value+ "\n");
-                count++;
             }
         }
-        System.out.println(count);
 
     }
 }
