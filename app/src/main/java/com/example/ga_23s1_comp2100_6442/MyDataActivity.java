@@ -45,6 +45,8 @@ public class MyDataActivity extends Application {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             user = document.toObject(Student.class);
+                            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            System.out.println(user.getIsLecturer());
                         }
                     }
                 }
@@ -56,10 +58,13 @@ public class MyDataActivity extends Application {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             user = document.toObject(Lecturer.class);
+                            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            System.out.println(user.getIsLecturer());
                         }
                     }
                 }
             });
         }
     }
+
 }

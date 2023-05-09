@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import org.w3c.dom.Text;
 
 public class ProfilePage extends AppCompatActivity {
-
+    MyDataActivity Send_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +31,8 @@ public class ProfilePage extends AppCompatActivity {
         TextView myFollowing = findViewById(R.id.following);
         TextView requests = findViewById(R.id.requests);
         TextView myCourses = findViewById(R.id.enrolledCourse);
+        Send_data= (MyDataActivity)getApplicationContext();
+        System.out.println(Send_data.getUser().getName());
         myFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

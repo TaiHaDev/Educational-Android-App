@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ga_23s1_comp2100_6442.model.Lecturer;
+import com.example.ga_23s1_comp2100_6442.model.Student;
 import com.example.ga_23s1_comp2100_6442.model.StudentFactory;
 import com.example.ga_23s1_comp2100_6442.model.User;
 import com.example.ga_23s1_comp2100_6442.model.UserFactory;
@@ -83,15 +84,41 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginPage.this, HomePage.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                            while (user == null) {
+                                user = mAuth.getCurrentUser();
+                            }
                             if (isLecture){
-                                startActivity(intent);
+                                db.collection("lecturers").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                User user = document.toObject(Lecturer.class);
+                                                Send_data.setUser(user);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                });
+
                             }else {
                                 Constant.setUserNameAfterLogin(user.getUid());
-                                startActivity(intent);
+                                db.collection("students").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                User user = document.toObject(Student.class);
+                                                Send_data.setUser(user);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                });
+
                             }
-
-
 
 //                            updateUI(user);
                         } else {
