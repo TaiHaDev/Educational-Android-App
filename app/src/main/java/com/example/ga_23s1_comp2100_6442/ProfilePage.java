@@ -112,6 +112,11 @@ public class ProfilePage extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.forumsMenu) {
+                    Intent intent = new Intent(getApplicationContext(), ForumPage.class);
+                    startActivity(intent);
+                    return true;
+                }
                 if (item.getItemId() == R.id.coursesMenu) {
                     Intent intent = new Intent(getApplicationContext(), HomePage.class);
                     startActivity(intent);
