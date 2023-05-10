@@ -121,6 +121,7 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
 
                             }
 
+
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

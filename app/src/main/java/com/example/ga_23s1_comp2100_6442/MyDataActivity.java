@@ -51,6 +51,7 @@ public class MyDataActivity extends Application {
                     }
                 }
             });
+
             db.collection("lecturers").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
