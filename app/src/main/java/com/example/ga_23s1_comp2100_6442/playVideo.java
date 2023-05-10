@@ -124,7 +124,7 @@ public class playVideo extends AppCompatActivity {
                 // Create a storage reference from our app
                 //check enrolled student list
                 String link;
-                if (currentCourse.getIsPublic()) {
+                if (currentCourse.isPublic()) {
                     link = currentCourse.getLink();
                     if (currentCourse.getStudentsEnrolled()!=null&&currentCourse.getStudentsEnrolled().contains(currentUser.getUid())) {
                         enrollButton.setText("enrolled");
@@ -184,7 +184,7 @@ public class playVideo extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Student student = documentSnapshot.toObject(Student.class);
                         assert student != null;
-                        if (currentCourse.getIsPublic()) {
+                        if (currentCourse.isPublic()) {
                             //add student studentsEnrolled in current course
                             db.collection(Constant.COURSE_COLLECTION).document(id).update("studentsEnrolled", FieldValue.arrayUnion(currentUser.getUid()));
                             //add current course to this student
