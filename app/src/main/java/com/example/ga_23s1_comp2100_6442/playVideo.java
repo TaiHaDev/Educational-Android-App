@@ -140,7 +140,7 @@ public class playVideo extends AppCompatActivity {
                 } else {
                     enrollButton.setText("enroll");
                     enrollButton.setEnabled(true);
-                    link = "gs://comp2100-comp6442-assignment.appspot.com/ocean.mp4";
+                    link = "gs://comp2100-comp6442-assignment.appspot.com/Please Enroll to view the Course.mp4";
                 }
                 if (currentCourse.getStudentsApplied()!=null&&currentCourse.getStudentsApplied().contains(currentUser.getUid())) {
                     enrollButton.setText("pending");
