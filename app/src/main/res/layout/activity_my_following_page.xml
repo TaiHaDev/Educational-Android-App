@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/myFollowing"
-        android:textSize="20dp"
-        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="My Following"
+        android:text="@string/my_following"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,6 @@
         android:text="" />
 
     <Button
-        android:text="Follow request"
         android:id="@+id/followButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,13 +42,21 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="5dp"
-        android:layout_toEndOf="@+id/followInput" />
-    <ListView
-        android:id="@+id/listFollowing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/followInput"
-        android:layout_marginTop="10dp"/>
+        android:layout_toEndOf="@+id/followInput"
+        android:text="@string/follow_request" />
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/followInput">
+
+        <ListView
+            android:id="@+id/listFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/followInput"
+            android:layout_marginTop="10dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

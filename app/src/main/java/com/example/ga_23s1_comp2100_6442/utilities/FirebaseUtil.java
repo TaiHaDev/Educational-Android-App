@@ -91,10 +91,9 @@ public class FirebaseUtil {
                                 assert student != null;
                                 List<String> coursesEnrolled = student.getCoursesEnrolled();
                                 assert coursesEnrolled != null;
-                                if (coursesEnrolled != null) {
                                 for (String courseId : coursesEnrolled) {
                                     getCourseFromId(courseId, adapter);
-                                }}
+                                }
                             }
                         });
                     }

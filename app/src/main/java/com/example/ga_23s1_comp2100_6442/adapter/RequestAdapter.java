@@ -1,5 +1,6 @@
 package com.example.ga_23s1_comp2100_6442.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     List<String> requestIds;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public void setRequests(List<Request> requests,List<String> ids) {
+    @SuppressLint("NotifyDataSetChanged")
+    public void setRequests(List<Request> requests, List<String> ids) {
         this.requests = requests;
         this.requestIds=ids;
         notifyDataSetChanged();

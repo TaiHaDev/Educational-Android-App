@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class MyFollowersPage extends AppCompatActivity {
     FirebaseUser user;
     ArrayAdapter adapter;
     TextView refresh;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -42,6 +44,7 @@ public class MyFollowersPage extends AppCompatActivity {
         listView = findViewById(R.id.listFollowers);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, followersNames);
         listView.setAdapter(adapter);
         fetchFollowers();
@@ -49,6 +52,13 @@ public class MyFollowersPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fetchFollowers();
+            }
+        });
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchFollowers();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }

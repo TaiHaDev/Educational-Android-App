@@ -1,5 +1,6 @@
 package com.example.ga_23s1_comp2100_6442.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -38,10 +39,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
     public CourseAdapter() {}
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(List<Course> data) {
         this.data = data;
         notifyDataSetChanged();
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void updateData(Course course) {
        if (this.data==null){
            data=new ArrayList<>();

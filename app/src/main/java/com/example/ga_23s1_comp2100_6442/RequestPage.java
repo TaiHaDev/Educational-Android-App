@@ -3,6 +3,7 @@ package com.example.ga_23s1_comp2100_6442;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class RequestPage extends AppCompatActivity {
     RequestAdapter adapter;
     RecyclerView recyclerView;
     TextView refresh;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     FirebaseFirestore db;
 
     @Override
@@ -36,6 +38,7 @@ public class RequestPage extends AppCompatActivity {
         setContentView(R.layout.activity_request_page);
         recyclerView = findViewById(R.id.requests_list);
         refresh = findViewById(R.id.myRequest);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(RequestPage.this, LoginPage.class));
             finish();
@@ -54,6 +57,13 @@ public class RequestPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fetchAndDisplayRequests();
+            }
+        });
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchAndDisplayRequests();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }

@@ -4,7 +4,9 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +43,7 @@ public class MyFollowingPage extends AppCompatActivity {
     String receiverName;
     String receiverId;
     Button followButton;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -54,6 +57,7 @@ public class MyFollowingPage extends AppCompatActivity {
         followInput = findViewById(R.id.followInput);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, followingNames);
         listView.setAdapter(adapter);
         fetchFollowing();
@@ -93,6 +97,13 @@ public class MyFollowingPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fetchFollowing();
+            }
+        });
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchFollowing();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
