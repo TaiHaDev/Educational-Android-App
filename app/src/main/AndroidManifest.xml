@@ -52,6 +52,9 @@
             android:name=".playVideo"
             android:exported="true" />
         <activity
+            android:name=".PostDetails"
+            android:exported="true" />
+        <activity
             android:name=".ForumPage"
             android:exported="true" />
         <activity

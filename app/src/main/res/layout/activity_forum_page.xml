@@ -27,7 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_create_black_24dp" />
+        android:src="@drawable/ic_create_black_24dp"
+        app:backgroundTint="#3F51B5"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

@@ -1,7 +1,6 @@
 package com.example.ga_23s1_comp2100_6442.adapter;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ga_23s1_comp2100_6442.MyDataActivity;
+import com.example.ga_23s1_comp2100_6442.PostDetails;
 import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.Post;
 import com.example.ga_23s1_comp2100_6442.playVideo;
@@ -54,6 +54,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         postDescriptionTextView.setText(currentPost.getDescription());
         TextView postTimeStampTextView = holder.rootView.findViewById(R.id.row_post_timestamp);
         postTimeStampTextView.setText((currentPost.getTimeStamp()).toString());
+        setEventHandlerForHolder(holder, currentPost);
 
     }
 
@@ -68,9 +69,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             this.rootView = rootView;
         }
     }
+
+    /**
+     *
+     * @param holder
+     * @param currentPost
+     */
     private void setEventHandlerForHolder(ViewHolder holder, Post currentPost) {
         holder.rootView.setOnClickListener(event -> {
-            Intent intent = new Intent(holder.rootView.getContext(), playVideo.class);
+            Intent intent = new Intent(holder.rootView.getContext(), PostDetails.class);
             intent.putExtra("pid", currentPost.getPostId());
             holder.rootView.getContext().startActivity(intent);
         });

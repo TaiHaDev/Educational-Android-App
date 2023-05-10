@@ -44,6 +44,7 @@ public class ForumPage extends AppCompatActivity {
 
     private PostAdapter postAdapter;
     ImageView popupAddBtn;
+    ImageView detailBtn;
 
     ProgressBar popupClickProgress;
 
@@ -68,6 +69,9 @@ public class ForumPage extends AppCompatActivity {
                 popAddPost.show();
             }
         });
+
+        ImageView detailBtn=findViewById(R.id.row_arrow);
+
 
     }
 
@@ -130,6 +134,8 @@ public class ForumPage extends AppCompatActivity {
 
 
     }
+
+
 
 
     private void showMessage(String message) {
