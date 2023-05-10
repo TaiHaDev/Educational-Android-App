@@ -19,7 +19,8 @@ public class CourseUtil {
             course.setThumbnail((String) documentSnapshot.get("thumbnail"));
             course.setStudentsApplied((List<String>) documentSnapshot.get("studentsApplied"));
             course.setStudentsEnrolled((List<String>) documentSnapshot.get("studentsEnrolled"));
-            course.setPublic((boolean) documentSnapshot.get("isPublic"));
+            if (documentSnapshot.get("isPublic")!=null){
+            course.setPublic((boolean) documentSnapshot.get("isPublic"));}
             course.setDescription((String) documentSnapshot.get("description"));
             course.setFilters((List<String>) documentSnapshot.get("filters"));
             course.setSearchTerm((List<String>) documentSnapshot.get("searchTerm"));

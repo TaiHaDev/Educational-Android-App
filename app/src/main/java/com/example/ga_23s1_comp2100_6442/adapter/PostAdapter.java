@@ -1,4 +1,6 @@
-package com.example.ga_23s1_comp2100_6442;
+package com.example.ga_23s1_comp2100_6442.adapter;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,11 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ga_23s1_comp2100_6442.MyDataActivity;
+import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.Post;
+import com.example.ga_23s1_comp2100_6442.playVideo;
+import com.google.firebase.Timestamp;
 
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
+
+
 
 
 
@@ -29,7 +37,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     @NonNull
     @Override
     public PostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardView view = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.course_view, parent, false);
+        CardView view = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.row_post_item, parent, false);
         return  new PostAdapter.ViewHolder(view);
     }
 
@@ -38,12 +46,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
         Post currentPost = data.get(position);
-        TextView courseNameTextView = holder.rootView.findViewById(R.id.course_name);
-        courseNameTextView.setText(currentPost.getTitle());
-        TextView courseAuthorTextView = holder.rootView.findViewById(R.id.course_author);
-        courseAuthorTextView.setText(currentPost.getDescription());
-        ImageView courseThumbnailImageView = holder.rootView.findViewById(R.id.course_image);
-        setEventHandlerForHolder(holder, currentPost);
+        TextView postTitleTextView = holder.rootView.findViewById(R.id.row_post_title);
+        postTitleTextView.setText(currentPost.getTitle());
+        TextView postAuthorTextView = holder.rootView.findViewById(R.id.row_post_author);
+        postAuthorTextView.setText(currentPost.getUserName());
+        TextView postDescriptionTextView = holder.rootView.findViewById(R.id.row_post_description);
+        postDescriptionTextView.setText(currentPost.getDescription());
+        TextView postTimeStampTextView = holder.rootView.findViewById(R.id.row_post_timestamp);
+        postTimeStampTextView.setText((currentPost.getTimeStamp()).toString());
+
     }
 
     @Override
@@ -60,7 +71,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     private void setEventHandlerForHolder(ViewHolder holder, Post currentPost) {
         holder.rootView.setOnClickListener(event -> {
             Intent intent = new Intent(holder.rootView.getContext(), playVideo.class);
-            intent.putExtra("vn", currentPost.getPostId());
+            intent.putExtra("pid", currentPost.getPostId());
             holder.rootView.getContext().startActivity(intent);
         });
     }

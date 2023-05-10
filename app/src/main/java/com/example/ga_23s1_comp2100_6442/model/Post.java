@@ -6,21 +6,31 @@ public class Post {
 
     private String title;
     private String description;
+    private String userName;
+
     private String userId;
     private Object timeStamp ;
     private String postId;
 
 
-    public Post(String title, String description, String userId) {
+    public Post(String title, String description, String userName,String userId) {
         this.title = title;
         this.description = description;
-        this.userId = userId;
+        this.userName = userName;
         this.timeStamp = ServerValue.TIMESTAMP;
     }
 
     // make sure to have an empty constructor inside ur model class
     public Post() {
     }
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 
 
     public String getTitle() {

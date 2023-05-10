@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,38 +15,34 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ga_23s1_comp2100_6442.model.Course;
+import com.example.ga_23s1_comp2100_6442.adapter.PostAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Post;
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.example.ga_23s1_comp2100_6442.ultilities.PostUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForumPage extends AppCompatActivity {
-    PostAdapter adapter;
+    MyDataActivity Send_data;
     Post post;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     Dialog popAddPost;
     TextView popupTitle, popupDescription;
 
+    private PostAdapter postAdapter;
     ImageView popupAddBtn;
 
     ProgressBar popupClickProgress;
@@ -62,6 +56,8 @@ public class ForumPage extends AppCompatActivity {
         bottomNavigationHandler();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        postAdapter = new PostAdapter();
+        fetchAndDisplayPosts();
 
         iniPopup();
 
@@ -101,9 +97,13 @@ public class ForumPage extends AppCompatActivity {
                     // create post Object
                     String title = popupTitle.getText().toString();
                     String description = popupDescription.getText().toString();
-                    post = new Post(title, description, currentUser.getUid());
+                    Send_data = (MyDataActivity) getApplicationContext();
+                    String authorName = Send_data.getUser().getName();
+                    String userId = Send_data.getUser().getId();
+                    post = new Post(title, description, authorName, userId);
                     addPost(post);
-
+                    popupTitle.setText("");
+                    popupDescription.setText("");
                 } else {
                     showMessage("Please verify all input fields");
                     popupAddBtn.setVisibility(View.VISIBLE);
@@ -117,7 +117,7 @@ public class ForumPage extends AppCompatActivity {
 
     private void addPost(Post post) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("posts").add(post);
+//        db.collection("posts").add(post);
         db.collection("posts").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -135,6 +135,21 @@ public class ForumPage extends AppCompatActivity {
     private void showMessage(String message) {
 
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+    }
+
+    public void fetchAndDisplayPosts(){
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("posts").limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<Post> fireBaseData = new ArrayList<>();
+                PostUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,fireBaseData);
+                postAdapter.setData(fireBaseData);
+                RecyclerView recyclerView = findViewById(R.id.posts_list);
+                recyclerView.setAdapter(postAdapter);
+            }
+        });
 
     }
 
@@ -160,4 +175,6 @@ public class ForumPage extends AppCompatActivity {
             }
         });
     }
+
+
 }
