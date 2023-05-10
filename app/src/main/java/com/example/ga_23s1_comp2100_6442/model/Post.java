@@ -11,6 +11,7 @@ public class Post {
     private String userId;
     private Object timeStamp ;
     private String postId;
+    private boolean visibility;
 
 
     public Post(String title, String description, String userName,String userId) {
@@ -18,6 +19,7 @@ public class Post {
         this.description = description;
         this.userName = userName;
         this.timeStamp = ServerValue.TIMESTAMP;
+        this.visibility=true;
     }
 
     // make sure to have an empty constructor inside ur model class
@@ -73,5 +75,13 @@ public class Post {
 
     public void setPostId(String postId) {
         this.postId = postId;
+    }
+
+    public boolean isVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
     }
 }

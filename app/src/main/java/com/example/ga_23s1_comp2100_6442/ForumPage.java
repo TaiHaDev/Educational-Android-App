@@ -83,8 +83,6 @@ public class ForumPage extends AppCompatActivity {
         popAddPost.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popAddPost.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.WRAP_CONTENT);
         popAddPost.getWindow().getAttributes().gravity = Gravity.TOP;
-
-
         popupTitle = popAddPost.findViewById(R.id.popup_title);
         popupDescription = popAddPost.findViewById(R.id.popup_description);
         popupAddBtn = popAddPost.findViewById(R.id.popup_add);

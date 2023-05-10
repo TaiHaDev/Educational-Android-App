@@ -15,4 +15,5 @@
     <string name="textview">TextView</string>
     <string name="follow">Follow</string>
     <string name="lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit_rum_eiusmod_tempor_incididunt_ut_labore_et_dolore_magna_aliqua">Lorem ipsum dolor sit amet, consectetur adipiscing elit,rum eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
+    <string name="block">Block</string>
 </resources>
