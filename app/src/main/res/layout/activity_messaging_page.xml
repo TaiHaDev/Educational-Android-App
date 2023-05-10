@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MessagingPage">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/message_page_toolbar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/message_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:stackFromEnd="true"/>
+    <LinearLayout
+        android:id="@+id/message_chat_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/addMessageImageView"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_image_message" />
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="Your Message"/>
+        <ImageView
+            android:id="@+id/sendButton"
+            android:layout_width="50dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:enabled="false"
+            android:src="@drawable/ic_send_message" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/blocking_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/sender_message_background"
+        android:paddingVertical="10dp"
+        android:text="@string/blocking_message"
+        android:visibility="gone"
+        />
+
+
+
+
+</LinearLayout>

@@ -27,6 +27,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -52,4 +55,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
     implementation 'com.google.firebase:firebase-database'
+    implementation 'com.firebaseui:firebase-ui-database:4.3.2'
+
+
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.1'
+
+
+    implementation 'com.opencsv:opencsv:4.6'
+
 }

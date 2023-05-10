@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,6 +16,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -24,6 +27,34 @@ public class ProfilePage extends AppCompatActivity {
         setContentView(R.layout.activity_profile_page);
         bottomNavigationHandler();
         MaterialButton logOutBtn=(MaterialButton) findViewById(R.id.logOutBtn);
+        TextView myFollowers = findViewById(R.id.followers);
+        TextView myFollowing = findViewById(R.id.following);
+        TextView requests = findViewById(R.id.requests);
+        TextView myCourses = findViewById(R.id.enrolledCourse);
+        myFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    startActivity(new Intent(ProfilePage.this, MyFollowersPage.class));
+            }
+        });
+        myFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfilePage.this, MyFollowingPage.class));
+            }
+        });
+        requests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfilePage.this, RequestPage.class));
+            }
+        });
+        myCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfilePage.this, MyCoursesPage.class));
+            }
+        });
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

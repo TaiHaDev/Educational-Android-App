@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfilePage"
-    >
+    tools:context=".ProfilePage">
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,5 +36,61 @@
         android:layout_marginBottom="89dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="Log Out" />
+
+    <TextView
+        android:id="@+id/requests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/logOutBtn"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="100dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="Requests"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/followers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/requests"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="My Followers"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/following"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/followers"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="My Following"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/enrolledCourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/following"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="My Courses"
+        android:textSize="20dp" />
 
 </RelativeLayout>

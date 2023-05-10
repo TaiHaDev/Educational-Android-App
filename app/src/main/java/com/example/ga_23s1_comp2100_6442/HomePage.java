@@ -1,53 +1,61 @@
 package com.example.ga_23s1_comp2100_6442;
 
+import static com.example.ga_23s1_comp2100_6442.utilities.UploadingDataJob.readingDataFromCSV;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
 
+import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
-import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
-import com.example.ga_23s1_comp2100_6442.ultilities.FirebaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.ga_23s1_comp2100_6442.model.DatabaseUser;
+import com.example.ga_23s1_comp2100_6442.storage.AVLTree;
+import com.example.ga_23s1_comp2100_6442.utilities.Constant;
+
+import com.example.ga_23s1_comp2100_6442.utilities.CourseUtil;
+import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class HomePage extends AppCompatActivity {
-    CourseAdapter adapter;
+    private CourseAdapter adapter;
+    public static AVLTree historySearchTree;
+    private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+//        loadRecentlySearch();
+        adapter = new CourseAdapter(sharedPref);
 
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
             startActivity(new Intent(HomePage.this, LoginPage.class));
             finish();
         }
-        adapter = new CourseAdapter();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         bottomNavigationHandler();
@@ -77,10 +85,11 @@ public class HomePage extends AppCompatActivity {
     }
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION_TEST).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fb.collection(Constant.COURSE_COLLECTION).limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<Course> fireBaseData = queryDocumentSnapshots.toObjects(Course.class);
+                List<Course> fireBaseData = new ArrayList<>();
+                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,fireBaseData);
                 adapter.setData(fireBaseData);
                 RecyclerView recyclerView = findViewById(R.id.courses_list);
                 recyclerView.setAdapter(adapter);
@@ -103,9 +112,38 @@ public class HomePage extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 return false;
             }
         });
+        // messaging icon behaviour
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.start_chatting) {
+            Intent intent = new Intent(this, ChatListingPage.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * load the search history tree from shared preferences
+     * @author: Tai Ha
+     */
+
+    public void loadRecentlySearch() {
+        if (historySearchTree != null) return;
+        Gson gson = new Gson();
+        sharedPref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+        String jsonString = sharedPref.getString("historySearchTree", null);
+        historySearchTree = gson.fromJson(jsonString, AVLTree.class);
+        if (historySearchTree == null) historySearchTree = new AVLTree();
+        historySearchTree.inOrderTraversal();
+    }
+
+
+
 }

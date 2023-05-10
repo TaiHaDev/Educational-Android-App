@@ -32,7 +32,7 @@ public class Lecturer extends User {
     public void addStudentToCourse(String studentId, String courseId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference studentRef = db.collection(Constant.STUDENTS_COLLECTION).document(studentId);
-        DocumentReference courseRef = db.collection(Constant.COURSE_COLLECTION_TEST).document(courseId);
+        DocumentReference courseRef = db.collection(Constant.COURSE_COLLECTION).document(courseId);
         studentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -50,7 +50,7 @@ public class Lecturer extends User {
     public void deleteStudentFromCourse(String studentId, String courseId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference studentRef = db.collection(Constant.STUDENTS_COLLECTION).document(studentId);
-        DocumentReference courseRef = db.collection(Constant.COURSE_COLLECTION_TEST).document(courseId);
+        DocumentReference courseRef = db.collection(Constant.COURSE_COLLECTION).document(courseId);
         studentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

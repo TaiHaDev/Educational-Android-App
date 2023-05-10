@@ -16,12 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ga_23s1_comp2100_6442.model.Lecturer;
+import com.example.ga_23s1_comp2100_6442.model.LecturerFactory;
 import com.example.ga_23s1_comp2100_6442.model.Student;
+import com.example.ga_23s1_comp2100_6442.model.StudentFactory;
+import com.example.ga_23s1_comp2100_6442.model.UserFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
@@ -43,7 +47,6 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_page);
-
         userName = (TextView) findViewById(R.id.newUserName);
         name = (TextView) findViewById(R.id.name);
         institution = (TextView) findViewById(R.id.institution);
@@ -94,23 +97,17 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
         while (user == null) {
             user = auth.getCurrentUser();
         }
+        //set name in authentication
+        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(nameS).build();
+        user.updateProfile(profileChangeRequest);
         if (isLecture) {
-            Lecturer lecturer = new Lecturer(
-                    userNameS,
-                    nameS,
-                    institutionS,
-                    user.getUid()
-            );
-            db.collection("lecturers").document(lecturer.getId()).set(lecturer);
+            UserFactory lecturerFactory = new LecturerFactory();
+            lecturerFactory.signUp(userNameS,nameS,institutionS,user.getUid(),db);
         } else {
-            Student student = new Student(
-                    userNameS,
-                    nameS,
-                    institutionS,
-                    user.getUid()
-            );
-            db.collection("students").document(student.getId()).set(student);
+            UserFactory studentFactory = new StudentFactory();
+            studentFactory.signUp(userNameS,nameS,institutionS,user.getUid(),db);
         }
+
     }
 
     @Override
@@ -132,10 +129,10 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             isLecture = true;
-            System.out.println(isLecture);
+            System.out.println(true);
         } else {
             isLecture = false;
-            System.out.println(isLecture);
+            System.out.println(false);
         }
     }
 }
