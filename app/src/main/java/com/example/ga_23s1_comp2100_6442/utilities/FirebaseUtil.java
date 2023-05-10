@@ -8,9 +8,12 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.RequestManager;
 import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
+import com.example.ga_23s1_comp2100_6442.model.Lecturer;
 import com.example.ga_23s1_comp2100_6442.model.Student;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -35,6 +38,7 @@ public class FirebaseUtil {
             }
         });
     }
+
     public static void simpleQueryFireStore(String term, CourseAdapter adapter) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(Constant.COURSE_COLLECTION_TEST)
@@ -44,7 +48,7 @@ public class FirebaseUtil {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         List<Course> courses = new ArrayList<>();
-                        CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,courses);
+                        CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots, courses);
                         System.out.println(":" + courses);
                         adapter.setData(courses);
                     }
@@ -62,32 +66,55 @@ public class FirebaseUtil {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;
-        DocumentReference docRef = db.collection("students").document(currentUser.getUid());
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        DocumentReference docRefLec = db.collection("lecturers").document(currentUser.getUid());
+        DocumentReference docRefStu = db.collection("students").document(currentUser.getUid());
+        docRefLec.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Student student = documentSnapshot.toObject(Student.class);
-                assert student != null;
-                List<String> coursesEnrolled = student.getCoursesEnrolled();
-                for (String courseId : coursesEnrolled){
-                    getCourseFromId(courseId,adapter);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                //if the current user is a lecturer
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Lecturer lecturer = document.toObject(Lecturer.class);
+                        assert lecturer != null;
+                        List<String> coursesEnrolled = lecturer.getCourses();
+                        if (coursesEnrolled != null) {
+                            for (String courseId : coursesEnrolled) {
+                                getCourseFromId(courseId, adapter);
+                            }
+                        }
+                    } else { //the current user is a student
+                        docRefStu.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Student student = documentSnapshot.toObject(Student.class);
+                                assert student != null;
+                                List<String> coursesEnrolled = student.getCoursesEnrolled();
+                                assert coursesEnrolled != null;
+                                if (coursesEnrolled != null) {
+                                for (String courseId : coursesEnrolled) {
+                                    getCourseFromId(courseId, adapter);
+                                }}
+                            }
+                        });
+                    }
                 }
             }
         });
     }
 
-    public static void getCourseFromId(String courseId,CourseAdapter adapter) {
+
+    public static void getCourseFromId(String courseId, CourseAdapter adapter) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(Constant.COURSE_COLLECTION).document(courseId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Course course= documentSnapshot.toObject(Course.class);
+                Course course = documentSnapshot.toObject(Course.class);
                 course.setCourseId(documentSnapshot.getId());
                 adapter.updateData(course);
             }
         });
     }
-
 
 
 }

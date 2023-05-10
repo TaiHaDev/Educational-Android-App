@@ -16,6 +16,7 @@ public class Student extends User {
         super(userName, name, institution, id);
         coursesEnrolled = new ArrayList<>();
         waitingList = new ArrayList<>();
+        isLecturer=false;
     }
 
 

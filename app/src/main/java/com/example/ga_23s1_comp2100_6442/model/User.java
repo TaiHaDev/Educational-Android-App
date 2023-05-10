@@ -102,3 +102,4 @@ public abstract class User {
         isLecturer = lecturer;
     }
 }
+

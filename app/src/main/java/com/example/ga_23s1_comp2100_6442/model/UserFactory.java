@@ -9,7 +9,7 @@ public abstract class UserFactory {
         return user;
     }
 
-    protected abstract User createUser(String userName, String name, String institution, String userId);
+    public abstract User createUser(String userName, String name, String institution, String userId);
 
     protected abstract void registerUser(User user,FirebaseFirestore db);
 }
