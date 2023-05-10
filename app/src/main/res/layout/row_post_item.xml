@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardMaxElevation="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
+
+    <TextView
+        android:id="@+id/row_post_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3F51B5"
+    />
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="380sp"
+            android:layout_height="60dp"
+            android:background="@drawable/circular_bg"
+            android:backgroundTint="#40FFFFFF" />
+
+        <TextView
+            android:id="@+id/row_post_description"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/fab_margin"/>
+
+        <TextView
+            android:id="@+id/row_post_timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="30sp"
+            android:text="TextView"
+            android:textSize="10sp"
+            android:textAlignment="textEnd"
+            android:layout_marginEnd="20sp"
+            android:textColor="@color/white" />
+
+
+
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/row_post_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="15dp"
+            android:text="Author"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/row_post_title"
+            android:layout_width="260sp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="0dp"
+            android:text="Title"
+            android:textColor="#ffff"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/row_arrow"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/baseline_arrow_forward_24"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+</androidx.cardview.widget.CardView>

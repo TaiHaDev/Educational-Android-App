@@ -77,9 +77,9 @@ public class FirebaseUtil {
                     if (document.exists()) {
                         Lecturer lecturer = document.toObject(Lecturer.class);
                         assert lecturer != null;
-                        List<String> coursesEnrolled = lecturer.getCourses();
-                        if (coursesEnrolled != null) {
-                            for (String courseId : coursesEnrolled) {
+                        List<String> courses = lecturer.getCourses();
+                        if (courses != null) {
+                            for (String courseId : courses) {
                                 getCourseFromId(courseId, adapter);
                             }
                         }
@@ -109,8 +109,9 @@ public class FirebaseUtil {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Course course = documentSnapshot.toObject(Course.class);
+                if (course!=null){
                 course.setCourseId(documentSnapshot.getId());
-                adapter.updateData(course);
+                adapter.updateData(course);}
             }
         });
     }
