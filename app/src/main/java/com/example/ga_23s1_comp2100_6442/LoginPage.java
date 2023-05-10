@@ -2,6 +2,8 @@ package com.example.ga_23s1_comp2100_6442;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.ga_23s1_comp2100_6442.utilities.UploadingDataJob.readingDataFromCSV;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +19,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.model.Lecturer;
 import com.example.ga_23s1_comp2100_6442.model.Student;
 import com.example.ga_23s1_comp2100_6442.model.StudentFactory;
@@ -31,8 +34,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 public class LoginPage extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
@@ -50,6 +58,7 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
             startActivity(new Intent(LoginPage.this, HomePage.class));
             finish();
         }
+
         TextView userName=(TextView) findViewById(R.id.userName);
         TextView password=(TextView) findViewById(R.id.password);
         sw = findViewById(R.id.switch2);

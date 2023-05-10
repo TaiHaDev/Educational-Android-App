@@ -24,13 +24,15 @@ public class UploadingDataJob {
     public static void main(String[] args) {
 
     }
-//        try {
+//                try {
 //        InputStream inputStreamCrawl = getAssets().open("crawl.csv");
 //        InputStream inputStreamDescription = getAssets().open("description.csv");
 //        InputStream inputStreamSearchTerm = getAssets().open("searchTerm.csv");
+//        InputStream inputStreamDescriptFilter = getAssets().open("descriptFilter.csv");
+//        InputStream inputStreamBigFilter = getAssets().open("bigFilter.csv");
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();
 //        CollectionReference ref = db.collection(Constant.COURSE_COLLECTION);
-//        List<Course> courses = readingDataFromCSV(inputStreamCrawl, inputStreamDescription, inputStreamSearchTerm);
+//        List<Course> courses = readingDataFromCSV(inputStreamCrawl, inputStreamDescription, inputStreamSearchTerm, inputStreamBigFilter, inputStreamDescriptFilter);
 //        for (Course course : courses) {
 //            ref.add(course);
 //        }
@@ -38,21 +40,26 @@ public class UploadingDataJob {
 //    IOException e) {
 //        throw new RuntimeException(e);
 //    }
-    public static List<Course> readingDataFromCSV(InputStream inputStreamCrawl, InputStream inputStreamDescription, InputStream inputStreamSearchTerm) {
+    public static List<Course> readingDataFromCSV(InputStream inputStreamCrawl, InputStream inputStreamDescription, InputStream inputStreamSearchTerm, InputStream inputStreamBigFilter, InputStream inputStreamDescriptFilter) {
         String[] authorIds = {"1E88a81YzcVswD43yqT8V2Dfqqm1", "TpStXGca55ZOpCI8SB2KO2DDtgu2", "fedy9hIONwZbVa4gLVMunvc3pNg2", "ovVIgC2wJBYFpR45VJ3QlOimtWH3", "sN8c0ILusHQ4XnHlcaaoUbBwo0u2", "sZVNxulpsIXwTEHxUhXe8Wj7gDc2", "zqsQrwLnfWOVNYxojrv81IPN6o53"};
         List<Course> courses = new ArrayList<>();
         Random random = new Random();
         try {
-
+            BufferedReader readBigFilter = new BufferedReader(new InputStreamReader(inputStreamBigFilter));
+            BufferedReader readDescriptFilter = new BufferedReader(new InputStreamReader(inputStreamDescriptFilter));
             BufferedReader readCrawl = new BufferedReader(new InputStreamReader(inputStreamCrawl));
             BufferedReader readDescription = new BufferedReader(new InputStreamReader(inputStreamDescription));
             BufferedReader readSearchTerm = new BufferedReader(new InputStreamReader(inputStreamSearchTerm));
             String crawlLine;
             String filtersLine;
             String searchTermLine;
+            String bigFilterLine;
+            String descriptFilterLine;
             while ((crawlLine = readCrawl.readLine()) != null
                     && (filtersLine = readDescription.readLine()) != null
-                    && (searchTermLine = readSearchTerm.readLine()) != null ) {
+                    && (searchTermLine = readSearchTerm.readLine()) != null
+                    && (bigFilterLine = readBigFilter.readLine()) != null
+                    && (descriptFilterLine = readDescriptFilter.readLine()) != null) {
                 crawlLine = crawlLine.replace(",,,,,,,,,,,", "");
                 String[] courseInfo = crawlLine.split(",");
                 String author = courseInfo[0].replace("\"", "");
@@ -84,11 +91,15 @@ public class UploadingDataJob {
                 boolean isPublic;
                 isPublic = randomNumber <= 6;
 
+
+
                 courses.add(new Course(title, author, authorId,"gs://comp2100-comp6442-assignment.appspot.com/10min.mp4"
                         , "gs://comp2100-comp6442-assignment.appspot.com/3683.webp"
                         , isPublic
                         , description, Arrays.stream(filters).collect(Collectors.toList())
-                        , Arrays.stream(searchTerms).collect(Collectors.toList())));
+                        , Arrays.stream(searchTerms).collect(Collectors.toList()),
+                        descriptFilterLine,
+                        bigFilterLine));
             }
         }
         catch (Exception e) {
