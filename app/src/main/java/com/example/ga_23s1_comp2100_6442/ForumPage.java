@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,13 +36,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForumPage extends AppCompatActivity {
+public class ForumPage extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     MyDataActivity Send_data;
     Post post;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     Dialog popAddPost;
     TextView popupTitle, popupDescription;
+    Switch anonymousBtn;
+    boolean isAnonymous;
 
     private PostAdapter postAdapter;
     ImageView popupAddBtn;
@@ -69,8 +73,8 @@ public class ForumPage extends AppCompatActivity {
                 popAddPost.show();
             }
         });
+        anonymousBtn.setOnCheckedChangeListener(this);
 
-        ImageView detailBtn=findViewById(R.id.row_arrow);
 
 
     }
@@ -86,7 +90,10 @@ public class ForumPage extends AppCompatActivity {
         popupTitle = popAddPost.findViewById(R.id.popup_title);
         popupDescription = popAddPost.findViewById(R.id.popup_description);
         popupAddBtn = popAddPost.findViewById(R.id.popup_add);
+        anonymousBtn=popAddPost.findViewById(R.id.popup_anonymous);
+
         popupClickProgress = popAddPost.findViewById(R.id.popup_progressBar);
+
 
         popupAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +109,7 @@ public class ForumPage extends AppCompatActivity {
                     Send_data = (MyDataActivity) getApplicationContext();
                     String authorName = Send_data.getUser().getName();
                     String userId = Send_data.getUser().getId();
-                    post = new Post(title, description, authorName, userId);
+                    post = new Post(title, description, authorName, userId,isAnonymous);
                     addPost(post);
                     popupTitle.setText("");
                     popupDescription.setText("");
@@ -112,8 +119,15 @@ public class ForumPage extends AppCompatActivity {
                     popupClickProgress.setVisibility(View.INVISIBLE);
 
                 }
+
+
             }
+
+
         });
+
+
+
 
     }
 
@@ -181,4 +195,8 @@ public class ForumPage extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        isAnonymous = b;
+    }
 }

@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class PostUtil {
     static MyDataActivity Send_data;
@@ -20,19 +21,16 @@ public class PostUtil {
     public static void SetCoursesFromDocumentSnapshots(QuerySnapshot queryDocumentSnapshots, List<Post> fireBaseData) {
         Send_data = (MyDataActivity) getApplicationContext();
         for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-            if (Send_data.getUser().getIsLecturer() || (boolean) documentSnapshot.get("visibility")) {
-                Post post = new Post();
-                post.setPostId(documentSnapshot.getId());
-                System.out.println(documentSnapshot.getId());
-                post.setTitle((String) documentSnapshot.get("title"));
-                post.setUserName((String) documentSnapshot.get("userName"));
-                post.setDescription((String) documentSnapshot.get("description"));
-                post.setTimeStamp(documentSnapshot.get("timeStamp"));
-//                post.setStudentsEnrolled((List<String>) documentSnapshot.get("studentsEnrolled"));
-//                post.setPublic((boolean) documentSnapshot.get("isPublic"));
-//                post.setFilters((List<String>) documentSnapshot.get("filters"));
-//                post.setSearchTerm((List<String>) documentSnapshot.get("searchTerm"));
-                fireBaseData.add(post);
+            if (documentSnapshot != null) {
+                Post post = documentSnapshot.toObject(Post.class);
+                if (Send_data.getUser().getIsLecturer() || Objects.requireNonNull(post).isVisibility() ) {
+                    assert post != null;
+                    post.setPostId(documentSnapshot.getId());
+                    fireBaseData.add(post);
+                }
+                if((!Send_data.getUser().getIsLecturer())&&post.isAnonymous()){
+                    post.setUserName("Anonymous");
+                }
             }
         }
     }

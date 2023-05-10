@@ -67,6 +67,7 @@ public class PostDetails extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 currentPost = documentSnapshot.toObject(Post.class);
+                if (currentPost.isVisibility()||Send_data.getUser().getIsLecturer()){
                 assert currentPost != null;
                 postTitle.setText(currentPost.getTitle());
                 postDescription.setText(currentPost.getDescription());
@@ -75,7 +76,7 @@ public class PostDetails extends AppCompatActivity {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 // Create a storage reference from our app
                 //check enrolled student list
-                String link;
+                String link;}
 
 //                if (currentPost.getIsPublic()) {
 //                    link = currentPost.getLink();

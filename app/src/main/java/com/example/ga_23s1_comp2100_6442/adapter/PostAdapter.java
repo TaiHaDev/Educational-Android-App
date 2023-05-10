@@ -22,10 +22,6 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
-
-
-
-
     List<Post> data ;
 
     public void setData(List<Post> data) {

@@ -12,19 +12,31 @@ public class Post {
     private Object timeStamp ;
     private String postId;
     private boolean visibility;
+    private boolean isAnonymous;
 
 
-    public Post(String title, String description, String userName,String userId) {
+    public Post(String title, String description, String userName,String userId, boolean isAnonymous) {
         this.title = title;
+        this.userId=userId;
         this.description = description;
         this.userName = userName;
         this.timeStamp = ServerValue.TIMESTAMP;
         this.visibility=true;
+        this.isAnonymous=isAnonymous;
     }
 
     // make sure to have an empty constructor inside ur model class
     public Post() {
     }
+
+    public boolean isAnonymous() {
+        return isAnonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        isAnonymous = anonymous;
+    }
+
     public String getUserName() {
         return userName;
     }
