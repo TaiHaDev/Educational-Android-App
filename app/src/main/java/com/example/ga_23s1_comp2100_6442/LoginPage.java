@@ -17,15 +17,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ga_23s1_comp2100_6442.model.Lecturer;
+import com.example.ga_23s1_comp2100_6442.model.Student;
+import com.example.ga_23s1_comp2100_6442.model.StudentFactory;
 import com.example.ga_23s1_comp2100_6442.model.User;
+import com.example.ga_23s1_comp2100_6442.model.UserFactory;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginPage extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
@@ -33,6 +40,8 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
     Switch sw;
     boolean isLecture;
     FirebaseAuth mAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    MyDataActivity Send_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +56,7 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
         sw.setOnCheckedChangeListener(this);
         MaterialButton loginBtn=(MaterialButton) findViewById(R.id.loginBtn);
         mAuth = FirebaseAuth.getInstance();
-
+        Send_data= (MyDataActivity)getApplicationContext();
 //        admin
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,22 +78,48 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                         if (task.isSuccessful()) {
                             // fetch the user profile using the uid from the sign in user
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Constant.setUserNameAfterLogin(user.getUid());
-
 
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(LoginPage.this, HomePage.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                            while (user == null) {
+                                user = mAuth.getCurrentUser();
+                            }
                             if (isLecture){
+                                db.collection("lecturers").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                User user = document.toObject(Lecturer.class);
+                                                Send_data.setUser(user);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                });
 
                             }else {
+                                //maybe move to home page
+                                Constant.setUserNameAfterLogin(user.getUid());
+                                db.collection("students").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                User user = document.toObject(Student.class);
+                                                Send_data.setUser(user);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                });
 
                             }
-                            startActivity(intent);
-
 
 //                            updateUI(user);
                         } else {
