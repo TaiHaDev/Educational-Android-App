@@ -72,7 +72,7 @@ public class PostDetails extends AppCompatActivity {
                 assert currentPost != null;
                 postTitle.setText(currentPost.getTitle());
                 postDescription.setText(currentPost.getDescription());
-                    if (!currentPost.isAnonymous()) {
+                    if (!currentPost.isAnonymous()||Send_data.getUser().getIsLecturer()) {
                         author.setText(currentPost.getUserName());
                     } else {
                         System.out.println(currentPost.isAnonymous());
