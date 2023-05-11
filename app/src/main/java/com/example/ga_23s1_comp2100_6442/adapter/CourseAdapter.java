@@ -48,9 +48,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         if (this.data == null) {
             data = new ArrayList<>();
         }
-        data.add(course);
+        if (!data.contains(course)) {
+            data.add(course);
+        }
         notifyDataSetChanged();
     }
+
     @SuppressLint("NotifyDataSetChanged")
     public void updateCourses(List<Course> courses) {
         if (this.data == null) {
@@ -58,7 +61,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         }
         System.out.println(data);
         courses.addAll(data);
-        data=courses;
+        data = courses;
         System.out.println(data);
         notifyDataSetChanged();
     }

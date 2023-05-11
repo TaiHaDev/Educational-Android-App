@@ -63,6 +63,7 @@ public class FirebaseUtil {
     }
 
     public static void getMyCourses(CourseAdapter adapter) {
+        adapter.setData(new ArrayList<>());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null;

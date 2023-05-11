@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.ga_23s1_comp2100_6442.Services.UserService;
 import com.example.ga_23s1_comp2100_6442.model.Request;
+import com.example.ga_23s1_comp2100_6442.model.User;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,8 +36,6 @@ public class MyFollowingPage extends AppCompatActivity {
     TextView titleRefresh;
     TextView followInput;
     String inputUserName;
-    String receiverName;
-    String receiverId;
     Button followButton;
     SwipeRefreshLayout swipeRefreshLayout;
     MyDataActivity myDataActivity;
@@ -55,7 +54,7 @@ public class MyFollowingPage extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         prepareLayout();
         //fetch data
-        userService.fetchAndDisplayUsers(currentUser.getUid(),adapter,followingNames,"following");
+        userService.fetchAndDisplayUsers(currentUser.getUid(), adapter, followingNames, "following");
     }
 
     private void prepareLayout() {
@@ -67,54 +66,30 @@ public class MyFollowingPage extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, followingNames);
         listView.setAdapter(adapter);
-
-        //set refresh page
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 inputUserName = followInput.getText().toString();
-                findReceiverByEmail();
-                followUser(currentUser.getUid(), receiverId, myDataActivity.getUser().getName(), receiverName);
+                //send request
+                userService.followUserByEmail(currentUser.getUid(), myDataActivity.getUser().getName(), inputUserName);
                 Toast.makeText(MyFollowingPage.this, "Request sent", Toast.LENGTH_LONG).show();
+                //clean input
                 followInput.setText("");
             }
         });
+        //set refresh page
         titleRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userService.fetchAndDisplayUsers(currentUser.getUid(),adapter,followingNames,"following");
+                userService.fetchAndDisplayUsers(currentUser.getUid(), adapter, followingNames, "following");
             }
         });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                userService.fetchAndDisplayUsers(currentUser.getUid(),adapter,followingNames,"following");
+                userService.fetchAndDisplayUsers(currentUser.getUid(), adapter, followingNames, "following");
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-    }
-
-    private void findReceiverByEmail() {
-        //find receiver by email(userName)
-        db.collection(Constant.STUDENTS_COLLECTION).whereEqualTo("userName", inputUserName)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                receiverId = document.getId();
-                                receiverName = (String) document.get("name");
-                            }
-                        }
-                    }
-                });
-    }
-
-
-    public void followUser(String sender, String receiver, String senderName, String receiverName) {
-        Request r = new Request(sender, receiver, Request.RequestType.Follow, "", senderName, receiverName);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(Constant.REQUESTS_COLLECTION).add(r);
     }
 }
