@@ -27,6 +27,11 @@ public class Constant {
     public static String METADATA_COLLECTION = "metadata";
     public static DatabaseUser USER_PROFILE;
 
+    public static final String BIG_FILTER_KEY = "bigFilter";
+    public static final String COMPUTER_SCIENCE = "Computer Science";
+    public static final String INFORMATION_TECHNOLOGY = "Information Technology";
+    public static final String DATA_SCIENCE = "Data Science";
+
     public static void setUserNameAfterLogin(String uid) {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         fb.collection(Constant.USER_COLLECTION).document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

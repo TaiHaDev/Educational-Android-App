@@ -99,7 +99,8 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.coursesMenu) {
-                    Intent intent = new Intent(getApplicationContext(), HomePage.class);
+                    // Intent intent = new Intent(getApplicationContext(), HomePage.class);
+                    Intent intent = new Intent(getApplicationContext(), BigfilterPage.class);
                     startActivity(intent);
                     return true;
                 }

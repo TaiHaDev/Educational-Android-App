@@ -1,65 +1,82 @@
 package com.example.ga_23s1_comp2100_6442;
 
-import static com.example.ga_23s1_comp2100_6442.utilities.UploadingDataJob.readingDataFromCSV;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
-import com.example.ga_23s1_comp2100_6442.model.DatabaseUser;
 import com.example.ga_23s1_comp2100_6442.storage.AVLTree;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
-
 import com.example.ga_23s1_comp2100_6442.utilities.CourseUtil;
 import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
-import org.checkerframework.checker.units.qual.A;
-
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity {
+public class BigfilterPage extends AppCompatActivity {
     private CourseAdapter adapter;
-    public static AVLTree historySearchTree;
     private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
-//        loadRecentlySearch();
+        setContentView(R.layout.activity_bigfilter_page);
         adapter = new CourseAdapter(sharedPref);
 
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
-            startActivity(new Intent(HomePage.this, LoginPage.class));
+            startActivity(new Intent(BigfilterPage.this, LoginPage.class));
             finish();
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        onCreateOptionsMenu(toolbar.getMenu());
         bottomNavigationHandler();
-        fetchAndDisplayCourses();
+
+        Button btnComputerScience = findViewById(R.id.btn_computer_science);
+        Button btnInformationTechnology = findViewById(R.id.btn_information_technology);
+        Button btnDataAnalysis = findViewById(R.id.btn_data_analysis);
+
+        btnComputerScience.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BigfilterPage.this, HomePage.class);
+                intent.putExtra(Constant.BIG_FILTER_KEY, Constant.COMPUTER_SCIENCE);
+                startActivity(intent);
+            }
+        });
+        btnInformationTechnology.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BigfilterPage.this, HomePage.class);
+                intent.putExtra(Constant.BIG_FILTER_KEY, Constant.INFORMATION_TECHNOLOGY);
+                startActivity(intent);
+            }
+        });
+        btnDataAnalysis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BigfilterPage.this, HomePage.class);
+                intent.putExtra(Constant.BIG_FILTER_KEY, Constant.DATA_SCIENCE);
+                startActivity(intent);
+            }
+        });
     }
 
     private void bottomNavigationHandler() {
@@ -77,44 +94,10 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
-    private void fetchAndDisplayCourses() {
-        FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION)
-                .limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<Course> fireBaseData = new ArrayList<>();
-                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,fireBaseData);
-                adapter.setData(fireBaseData);
-                RecyclerView recyclerView = findViewById(R.id.courses_list);
-                recyclerView.setAdapter(adapter);
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.search_icon);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Search our Courses");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //FirebaseUtil.simpleQueryFireStore(query, adapter);
-                FirebaseUtil.QueryFireStore(query, adapter);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
-            }
-        });
-        // expand the search view
-        menuItem.expandActionView();
-        // messaging icon behaviour
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -124,24 +107,10 @@ public class HomePage extends AppCompatActivity {
             Intent intent = new Intent(this, ChatListingPage.class);
             startActivity(intent);
         }
+        if (item.getItemId() == R.id.search_icon) {
+            Intent intent = new Intent(this, HomePage.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * load the search history tree from shared preferences
-     * @author: Tai Ha
-     */
-
-    public void loadRecentlySearch() {
-        if (historySearchTree != null) return;
-        Gson gson = new Gson();
-        sharedPref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        String jsonString = sharedPref.getString("historySearchTree", null);
-        historySearchTree = gson.fromJson(jsonString, AVLTree.class);
-        if (historySearchTree == null) historySearchTree = new AVLTree();
-        historySearchTree.inOrderTraversal();
-    }
-
-
-
 }
