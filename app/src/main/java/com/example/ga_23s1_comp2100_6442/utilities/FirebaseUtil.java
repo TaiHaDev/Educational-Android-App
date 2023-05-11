@@ -62,6 +62,34 @@ public class FirebaseUtil {
                 });
     }
 
+    public static List<String> tokenize(String input) {
+        List<String> tokens = new ArrayList<>();
+        String[] rawTokens = input.split("\\|\\|");
+        for (String rawToken : rawTokens) {
+            String[] keyValue = rawToken.split(":");
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+            tokens.add(key + ":" + value);
+        }
+        return tokens;
+    }
+
+    public static List<String> parse(List<String> tokens) {
+        List<String> parsedValues = new ArrayList<>();
+        for (String token : tokens) {
+            String[] keyValue = token.split(":");
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+            if (key.equals("#title")) {
+                parsedValues.add(value.toLowerCase());
+            }
+            if (key.equals("#author")) {
+                parsedValues.add(value.toLowerCase());
+            }
+        }
+        return parsedValues;
+    }
+
     public static void QueryFireStore(String term, CourseAdapter adapter, String bigFilter, String descriptFilter){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query dbc = db.collection(Constant.COURSE_COLLECTION_TEST);
@@ -71,8 +99,10 @@ public class FirebaseUtil {
         if(bigFilter != null){
             dbc = dbc.whereEqualTo("bigFilter", bigFilter);
         }
-        term = term.toLowerCase().trim();
-        List<String> terms = Arrays.asList(term.split(" "));
+        List<String> tokens = tokenize(term);
+        System.out.println(tokens);
+        List<String> terms = parse(tokens);
+        System.out.println(terms);
         dbc.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

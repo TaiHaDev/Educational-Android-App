@@ -93,6 +93,11 @@
         android:layout_weight="1"
         android:id="@+id/courses_list"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please enter your search query using the following format: #property:value||#property:value.\nFor example, #title:Data Science||#author:Google.\nThis will help our search function find the most relevant results for you."
+        android:padding="16dp"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
