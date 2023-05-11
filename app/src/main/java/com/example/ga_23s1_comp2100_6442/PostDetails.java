@@ -64,6 +64,7 @@ public class PostDetails extends AppCompatActivity {
         //check if videoName is passed by bundle
         id = i.getStringExtra("pid");
         db.collection("posts").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 currentPost = documentSnapshot.toObject(Post.class);
@@ -71,7 +72,13 @@ public class PostDetails extends AppCompatActivity {
                 assert currentPost != null;
                 postTitle.setText(currentPost.getTitle());
                 postDescription.setText(currentPost.getDescription());
-                author.setText(currentPost.getUserName());
+                    if (!currentPost.isAnonymous()) {
+                        author.setText(currentPost.getUserName());
+                    } else {
+                        System.out.println(currentPost.isAnonymous());
+                        author.setText("Anonymous");
+                    }
+
                 //create firebase object
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 // Create a storage reference from our app

@@ -34,6 +34,10 @@ public class MyDataActivity extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+       createUser();
+    }
+
+    public void createUser(){
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -67,5 +71,4 @@ public class MyDataActivity extends Application {
             });
         }
     }
-
 }

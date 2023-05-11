@@ -34,7 +34,8 @@ public class Constant {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     USER_PROFILE = task.getResult().toObject(DatabaseUser.class);
-                    USER_PROFILE.setUid(uid);
+                    if (USER_PROFILE!=null){
+                    USER_PROFILE.setUid(uid);}
                 }
             }
         });

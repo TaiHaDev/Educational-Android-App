@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:text="TextView"
+            android:textSize="14sp"
             android:textColor="@color/white"
             android:layout_margin="@dimen/fab_margin"/>
 
@@ -68,19 +69,17 @@
             android:id="@+id/row_post_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginTop="8dp"
             android:layout_marginLeft="15dp"
             android:text="Author"
             android:textColor="@color/white"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/row_post_title"
             android:layout_width="260sp"
             android:layout_height="36dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="0dp"
             android:text="Title"
             android:textColor="#ffff"
             android:textSize="26sp"
