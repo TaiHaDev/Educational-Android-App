@@ -111,7 +111,7 @@ public class FirebaseUtil {
                 Course course = documentSnapshot.toObject(Course.class);
                 if (course!=null){
                 course.setCourseId(documentSnapshot.getId());
-                adapter.updateData(course);}
+                adapter.updateCourse(course);}
             }
         });
     }

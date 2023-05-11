@@ -1,14 +1,12 @@
 package com.example.ga_23s1_comp2100_6442;
 
-import static com.example.ga_23s1_comp2100_6442.utilities.UploadingDataJob.readingDataFromCSV;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.view.MenuItem;
 
 import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
-import com.example.ga_23s1_comp2100_6442.model.DatabaseUser;
 import com.example.ga_23s1_comp2100_6442.storage.AVLTree;
 import com.example.ga_23s1_comp2100_6442.utilities.Constant;
 
@@ -26,24 +23,22 @@ import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
-import org.checkerframework.checker.units.qual.A;
-
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity {
     private CourseAdapter adapter;
     public static AVLTree historySearchTree;
     private SharedPreferences sharedPref;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private long limit = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +46,7 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 //        loadRecentlySearch();
         adapter = new CourseAdapter(sharedPref);
-        if (FirebaseAuth.getInstance().getCurrentUser()==null){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(HomePage.this, LoginPage.class));
             finish();
         }
@@ -59,7 +54,14 @@ public class HomePage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         bottomNavigationHandler();
         fetchAndDisplayCourses();
-
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchNewData();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void bottomNavigationHandler() {
@@ -68,12 +70,11 @@ public class HomePage extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                 if (item.getItemId() == R.id.forumsMenu) {
+                if (item.getItemId() == R.id.forumsMenu) {
                     Intent intent = new Intent(getApplicationContext(), ForumPage.class);
                     startActivity(intent);
                     return true;
-                }
-                 else if (item.getItemId() == R.id.profileMenu) {
+                } else if (item.getItemId() == R.id.profileMenu) {
                     Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
                     startActivity(intent);
                     return true;
@@ -82,16 +83,31 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
+
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION).limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fb.collection(Constant.COURSE_COLLECTION).limit(limit).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = new ArrayList<>();
-                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,fireBaseData);
+                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots, fireBaseData);
+                Collections.reverse(fireBaseData);
                 adapter.setData(fireBaseData);
                 RecyclerView recyclerView = findViewById(R.id.courses_list);
                 recyclerView.setAdapter(adapter);
+            }
+        });
+    }
+
+    private void fetchNewData() {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection(Constant.COURSE_COLLECTION).limit(limit+=30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<Course> courses = new ArrayList<>();
+                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots, courses);
+                Collections.reverse(courses);
+                adapter.setData(courses);
             }
         });
     }
@@ -130,6 +146,7 @@ public class HomePage extends AppCompatActivity {
 
     /**
      * load the search history tree from shared preferences
+     *
      * @author: Tai Ha
      */
 
@@ -142,7 +159,6 @@ public class HomePage extends AppCompatActivity {
         if (historySearchTree == null) historySearchTree = new AVLTree();
         historySearchTree.inOrderTraversal();
     }
-
 
 
 }

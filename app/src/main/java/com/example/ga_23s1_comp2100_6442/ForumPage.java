@@ -1,5 +1,6 @@
 package com.example.ga_23s1_comp2100_6442;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -37,6 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("UseSwitchCompatOrMaterialCode")
 public class ForumPage extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     MyDataActivity Send_data;
     Post post;
