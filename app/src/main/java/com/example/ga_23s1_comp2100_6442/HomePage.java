@@ -68,7 +68,7 @@ public class HomePage extends AppCompatActivity {
         filterContainer = findViewById(R.id.filter_container);
         radioGroup = findViewById(R.id.radioGroup);
         bigFilter = "";
-        descriptFilter = "";
+        descriptFilter = null;
 
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
             startActivity(new Intent(HomePage.this, LoginPage.class));
