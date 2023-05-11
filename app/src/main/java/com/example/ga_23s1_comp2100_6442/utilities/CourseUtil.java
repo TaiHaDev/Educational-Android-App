@@ -33,20 +33,8 @@ public class CourseUtil {
                 if(!flag) break;
             }
             if(!flag) continue;
-            Course course = new Course();
+            Course course = documentSnapshot.toObject(Course.class);
             course.setCourseId(documentSnapshot.getId());
-            System.out.println(documentSnapshot.getId());
-            course.setTitle((String) documentSnapshot.get("title"));
-            course.setAuthor((String) documentSnapshot.get("author"));
-            course.setAuthorId((String) documentSnapshot.get("authorId"));
-            course.setLink((String) documentSnapshot.get("link"));
-            course.setThumbnail((String) documentSnapshot.get("thumbnail"));
-            course.setStudentsApplied((List<String>) documentSnapshot.get("studentsApplied"));
-            course.setStudentsEnrolled((List<String>) documentSnapshot.get("studentsEnrolled"));
-            course.setPublic((boolean) documentSnapshot.get("isPublic"));
-            course.setDescription((String) documentSnapshot.get("description"));
-            course.setFilters((List<String>) documentSnapshot.get("filters"));
-            course.setSearchTerm((List<String>) documentSnapshot.get("searchTerm"));
             fireBaseData.add(course);
         }
     }
