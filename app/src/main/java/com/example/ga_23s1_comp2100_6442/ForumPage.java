@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.ga_23s1_comp2100_6442.adapter.PostAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Post;
@@ -51,6 +52,7 @@ public class ForumPage extends AppCompatActivity implements CompoundButton.OnChe
     ImageView detailBtn;
 
     ProgressBar popupClickProgress;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class ForumPage extends AppCompatActivity implements CompoundButton.OnChe
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         postAdapter = new PostAdapter();
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         fetchAndDisplayPosts();
 
         iniPopup();
@@ -124,6 +127,14 @@ public class ForumPage extends AppCompatActivity implements CompoundButton.OnChe
             }
 
 
+        });
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchAndDisplayPosts();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
         });
 
 
