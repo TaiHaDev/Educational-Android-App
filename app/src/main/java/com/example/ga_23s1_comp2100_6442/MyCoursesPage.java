@@ -25,25 +25,22 @@ public class MyCoursesPage extends AppCompatActivity {
     CourseAdapter adapter;
     RecyclerView recyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_courses_page);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            startActivity(new Intent(MyCoursesPage.this, LoginPage.class));
-            finish();
-        }
-        adapter = new CourseAdapter();
-        adapter.setData(new ArrayList<>());
-        FirebaseUtil.getMyCourses(adapter);
-        recyclerView = findViewById(R.id.courses_list);
-        recyclerView.setAdapter(adapter);
+
+        prepareLayout();
+        FirebaseUtil.getMyCourses(adapter);//fetch my courses from firebase
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void prepareLayout() {
+        adapter = new CourseAdapter();
+        adapter.setData(new ArrayList<>());
+        recyclerView = findViewById(R.id.courses_list);
+        recyclerView.setAdapter(adapter);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
