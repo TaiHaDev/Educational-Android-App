@@ -13,7 +13,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
@@ -30,6 +38,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
@@ -44,22 +53,59 @@ public class HomePage extends AppCompatActivity {
     private CourseAdapter adapter;
     public static AVLTree historySearchTree;
     private SharedPreferences sharedPref;
+    private String bigFilter;
+    private String descriptFilter;
+    private Button filterButton;
+    private LinearLayout filterContainer;
+    private RadioGroup radioGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 //        loadRecentlySearch();
         adapter = new CourseAdapter(sharedPref);
+        filterButton = findViewById(R.id.filter_button);
+        filterContainer = findViewById(R.id.filter_container);
+        radioGroup = findViewById(R.id.radioGroup);
+        bigFilter = "";
+        descriptFilter = "";
 
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
             startActivity(new Intent(HomePage.this, LoginPage.class));
             finish();
         }
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (filterContainer.getVisibility() == View.VISIBLE) {
+                    filterContainer.setVisibility(View.GONE);
+                } else {
+                    filterContainer.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            bigFilter = intent.getStringExtra(Constant.BIG_FILTER_KEY);
+            System.out.println(bigFilter);
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         onCreateOptionsMenu(toolbar.getMenu());
         bottomNavigationHandler();
         fetchAndDisplayCourses();
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedButton = findViewById(checkedId);
+                descriptFilter = selectedButton.getText().toString();
+                System.out.println(descriptFilter);
+            }
+        });
     }
 
     private void bottomNavigationHandler() {
@@ -79,8 +125,12 @@ public class HomePage extends AppCompatActivity {
     }
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.collection(Constant.COURSE_COLLECTION)
-                .limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        Query fbc = fb.collection(Constant.COURSE_COLLECTION);
+        System.out.println(bigFilter);
+        if(bigFilter != null){
+            fbc = fbc.whereEqualTo("bigFilter", bigFilter);
+        }
+        fbc.limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = new ArrayList<>();
@@ -98,11 +148,12 @@ public class HomePage extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.search_icon);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search our Courses");
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //FirebaseUtil.simpleQueryFireStore(query, adapter);
-                FirebaseUtil.QueryFireStore(query, adapter);
+                FirebaseUtil.QueryFireStore(query, adapter, bigFilter, descriptFilter);
                 return false;
             }
 

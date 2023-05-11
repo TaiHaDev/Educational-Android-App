@@ -43,7 +43,7 @@ public class FirebaseUtil {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(Constant.COURSE_COLLECTION_TEST)
                 .whereArrayContains("searchTerm", term)
-                .get()
+                .limit(30).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -62,9 +62,15 @@ public class FirebaseUtil {
                 });
     }
 
-    public static void QueryFireStore(String term, CourseAdapter adapter){
+    public static void QueryFireStore(String term, CourseAdapter adapter, String bigFilter, String descriptFilter){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query dbc = db.collection(Constant.COURSE_COLLECTION_TEST);
+        if (descriptFilter != null){
+            dbc = dbc.whereEqualTo("descriptFilter", descriptFilter);
+        }
+        if(bigFilter != null){
+            dbc = dbc.whereEqualTo("bigFilter", bigFilter);
+        }
         term = term.toLowerCase().trim();
         List<String> terms = Arrays.asList(term.split(" "));
         dbc.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
