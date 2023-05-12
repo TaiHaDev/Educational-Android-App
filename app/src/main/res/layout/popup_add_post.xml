@@ -8,12 +8,12 @@
 
     <EditText
         android:id="@+id/popup_title"
-        android:layout_width="410dp"
-        android:layout_height="53dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/popup_edittext_style"
         android:ems="10"
         android:hint="Title"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

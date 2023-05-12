@@ -23,4 +23,5 @@
     <string name="follow_request">Follow request</string>
     <string name="my_followers">My Followers</string>
     <string name="my_following">My Following</string>
+    <string name="add">Add</string>
 </resources>
