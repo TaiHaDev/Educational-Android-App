@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class User {
-
+    boolean isLecturer;
     String userName;
     String name;
     String institution;
@@ -94,4 +94,12 @@ public abstract class User {
         this.following = following;
     }
 
+    public boolean getIsLecturer() {
+        return isLecturer;
+    }
+
+    public void setLecturer(boolean lecturer) {
+        isLecturer = lecturer;
+    }
 }
+

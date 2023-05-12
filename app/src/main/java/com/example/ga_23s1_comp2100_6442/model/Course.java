@@ -20,13 +20,14 @@ public class Course implements Comparable<Course>{
     private String thumbnail;
     private List<String> studentsEnrolled;
     private List<String> studentsApplied;
-    private List<String> Lecturers;
     private boolean isPublic;
     private String description;
     private List<String> filters;
     private List<String>  searchTerm;
+    private String descriptFilter;
+    private String bigFilter;
 
-    public Course(String title, String author, String authorId, String link, String thumbnail, boolean isPublic, String description, List<String> filters, List<String> searchTerm) {
+    public Course(String title, String author, String authorId, String link, String thumbnail, boolean isPublic, String description, List<String> filters, List<String> searchTerm, String descriptFilter, String bigFilter) {
         this.title = title;
         this.author = author;
         this.authorId = authorId;
@@ -36,6 +37,8 @@ public class Course implements Comparable<Course>{
         this.description = description;
         this.filters = filters;
         this.searchTerm = searchTerm;
+        this.descriptFilter = descriptFilter;
+        this.bigFilter = bigFilter;
     }
 
     public Course(String title, String author, String authorId, String link, String thumbnail, boolean isPublic) {
@@ -70,30 +73,44 @@ public class Course implements Comparable<Course>{
         this.courseId = courseId;
     }
 
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getAuthor() {
         return author;
     }
 
-
-
-    public String getTitle() {
-        return title;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
+    public String getAuthorId() {
+        return authorId;
+    }
 
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getThumbnail() {
         return thumbnail;
     }
 
-    public boolean getIsPublic() {
-        return isPublic;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public List<String> getStudentsEnrolled() {
@@ -112,47 +129,13 @@ public class Course implements Comparable<Course>{
         this.studentsApplied = studentsApplied;
     }
 
-    public List<String> getLecturers() {
-        return Lecturers;
-    }
-
-    public void setLecturers(List<String> lecturers) {
-        Lecturers = lecturers;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-
-
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
     public boolean isPublic() {
         return isPublic;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
-
-
-
-
 
     public String getDescription() {
         return description;
@@ -176,6 +159,22 @@ public class Course implements Comparable<Course>{
 
     public void setSearchTerm(List<String> searchTerm) {
         this.searchTerm = searchTerm;
+    }
+
+    public String getDescriptFilter() {
+        return descriptFilter;
+    }
+
+    public void setDescriptFilter(String descriptFilter) {
+        this.descriptFilter = descriptFilter;
+    }
+
+    public String getBigFilter() {
+        return bigFilter;
+    }
+
+    public void setBigFilter(String bigFilter) {
+        this.bigFilter = bigFilter;
     }
 
     @Override
@@ -205,9 +204,7 @@ public class Course implements Comparable<Course>{
     }
 
 
-    public String getLink() {
-        return link;
-    }
+
 
     @Override
     public int compareTo(Course course) {

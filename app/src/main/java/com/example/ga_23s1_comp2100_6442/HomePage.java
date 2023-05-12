@@ -114,7 +114,12 @@ public class HomePage extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.profileMenu) {
+                 if (item.getItemId() == R.id.forumsMenu) {
+                    Intent intent = new Intent(getApplicationContext(), ForumPage.class);
+                    startActivity(intent);
+                    return true;
+                }
+                 else if (item.getItemId() == R.id.profileMenu) {
                     Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
                     startActivity(intent);
                     return true;
@@ -148,7 +153,6 @@ public class HomePage extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.search_icon);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search our Courses");
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

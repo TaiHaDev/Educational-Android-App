@@ -124,7 +124,7 @@ public class playVideo extends AppCompatActivity {
                 // Create a storage reference from our app
                 //check enrolled student list
                 String link;
-                if (currentCourse.getIsPublic()) {
+                if (currentCourse.isPublic()) {
                     link = currentCourse.getLink();
                     if (currentCourse.getStudentsEnrolled()!=null&&currentCourse.getStudentsEnrolled().contains(currentUser.getUid())) {
                         enrollButton.setText("enrolled");
@@ -140,7 +140,7 @@ public class playVideo extends AppCompatActivity {
                 } else {
                     enrollButton.setText("enroll");
                     enrollButton.setEnabled(true);
-                    link = "gs://comp2100-comp6442-assignment.appspot.com/ocean.mp4";
+                    link = "gs://comp2100-comp6442-assignment.appspot.com/Please Enroll to view the Course.mp4";
                 }
                 if (currentCourse.getStudentsApplied()!=null&&currentCourse.getStudentsApplied().contains(currentUser.getUid())) {
                     enrollButton.setText("pending");
@@ -184,7 +184,7 @@ public class playVideo extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Student student = documentSnapshot.toObject(Student.class);
                         assert student != null;
-                        if (currentCourse.getIsPublic()) {
+                        if (currentCourse.isPublic()) {
                             //add student studentsEnrolled in current course
                             db.collection(Constant.COURSE_COLLECTION).document(id).update("studentsEnrolled", FieldValue.arrayUnion(currentUser.getUid()));
                             //add current course to this student

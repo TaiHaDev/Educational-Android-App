@@ -3,6 +3,7 @@ package com.example.ga_23s1_comp2100_6442;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,11 +24,12 @@ import java.util.List;
 public class MyCoursesPage extends AppCompatActivity {
     CourseAdapter adapter;
     RecyclerView recyclerView;
-
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_courses_page);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(MyCoursesPage.this, LoginPage.class));
             finish();
@@ -39,4 +41,15 @@ public class MyCoursesPage extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                FirebaseUtil.getMyCourses(adapter);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 }
