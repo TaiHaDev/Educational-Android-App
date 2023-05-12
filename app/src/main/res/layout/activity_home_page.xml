@@ -33,14 +33,14 @@
         android:id="@+id/toolbar"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="?attr/actionBarSize" />
 
     <Button
         android:id="@+id/filter_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
-        android:text="Filter"/>
+        android:text="Filter" />
 
     <LinearLayout
         android:id="@+id/filter_container"
@@ -58,46 +58,55 @@
                 android:id="@+id/radioButton1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Statistical Machine Learning"/>
+                android:text="Statistical Machine Learning" />
 
             <RadioButton
                 android:id="@+id/radioButton2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Software Architecture"/>
+                android:text="Software Architecture" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Algorithms"/>
+                android:text="Algorithms" />
 
             <RadioButton
                 android:id="@+id/radioButton4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sales"/>
+                android:text="Sales" />
 
             <RadioButton
                 android:id="@+id/radioButton5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Application Development"/>
+                android:text="Application Development" />
 
         </RadioGroup>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/courses_list"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/courses_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please enter your search query using the following format: #property:value||#property:value.\nFor example, #title:Data Science||#author:Google.\nThis will help our search function find the most relevant results for you."
-        android:padding="16dp"/>
+        android:padding="16dp"
+        android:text="Please enter your search query using the following format: #property:value||#property:value.\nFor example, #title:Data Science||#author:Google.\nThis will help our search function find the most relevant results for you." />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
