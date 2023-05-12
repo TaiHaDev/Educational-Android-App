@@ -101,10 +101,6 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                         if (task.isSuccessful()) {
                             // fetch the user profile using the uid from the sign in user
                             FirebaseUser user = mAuth.getCurrentUser();
-
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                             // Intent intent=new Intent(LoginPage.this, HomePage.class);
                             Intent intent=new Intent(LoginPage.this, BigfilterPage.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -120,12 +116,17 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                                             if (document.exists()) {
                                                 User user = document.toObject(Lecturer.class);
                                                 Send_data.setUser(user);
+                                                // Sign in success, update UI with the signed-in user's information
+                                                Log.d(TAG, "signInWithEmail:success");
+                                                Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                                                 startActivity(intent);
+                                            }else{
+                                                mAuth.signOut();
+                                                Toast.makeText(LoginPage.this,"You are not a lecturer",Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     }
                                 });
-
                             }else {
                                 //maybe move to home page
                                 Constant.setUserNameAfterLogin(user.getUid());
@@ -137,21 +138,23 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                                             if (document.exists()) {
                                                 User user = document.toObject(Student.class);
                                                 Send_data.setUser(user);
+                                                // Sign in success, update UI with the signed-in user's information
+                                                Log.d(TAG, "signInWithEmail:success");
+                                                Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
                                                 startActivity(intent);
+                                            }else{
+                                                mAuth.signOut();
+                                                Toast.makeText(LoginPage.this,"You are not a student",Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     }
                                 });
-
                             }
 
-
-//                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginPage.this,"Check the Password/Did you Sign Up?",Toast.LENGTH_LONG).show();
-//                            updateUI(null);
                         }
                     }
                 });
