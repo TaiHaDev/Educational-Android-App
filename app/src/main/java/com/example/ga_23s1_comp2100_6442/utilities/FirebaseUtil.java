@@ -70,6 +70,7 @@ public class FirebaseUtil {
         List<String> tokens = new ArrayList<>();
         if(!input.startsWith("#")){
             tokens = Arrays.asList(input.toLowerCase().split(" "));
+            System.out.println(tokens);
             return tokens;
         }
         else {
@@ -81,6 +82,7 @@ public class FirebaseUtil {
                 tokens.add(key + ":" + value);
             }
             List<String> terms = parse(tokens);
+            System.out.println(terms);
             return terms;
         }
     }
