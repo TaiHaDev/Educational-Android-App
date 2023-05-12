@@ -90,6 +90,11 @@ public class BigfilterPage extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
+                else if (item.getItemId() == R.id.profileMenu) {
+                    Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                    startActivity(intent);
+                    return true;
+                }
                 return false;
             }
         });

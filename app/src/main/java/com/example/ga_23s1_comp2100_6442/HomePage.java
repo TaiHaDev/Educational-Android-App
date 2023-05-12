@@ -123,7 +123,11 @@ public class HomePage extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
                     startActivity(intent);
                     return true;
-                }
+                } else if (item.getItemId() == R.id.coursesMenu) {
+                     Intent intent = new Intent(getApplicationContext(), BigfilterPage.class);
+                     startActivity(intent);
+                     return true;
+                 }
                 return false;
             }
         });
