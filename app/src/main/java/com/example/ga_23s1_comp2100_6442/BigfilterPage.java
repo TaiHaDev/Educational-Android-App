@@ -113,6 +113,17 @@ public class BigfilterPage extends AppCompatActivity {
             startActivity(intent);
         }
         if (item.getItemId() == R.id.search_icon) {
+            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
+                    return false;
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(@NonNull MenuItem item) {
+                    return false;
+                }
+            });
             Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);
         }

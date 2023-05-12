@@ -17,12 +17,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputConnectionWrapper;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.ga_23s1_comp2100_6442.adapter.CourseAdapter;
 import com.example.ga_23s1_comp2100_6442.model.Course;
@@ -51,17 +53,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity{
     private CourseAdapter adapter;
     public static AVLTree historySearchTree;
     private SharedPreferences sharedPref;
     private String bigFilter;
     private String descriptFilter;
     private Button filterButton;
+
+    private TextView searchHint;
     private LinearLayout filterContainer;
     private RadioGroup radioGroup;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private long limit = 30;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +76,7 @@ public class HomePage extends AppCompatActivity {
         filterButton = findViewById(R.id.filter_button);
         filterContainer = findViewById(R.id.filter_container);
         radioGroup = findViewById(R.id.radioGroup);
+        searchHint = findViewById(R.id.search_hint);
         bigFilter = "";
         descriptFilter = null;
 
@@ -89,7 +95,7 @@ public class HomePage extends AppCompatActivity {
         });
 
 
-        if (FirebaseAuth.getInstance().getCurrentUser()==null){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(HomePage.this, LoginPage.class));
             finish();
         }
@@ -133,36 +139,36 @@ public class HomePage extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                 if (item.getItemId() == R.id.forumsMenu) {
+                if (item.getItemId() == R.id.forumsMenu) {
                     Intent intent = new Intent(getApplicationContext(), ForumPage.class);
                     startActivity(intent);
                     return true;
-                }
-                 else if (item.getItemId() == R.id.profileMenu) {
+                } else if (item.getItemId() == R.id.profileMenu) {
                     Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
                     startActivity(intent);
                     return true;
                 } else if (item.getItemId() == R.id.coursesMenu) {
-                     Intent intent = new Intent(getApplicationContext(), BigfilterPage.class);
-                     startActivity(intent);
-                     return true;
-                 }
+                    Intent intent = new Intent(getApplicationContext(), BigfilterPage.class);
+                    startActivity(intent);
+                    return true;
+                }
                 return false;
             }
         });
     }
+
     private void fetchAndDisplayCourses() {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         Query fbc = fb.collection(Constant.COURSE_COLLECTION);
         System.out.println(bigFilter);
-        if(bigFilter != null){
+        if (bigFilter != null) {
             fbc = fbc.whereEqualTo("bigFilter", bigFilter);
         }
         fbc.limit(limit).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = new ArrayList<>();
-                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,fireBaseData);
+                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots, fireBaseData);
                 adapter.setData(fireBaseData);
                 RecyclerView recyclerView = findViewById(R.id.courses_list);
                 recyclerView.setAdapter(adapter);
@@ -174,14 +180,14 @@ public class HomePage extends AppCompatActivity {
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         Query fbc = fb.collection(Constant.COURSE_COLLECTION);
         System.out.println(bigFilter);
-        if(bigFilter != null){
+        if (bigFilter != null) {
             fbc = fbc.whereEqualTo("bigFilter", bigFilter);
         }
-        fbc.limit(limit+=30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fbc.limit(limit += 30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = new ArrayList<>();
-                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,fireBaseData);
+                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots, fireBaseData);
                 Collections.reverse(fireBaseData);
                 adapter.setData(fireBaseData);
             }
@@ -192,8 +198,8 @@ public class HomePage extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.search_icon);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        MenuItem searchItem = menu.findItem(R.id.search_icon);
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("Search our Courses");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -209,9 +215,24 @@ public class HomePage extends AppCompatActivity {
                 return false;
             }
         });
-        if (bigFilter==null){
-            menuItem.expandActionView();
+        if (bigFilter == null) {
+            searchItem.expandActionView();
+            searchHint.setVisibility(View.VISIBLE);
         }
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
+                searchHint.setVisibility(View.VISIBLE);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(@NonNull MenuItem item) {
+                searchHint.setVisibility(View.GONE);
+                return true;
+            }
+        });
+
         // messaging icon behaviour
         return super.onCreateOptionsMenu(menu);
     }
@@ -227,6 +248,7 @@ public class HomePage extends AppCompatActivity {
 
     /**
      * load the search history tree from shared preferences
+     *
      * @author: Tai Ha
      */
 
@@ -239,7 +261,6 @@ public class HomePage extends AppCompatActivity {
         if (historySearchTree == null) historySearchTree = new AVLTree();
         historySearchTree.inOrderTraversal();
     }
-
 
 
 }
