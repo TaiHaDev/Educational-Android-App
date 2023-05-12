@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +48,7 @@ import org.checkerframework.checker.units.qual.A;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity {
@@ -58,6 +60,8 @@ public class HomePage extends AppCompatActivity {
     private Button filterButton;
     private LinearLayout filterContainer;
     private RadioGroup radioGroup;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private long limit = 30;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +73,20 @@ public class HomePage extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         bigFilter = "";
         descriptFilter = null;
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(HomePage.this, LoginPage.class));
+            finish();
+        }
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchNewData();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         if (FirebaseAuth.getInstance().getCurrentUser()==null){
             startActivity(new Intent(HomePage.this, LoginPage.class));
@@ -139,7 +157,7 @@ public class HomePage extends AppCompatActivity {
         if(bigFilter != null){
             fbc = fbc.whereEqualTo("bigFilter", bigFilter);
         }
-        fbc.limit(30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fbc.limit(limit).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Course> fireBaseData = new ArrayList<>();
@@ -150,6 +168,25 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
+
+    private void fetchNewData() {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        Query fbc = fb.collection(Constant.COURSE_COLLECTION);
+        System.out.println(bigFilter);
+        if(bigFilter != null){
+            fbc = fbc.whereEqualTo("bigFilter", bigFilter);
+        }
+        fbc.limit(limit+=30).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<Course> fireBaseData = new ArrayList<>();
+                CourseUtil.SetCoursesFromDocumentSnapshots(queryDocumentSnapshots,fireBaseData);
+                Collections.reverse(fireBaseData);
+                adapter.setData(fireBaseData);
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
