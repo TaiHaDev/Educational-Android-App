@@ -219,13 +219,14 @@ public class HomePage extends AppCompatActivity{
             searchItem.expandActionView();
             searchHint.setVisibility(View.VISIBLE);
         }
+
+        //show search hint(parser rule) after click the button and hide after searching
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
                 searchHint.setVisibility(View.VISIBLE);
                 return true;
             }
-
             @Override
             public boolean onMenuItemActionCollapse(@NonNull MenuItem item) {
                 searchHint.setVisibility(View.GONE);
