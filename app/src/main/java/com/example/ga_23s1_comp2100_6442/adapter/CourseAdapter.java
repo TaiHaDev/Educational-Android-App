@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.Course;
-import com.example.ga_23s1_comp2100_6442.playVideo;
+import com.example.ga_23s1_comp2100_6442.CourseDetail;
 import com.example.ga_23s1_comp2100_6442.utilities.FirebaseUtil;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -113,7 +113,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     private void setEventHandlerForHolder(ViewHolder holder, Course currentCourse) {
         holder.rootView.setOnClickListener(event -> {
-            Intent intent = new Intent(holder.rootView.getContext(), playVideo.class);
+            Intent intent = new Intent(holder.rootView.getContext(), CourseDetail.class);
             intent.putExtra("vn", currentCourse.getCourseId());
             holder.rootView.getContext().startActivity(intent);
         });

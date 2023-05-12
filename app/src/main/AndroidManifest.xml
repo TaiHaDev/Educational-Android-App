@@ -52,7 +52,7 @@
             android:name=".HomePage"
             android:exported="true" />
         <activity
-            android:name=".playVideo"
+            android:name=".CourseDetail"
             android:exported="true" />
         <activity
             android:name=".PostDetails"
