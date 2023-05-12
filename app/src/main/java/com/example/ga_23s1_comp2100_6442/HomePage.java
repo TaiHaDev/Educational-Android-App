@@ -78,6 +78,7 @@ public class HomePage extends AppCompatActivity {
             startActivity(new Intent(HomePage.this, LoginPage.class));
             finish();
         }
+
         mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -208,8 +209,9 @@ public class HomePage extends AppCompatActivity {
                 return false;
             }
         });
-        // expand the search view
-        menuItem.expandActionView();
+        if (bigFilter==null){
+            menuItem.expandActionView();
+        }
         // messaging icon behaviour
         return super.onCreateOptionsMenu(menu);
     }
