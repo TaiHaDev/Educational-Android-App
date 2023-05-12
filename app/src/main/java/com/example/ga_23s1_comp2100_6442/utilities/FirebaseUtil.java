@@ -64,14 +64,21 @@ public class FirebaseUtil {
 
     public static List<String> tokenize(String input) {
         List<String> tokens = new ArrayList<>();
-        String[] rawTokens = input.split("\\|\\|");
-        for (String rawToken : rawTokens) {
-            String[] keyValue = rawToken.split(":");
-            String key = keyValue[0].trim();
-            String value = keyValue[1].trim();
-            tokens.add(key + ":" + value);
+        if(!input.startsWith("#")){
+            tokens = Arrays.asList(input.toLowerCase().split(" "));
+            return tokens;
         }
-        return tokens;
+        else {
+            String[] rawTokens = input.split("\\|\\|");
+            for (String rawToken : rawTokens) {
+                String[] keyValue = rawToken.split(":");
+                String key = keyValue[0].trim();
+                String value = keyValue[1].trim();
+                tokens.add(key + ":" + value);
+            }
+            List<String> terms = parse(tokens);
+            return terms;
+        }
     }
 
     public static List<String> parse(List<String> tokens) {
@@ -99,9 +106,7 @@ public class FirebaseUtil {
         if(bigFilter != null){
             dbc = dbc.whereEqualTo("bigFilter", bigFilter);
         }
-        List<String> tokens = tokenize(term);
-        System.out.println(tokens);
-        List<String> terms = parse(tokens);
+        List<String> terms = tokenize(term);
         System.out.println(terms);
         dbc.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
