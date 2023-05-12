@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,6 +51,10 @@ public class UserService {
                         List<String> temp = (List<String>) document.get(collectionName);
                         //clear current list before updating to avoid duplicates
                         users.clear();
+                        //check null
+                        if (temp==null){
+                            temp = new ArrayList<>();
+                        }
                         //get username and names form the uid in temp list
                         for (int i = 0; i < Objects.requireNonNull(temp).size(); i++) {
                             getNameById(temp.get(i), adapter, users);
