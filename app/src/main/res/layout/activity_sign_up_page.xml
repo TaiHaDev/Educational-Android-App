@@ -102,7 +102,7 @@
 
 
     <TextView
-        android:id="@+id/forgotPassword"
+        android:id="@+id/toLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/signUpBtn"

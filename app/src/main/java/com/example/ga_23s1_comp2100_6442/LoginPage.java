@@ -61,6 +61,13 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
 
         TextView userName=(TextView) findViewById(R.id.userName);
         TextView password=(TextView) findViewById(R.id.password);
+        TextView toSignUp=findViewById(R.id.toSignUp);
+        toSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginPage.this, SignUpPage.class));
+            }
+        });
         sw = findViewById(R.id.switch2);
         sw.setOnCheckedChangeListener(this);
         MaterialButton loginBtn=(MaterialButton) findViewById(R.id.loginBtn);
@@ -72,7 +79,13 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
             public void onClick(View view) {
                 final String userNameS =userName.getText().toString();
                 final String passwordS  =password.getText().toString();
-                checkLogin(userNameS,passwordS);
+                if(userNameS.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")){
+                    checkLogin(userNameS,passwordS);
+
+                }else {
+                    Toast.makeText(LoginPage.this,"Please Verify Your Email Format",Toast.LENGTH_LONG).show();
+                }
+
 
             }
         });
@@ -135,7 +148,7 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginPage.this,"LOGIN FAIL!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginPage.this,"Check the Password/Did you Sign Up?",Toast.LENGTH_LONG).show();
 //                            updateUI(null);
                         }
                     }

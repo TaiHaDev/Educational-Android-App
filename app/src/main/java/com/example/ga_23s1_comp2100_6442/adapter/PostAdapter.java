@@ -48,8 +48,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         postAuthorTextView.setText(currentPost.getUserName());
         TextView postDescriptionTextView = holder.rootView.findViewById(R.id.row_post_description);
         postDescriptionTextView.setText(currentPost.getDescription());
-        TextView postTimeStampTextView = holder.rootView.findViewById(R.id.row_post_timestamp);
-        postTimeStampTextView.setText((currentPost.getTimeStamp()).toString());
         setEventHandlerForHolder(holder, currentPost);
 
     }

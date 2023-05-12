@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,17 +44,22 @@ public class PostDetails extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.post_view);
-
-        postTitle = findViewById(R.id.post_detail_title);
-        postDescription = findViewById(R.id.post_detail_desc);
-        author = findViewById(R.id.post_detail_date_name);
-        blockButton = findViewById(R.id.block_post_button);
         //get current auth
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         Send_data = (MyDataActivity) getApplicationContext();
+        if (Send_data.getUser().getIsLecturer()) {
+            setContentView(R.layout.post_view_for_lecturer);
+            blockButton=findViewById(R.id.block_post_button);
+        } else {
+            setContentView(R.layout.post_view);
+        }
         setBlockButton();
+
+        postTitle = findViewById(R.id.post_detail_title);
+        postDescription = findViewById(R.id.post_detail_desc);
+        author = findViewById(R.id.post_detail_date_name);
+
     }
 
     @Override
@@ -68,45 +74,23 @@ public class PostDetails extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 currentPost = documentSnapshot.toObject(Post.class);
-                if (currentPost.isVisibility()||Send_data.getUser().getIsLecturer()){
-                assert currentPost != null;
-                postTitle.setText(currentPost.getTitle());
-                postDescription.setText(currentPost.getDescription());
-                    if (!currentPost.isAnonymous()||Send_data.getUser().getIsLecturer()) {
+                if (currentPost.isVisibility() || Send_data.getUser().getIsLecturer()) {
+                    assert currentPost != null;
+                    postTitle.setText(currentPost.getTitle());
+                    postDescription.setText(currentPost.getDescription());
+                    if (!currentPost.isAnonymous() || Send_data.getUser().getIsLecturer()) {
                         author.setText(currentPost.getUserName());
                     } else {
                         System.out.println(currentPost.isAnonymous());
                         author.setText("Anonymous");
                     }
 
-                //create firebase object
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                // Create a storage reference from our app
-                //check enrolled student list
-                String link;}
-
-//                if (currentPost.getIsPublic()) {
-//                    link = currentPost.getLink();
-//                    if (currentPost.getStudentsEnrolled()!=null&&currentPost.getStudentsEnrolled().contains(currentUser.getUid())) {
-//                        enrollButton.setText("enrolled");
-//                        enrollButton.setEnabled(false);
-//                    } else {
-//                        enrollButton.setText("enroll");
-//                        enrollButton.setEnabled(true);
-//                    }
-//                } else if (currentPost.getStudentsEnrolled()!=null&&currentPost.getStudentsEnrolled().contains(currentUser.getUid())) {
-//                    link = currentPost.getLink();
-//                    enrollButton.setText("enrolled");
-//                    enrollButton.setEnabled(false);
-//                } else {
-//                    enrollButton.setText("enroll");
-//                    enrollButton.setEnabled(true);
-//                    link = "gs://comp2100-comp6442-assignment.appspot.com/ocean.mp4";
-//                }
-//                if (currentPost.getStudentsApplied()!=null&&currentPost.getStudentsApplied().contains(currentUser.getUid())) {
-//                    enrollButton.setText("pending");
-//                    enrollButton.setEnabled(false);
-//                }
+                    //create firebase object
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    // Create a storage reference from our app
+                    //check enrolled student list
+                    String link;
+                }
             }
         });
 
@@ -119,12 +103,15 @@ public class PostDetails extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     db.collection("posts").document(id).update("visibility", false);
+                    blockButton.setEnabled(false);
+                    Toast.makeText(PostDetails.this,"Block Successfully!Student won't see this post.",Toast.LENGTH_LONG).show();
                 }
             });
-        } else {
-            blockButton.setVisibility(View.INVISIBLE);
-            blockButton.setEnabled(false);
         }
+//        else {
+////            blockButton.setVisibility(View.INVISIBLE);
+//
+//        }
     }
 }
 

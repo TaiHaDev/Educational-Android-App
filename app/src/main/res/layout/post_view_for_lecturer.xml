@@ -7,7 +7,19 @@
     android:background="#003F51B5">
 
 
-
+    <Button
+        android:id="@+id/block_post_button"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:background="@drawable/circular_bg"
+        android:backgroundTint="#3F51B5"
+        android:text="@string/block"
+        android:textColorHighlight="#00FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/post_detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/post_detail_img" />
 
     <ImageView
         android:id="@+id/post_detail_img"
@@ -25,7 +37,7 @@
 
     <TextView
         android:id="@+id/post_detail_title"
-        android:layout_width="match_parent"
+        android:layout_width="246dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:lineSpacingExtra="4dp"

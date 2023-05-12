@@ -51,6 +51,14 @@ public class SignUpPage extends AppCompatActivity implements View.OnClickListene
         name = (TextView) findViewById(R.id.name);
         institution = (TextView) findViewById(R.id.institution);
         password = (TextView) findViewById(R.id.newPassword);
+        TextView toLogin=(TextView) findViewById(R.id.toLogin);
+        toLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUpPage.this, LoginPage.class));
+            }
+        });
+
         sw = findViewById(R.id.switch1);
         sw.setOnCheckedChangeListener(this);
         findViewById(R.id.signUpBtn).setOnClickListener(this);
