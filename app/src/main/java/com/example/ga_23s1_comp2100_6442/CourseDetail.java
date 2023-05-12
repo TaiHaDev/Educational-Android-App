@@ -1,7 +1,5 @@
 package com.example.ga_23s1_comp2100_6442;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,10 +8,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,10 +21,8 @@ import com.example.ga_23s1_comp2100_6442.model.Course;
 import com.example.ga_23s1_comp2100_6442.model.Request;
 import com.example.ga_23s1_comp2100_6442.model.Student;
 import com.example.ga_23s1_comp2100_6442.ultilities.Constant;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,11 +34,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import io.grpc.internal.JsonUtil;
-
-public class playVideo extends AppCompatActivity {
+public class CourseDetail extends AppCompatActivity {
     private VideoView mainVideoView;
     private TextView courseTitle;
     private TextView courseDescription;
@@ -66,7 +57,7 @@ public class playVideo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_video);
+        setContentView(R.layout.activity_course_detail_page);
 
         mainVideoView = (VideoView) findViewById(R.id.videoView);
         currentProgress = (ProgressBar) findViewById(R.id.progressBar);
@@ -157,7 +148,7 @@ public class playVideo extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(playVideo.this, "Video not found!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CourseDetail.this, "Video not found!", Toast.LENGTH_LONG).show();
                         // Handle any errors
                     }
                 });

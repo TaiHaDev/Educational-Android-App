@@ -55,7 +55,8 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
         if (FirebaseAuth.getInstance().getCurrentUser()!=null){
-            startActivity(new Intent(LoginPage.this, HomePage.class));
+            // startActivity(new Intent(LoginPage.this, HomePage.class));
+            startActivity(new Intent(LoginPage.this, BigfilterPage.class));
             finish();
         }
 
@@ -104,7 +105,8 @@ public class LoginPage extends AppCompatActivity implements CompoundButton.OnChe
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(LoginPage.this,"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(LoginPage.this, HomePage.class);
+                            // Intent intent=new Intent(LoginPage.this, HomePage.class);
+                            Intent intent=new Intent(LoginPage.this, BigfilterPage.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             while (user == null) {
                                 user = mAuth.getCurrentUser();

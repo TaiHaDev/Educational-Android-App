@@ -1,22 +1,17 @@
 package com.example.ga_23s1_comp2100_6442.adapter;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ga_23s1_comp2100_6442.MyDataActivity;
 import com.example.ga_23s1_comp2100_6442.PostDetails;
 import com.example.ga_23s1_comp2100_6442.R;
 import com.example.ga_23s1_comp2100_6442.model.Post;
-import com.example.ga_23s1_comp2100_6442.playVideo;
-import com.google.firebase.Timestamp;
 
 import java.util.List;
 
